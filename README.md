@@ -1,36 +1,212 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# One Ask Away (OAA)
+
+> Scoped career conversations between McGill MMA students and alumni.
+
+One Ask Away is a two-sided platform that connects McGill MMA students with alumni for short, intentional career conversations. Students get AI-drafted, scope-aware asks. Alumni define exactly what they will and won't help with — so every request that lands in their inbox is already on-topic.
+
+---
+
+## The Problem
+
+- Students freeze writing cold outreach and get ghosted on LinkedIn
+- Alumni receive vague, out-of-scope asks and stop responding
+- There's no structured way to have a 15-minute career conversation that's useful for both sides
+
+## The Solution
+
+1. **Match** — Surface a small set of alumni whose career paths align with a student's goals
+2. **Ask** — Generate a scoped, AI-drafted ask targeted at something the alumnus already said they help with
+3. **Reflect** — Capture insights after the call and suggest a meaningful next step
+
+---
+
+## Tech Stack
+
+| Layer             | Technology                             |
+| ----------------- | -------------------------------------- |
+| Framework         | Next.js 16 App Router + TypeScript     |
+| Styling           | Tailwind CSS v4 + custom design tokens |
+| UI Components     | shadcn/ui                              |
+| Forms             | React Hook Form + Zod                  |
+| Icons             | Lucide React                           |
+| Data (MVP)        | In-memory mock data                    |
+| Data (Production) | Prisma + PostgreSQL (Supabase)         |
+
+---
 
 ## Getting Started
 
-First, run the development server:
+### Prerequisites
+
+- Node.js v20+ recommended (v18.17 minimum)
+- npm v9+
+
+Check your versions:
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+node --version
+npm --version
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### Installation
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```bash
+# 1. Clone the repository
+git clone https://github.com/ellieryus/oaa-project.git
+cd oaa-project
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+# 2. Install dependencies
+npm install
 
-## Learn More
+# 3. Create environment file
+echo "NEXT_PUBLIC_BASE_URL=http://localhost:3000" > .env.local
 
-To learn more about Next.js, take a look at the following resources:
+# 4. Start the development server
+npm run dev
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Open [http://localhost:3000](http://localhost:3000) in your browser.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+---
 
-## Deploy on Vercel
+## Available Scripts
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+| Command         | Description                      |
+| --------------- | -------------------------------- |
+| `npm run dev`   | Start dev server with hot reload |
+| `npm run build` | Create a production build        |
+| `npm run start` | Serve the production build       |
+| `npm run lint`  | Run ESLint                       |
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+---
+
+## Project Structure
+
+```
+src/
+├── app/                  # Routing only — thin page.tsx shims
+│   ├── (public)/         # Landing page
+│   ├── (auth)/           # Sign-in, role selection
+│   ├── (student)/        # Student-side routes
+│   ├── (alumni)/         # Alumni-side routes
+│   ├── (misc)/           # Settings, help, styleguide
+│   └── api/              # Route handlers
+│
+├── components/
+│   ├── ui/               # shadcn base components
+│   ├── shared/           # Cross-domain primitives (Avatar, buttons, StatusPill...)
+│   ├── layout/           # Navigation bars, headers
+│   └── feedback/         # Empty states, loading skeletons
+│
+├── features/             # Domain-specific frontend modules
+│   ├── auth/             # Landing, sign-in, role-select, settings
+│   ├── student/          # Student home, profile, reflections
+│   ├── alumni/           # Alumnus inbox, past students, post-call notes
+│   ├── matching/         # Match cards, alumni detail, notifications
+│   ├── requests/         # Ask composer, request detail, inbox rows
+│   ├── calls/            # Calls page, call row, live banner
+│   └── onboarding/       # Multi-step onboarding for both roles
+│
+├── server/
+│   ├── actions/          # Server Actions (auth, requests, onboarding, reflection)
+│   ├── modules/          # Domain modules: mock → repository → service
+│   ├── validators/       # Shared backend validation logic
+│   └── db/               # Prisma client singleton
+│
+├── lib/
+│   ├── utils/            # cn(), isDismissed()
+│   ├── constants/        # App-wide constants and config maps
+│   └── config/           # Environment variable access
+│
+├── styles/
+│   └── globals.css       # Tailwind v4 + OAA design tokens
+│
+└── types/
+    └── global.ts         # Shared TypeScript types
+```
+
+---
+
+## Design System
+
+The OAA design system is intentionally minimal — mostly monochrome with one warm accent color.
+
+| Token            | Value                         |
+| ---------------- | ----------------------------- |
+| `--oaa-clay`     | `#D17455` — primary accent    |
+| `--oaa-bg`       | `#F8F7F2` — canvas background |
+| `--oaa-ink`      | `#0E0E0E` — primary text      |
+| `--oaa-muted`    | `#6B6B66` — secondary text    |
+| `--oaa-hairline` | `#E8E6DF` — borders           |
+
+Typography: **Switzer** (display + body) + **IBM Plex Mono** (labels, eyebrows)
+
+---
+
+## User Personas
+
+**Students**
+
+- Maya (MMA '26) — shy, gets ghosted on LinkedIn, freezes writing opening messages
+- Kaylie (MMA '26) — new to Canada, pivoting marketing → data, wants alumni with similar stories
+
+**Alumni**
+
+- Adam (Director of Data, MMA '19) — drowning in generic LinkedIn asks, wants to signal scope clearly
+- Annie (Marketing Data Scientist, MMA '21) — too busy to give back when asks are irrelevant
+
+---
+
+## Roadmap
+
+- [x] Student onboarding (aspirations, background, help needs)
+- [x] Alumni onboarding (background, offerings, non-offerings, availability)
+- [x] Match surfacing and alumni profile view
+- [x] Ask composer with AI draft support (UI complete)
+- [x] Request management (accept, decline, complete)
+- [x] Post-call reflections for both sides
+- [ ] Real authentication (McGill email magic link)
+- [ ] Prisma + Supabase database integration
+- [ ] Live AI ask generation (Anthropic API)
+- [ ] Email notifications (Resend)
+- [ ] Calendar invite on acceptance (ics)
+
+---
+
+## Adding the Database
+
+When ready to move beyond mock data:
+
+```bash
+npm install prisma @prisma/client
+npx prisma generate
+npx prisma migrate dev
+```
+
+The full data model is already defined in `prisma/schema.prisma`.
+
+---
+
+## Environment Variables
+
+| Variable               | Required   | Description                  |
+| ---------------------- | ---------- | ---------------------------- |
+| `NEXT_PUBLIC_BASE_URL` | Yes        | Base URL of the app          |
+| `DATABASE_URL`         | Production | PostgreSQL connection string |
+| `ANTHROPIC_API_KEY`    | Production | For AI ask generation        |
+| `RESEND_API_KEY`       | Production | For email notifications      |
+| `JWT_SECRET`           | Production | For session signing          |
+
+---
+
+## Contributing
+
+1. Fork the repository
+2. Create a feature branch: `git checkout -b feature/your-feature`
+3. Commit your changes: `git commit -m 'add: your feature'`
+4. Push to the branch: `git push origin feature/your-feature`
+5. Open a pull request
+
+---
+
+Built for McGill MMA · 2026
