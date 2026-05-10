@@ -1,0 +1,116 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+:root {
+  /* OAA brand */
+  --oaa-clay: #D17455;
+  --oaa-bg: #F8F7F2;
+  --oaa-ink: #0E0E0E;
+  --oaa-muted: #6B6B66;
+  --oaa-hairline: #E8E6DF;
+  --oaa-clay-tint-bg: color-mix(in srgb, #D17455 12%, transparent);
+  --oaa-clay-tint-border: color-mix(in srgb, #D17455 40%, transparent);
+  --oaa-avatar-alumnus-bg: #ECEAE2;
+
+  /* OAA status palette (for StatusPill) */
+  --oaa-status-pending-bg: #F3EFE6;
+  --oaa-status-pending-dot: #C68A2E;
+  --oaa-status-accepted-bg: #ECF1EA;
+  --oaa-status-accepted-dot: #4F6B4A;
+  --oaa-status-declined-bg: #F4E9E5;
+  --oaa-status-declined-dot: #A14A35;
+  --oaa-status-completed-bg: #EDEEF0;
+  --oaa-status-completed-dot: #6B6B66;
+  --oaa-status-live-bg: #FBE9E2;
+  --oaa-status-live-dot: #D17455;
+
+  /* shadcn token remap → OAA */
+  --background: var(--oaa-bg);
+  --foreground: var(--oaa-ink);
+  --card: #FFFFFF;
+  --card-foreground: var(--oaa-ink);
+  --popover: #FFFFFF;
+  --popover-foreground: var(--oaa-ink);
+  --primary: var(--oaa-ink);
+  --primary-foreground: #FFFFFF;
+  --secondary: #FFFFFF;
+  --secondary-foreground: var(--oaa-ink);
+  --muted: #F0EEE8;
+  --muted-foreground: var(--oaa-muted);
+  --accent: var(--oaa-clay);
+  --accent-foreground: #FFFFFF;
+  --destructive: #A14A35;
+  --border: var(--oaa-hairline);
+  --input: var(--oaa-hairline);
+  --ring: var(--oaa-clay);
+  --radius: 0.25rem;
+}
+
+@theme inline {
+  --color-oaa-clay: var(--oaa-clay);
+  --color-oaa-bg: var(--oaa-bg);
+  --color-oaa-ink: var(--oaa-ink);
+  --color-oaa-muted: var(--oaa-muted);
+  --color-oaa-hairline: var(--oaa-hairline);
+  --color-oaa-clay-tint-bg: var(--oaa-clay-tint-bg);
+  --color-oaa-clay-tint-border: var(--oaa-clay-tint-border);
+  --color-oaa-avatar-alumnus-bg: var(--oaa-avatar-alumnus-bg);
+
+  --color-oaa-status-pending-bg: var(--oaa-status-pending-bg);
+  --color-oaa-status-pending-dot: var(--oaa-status-pending-dot);
+  --color-oaa-status-accepted-bg: var(--oaa-status-accepted-bg);
+  --color-oaa-status-accepted-dot: var(--oaa-status-accepted-dot);
+  --color-oaa-status-declined-bg: var(--oaa-status-declined-bg);
+  --color-oaa-status-declined-dot: var(--oaa-status-declined-dot);
+  --color-oaa-status-completed-bg: var(--oaa-status-completed-bg);
+  --color-oaa-status-completed-dot: var(--oaa-status-completed-dot);
+  --color-oaa-status-live-bg: var(--oaa-status-live-bg);
+  --color-oaa-status-live-dot: var(--oaa-status-live-dot);
+
+  --font-sans: "Switzer", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --font-mono: var(--font-ibm-plex-mono), ui-monospace, SFMono-Regular, Menlo, monospace;
+
+  --radius-xs: 2px;
+  --radius-sm: 4px;
+  --radius-md: 6px;
+  --radius-lg: 12px;
+
+  --ease-default: cubic-bezier(0.2, 0.8, 0.2, 1);
+  --ease-emphasis: cubic-bezier(0.16, 1, 0.3, 1);
+
+  /* Expose shadcn-mapped tokens as Tailwind utilities */
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+}
+
+html, body {
+  background: var(--oaa-bg);
+  color: var(--oaa-ink);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+}

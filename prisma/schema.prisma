@@ -1,0 +1,236 @@
+// prisma/schema.prisma
+// Run: npx prisma generate && npx prisma migrate dev
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ─── Auth ────────────────────────────────────────────────────────────────────
+
+model User {
+  id           String   @id @default(cuid())
+  email        String   @unique
+  school       String   @default("mcgill")
+  status       String   @default("active") // "active" | "paused" | "banned"
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  studentProfile  StudentProfile?
+  alumnusProfile  AlumnusProfile?
+}
+
+// ─── Student ─────────────────────────────────────────────────────────────────
+
+model StudentProfile {
+  id              String   @id @default(cuid())
+  userId          String   @unique
+  user            User     @relation(fields: [userId], references: [id])
+
+  cohort          String
+  program         String   @default("MMA")
+  targetCity      String?
+  experienceLevel String?  // "none" | "some" | "several"
+  portfolioUrl    String?
+  onboardingDone  Boolean  @default(false)
+  pausedMatching  Boolean  @default(false)
+
+  aspirations     StudentAspiration[]
+  helpNeeds       StudentHelpNeed[]
+  background      StudentBackground[]
+  skills          StudentSkill[]
+  requests        Request[]
+  reflections     Reflection[]
+
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+}
+
+model StudentAspiration {
+  id              String         @id @default(cuid())
+  studentProfile  StudentProfile @relation(fields: [studentProfileId], references: [id])
+  studentProfileId String
+  role            String
+  rank            Int            // 1 = primary
+}
+
+model StudentHelpNeed {
+  id              String         @id @default(cuid())
+  studentProfile  StudentProfile @relation(fields: [studentProfileId], references: [id])
+  studentProfileId String
+  area            String
+  rank            Int
+}
+
+model StudentBackground {
+  id              String         @id @default(cuid())
+  studentProfile  StudentProfile @relation(fields: [studentProfileId], references: [id])
+  studentProfileId String
+  institution     String
+  role            String
+}
+
+model StudentSkill {
+  id              String         @id @default(cuid())
+  studentProfile  StudentProfile @relation(fields: [studentProfileId], references: [id])
+  studentProfileId String
+  skill           String
+  rank            Int
+}
+
+// ─── Alumnus ─────────────────────────────────────────────────────────────────
+
+model AlumnusProfile {
+  id                String   @id @default(cuid())
+  userId            String   @unique
+  user              User     @relation(fields: [userId], references: [id])
+
+  cohort            String
+  currentRole       String?
+  currentCompany    String?
+  currentCity       String?
+  linkedinUrl       String?
+  bio               String?
+  nonOfferingsQuote String?
+  responseTimeHours Int      @default(48)
+  acceptingRequests Boolean  @default(true)
+  onboardingDone    Boolean  @default(false)
+
+  background        AlumnusBackground[]
+  industries        AlumnusIndustry[]
+  offeringItems     OfferingItem[]
+  availabilitySlots AvailabilitySlot[]
+  inboxRequests     Request[]
+  postCallNotes     PostCallNote[]
+  matches           Match[]
+
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+}
+
+model AlumnusBackground {
+  id              String         @id @default(cuid())
+  alumnusProfile  AlumnusProfile @relation(fields: [alumnusProfileId], references: [id])
+  alumnusProfileId String
+  company         String
+  role            String
+  location        String?
+  startYear       String
+  endYear         String         // "Present" or "YYYY"
+}
+
+model AlumnusIndustry {
+  id              String         @id @default(cuid())
+  alumnusProfile  AlumnusProfile @relation(fields: [alumnusProfileId], references: [id])
+  alumnusProfileId String
+  industry        String
+}
+
+// ─── Offerings ───────────────────────────────────────────────────────────────
+
+model OfferingItem {
+  id              String         @id @default(cuid())
+  alumnusProfile  AlumnusProfile @relation(fields: [alumnusProfileId], references: [id])
+  alumnusProfileId String
+  title           String
+  description     String
+  kind            String         // "offer" | "non_offer"
+  rank            Int            @default(0)
+
+  requests        Request[]
+}
+
+// ─── Availability ────────────────────────────────────────────────────────────
+
+model AvailabilitySlot {
+  id              String         @id @default(cuid())
+  alumnusProfile  AlumnusProfile @relation(fields: [alumnusProfileId], references: [id])
+  alumnusProfileId String
+  dayOfWeek       String         // "Mon" | "Tue" | ...
+  startTime       String         // "17:00"
+  endTime         String         // "17:15"
+  timezone        String         // "America/Toronto"
+  recurrence      String         @default("weekly") // "weekly" | "once"
+}
+
+// ─── Matching ─────────────────────────────────────────────────────────────────
+
+model Match {
+  id              String         @id @default(cuid())
+  studentProfile  StudentProfile? @relation(fields: [studentProfileId], references: [id])
+  studentProfileId String?
+  alumnusProfile  AlumnusProfile @relation(fields: [alumnusProfileId], references: [id])
+  alumnusProfileId String
+  score           Int
+  reasons         String[]       // reasons array
+  generatedAt     DateTime       @default(now())
+  viewedAt        DateTime?
+  expiredAt       DateTime?
+}
+
+// ─── Requests ────────────────────────────────────────────────────────────────
+
+model Request {
+  id              String         @id @default(cuid())
+  studentProfile  StudentProfile @relation(fields: [studentProfileId], references: [id])
+  studentProfileId String
+  alumnusProfile  AlumnusProfile @relation(fields: [alumnusProfileId], references: [id])
+  alumnusProfileId String
+  offeringItem    OfferingItem   @relation(fields: [offeringItemId], references: [id])
+  offeringItemId  String
+
+  opener          String
+  question        String
+  format          String         // "15min" | "20min"
+  proposedTimes   String[]       // ISO strings
+  chosenTime      DateTime?
+  status          String         @default("pending") // "pending" | "accepted" | "declined" | "completed"
+  declineReason   String?
+  declineNote     String?
+  acceptNote      String?
+  meetingLink     String?
+  platform        String?
+  aiRegenerations Int            @default(0)
+  scopeMatchScore Int?
+
+  reflection      Reflection?
+  postCallNote    PostCallNote?
+
+  createdAt       DateTime       @default(now())
+  updatedAt       DateTime       @updatedAt
+}
+
+// ─── Post-call ────────────────────────────────────────────────────────────────
+
+model Reflection {
+  id              String         @id @default(cuid())
+  request         Request        @relation(fields: [requestId], references: [id])
+  requestId       String         @unique
+  studentProfile  StudentProfile @relation(fields: [studentProfileId], references: [id])
+  studentProfileId String
+
+  standout        String
+  followUpIntent  String
+  note            String?
+  aiNextStep      String?
+
+  savedAt         DateTime       @default(now())
+}
+
+model PostCallNote {
+  id              String         @id @default(cuid())
+  request         Request        @relation(fields: [requestId], references: [id])
+  requestId       String         @unique
+  alumnusProfile  AlumnusProfile @relation(fields: [alumnusProfileId], references: [id])
+  alumnusProfileId String
+
+  standout        String?
+  hiringSignal    String?
+  privateNotes    String?
+
+  savedAt         DateTime       @default(now())
+}
