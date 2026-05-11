@@ -13,7 +13,7 @@ type Props = {
 
 const LINKS: { href: string; label: string; key: ActivePage }[] = [
   { href: "/inbox", label: "Inbox", key: "inbox" },
-  { href: "/past-students", label: "Past Students", key: "past-students" },
+  { href: "/past-students", label: "Past students", key: "past-students" },
   { href: "/profile/alumnus", label: "Profile", key: "profile" },
 ];
 
@@ -26,28 +26,24 @@ export function AlumnusNav({ active, unreadCount = 0 }: Props) {
             <Link
               key={link.key}
               href={link.href}
-              className="flex items-center gap-2 rounded-sm px-4 py-2 text-[14px] text-foreground transition-colors hover:bg-foreground/5"
+              className={cn(
+                "flex items-center gap-2 rounded-md px-4 py-2 text-sm transition-colors",
+                active === link.key
+                  ? "bg-foreground/5 font-medium text-foreground"
+                  : "text-foreground/70 hover:bg-foreground/5 hover:text-foreground",
+              )}
             >
-              <span
-                className={
-                  active === link.key ? "underline decoration-2 underline-offset-4" : undefined
-                }
-              >
-                {link.label}
-              </span>
+              <span>{link.label}</span>
               {link.key === "inbox" && unreadCount > 0 && (
-                <span className="inline-flex h-5 min-w-[20px] items-center justify-center rounded-full bg-brand-500 px-1.5 text-[10px] leading-none text-white no-underline">
+                <span className="inline-flex h-5 min-w-[20px] items-center justify-center rounded-full bg-brand-500 px-1.5 text-[10px] leading-none text-white">
                   {unreadCount}
                 </span>
               )}
             </Link>
           ))}
-          <Avatar
-            variant="alumnus-self"
-            name="Adam Farouk"
-            size="sm"
-            className="ml-2"
-          />
+          <div className="ml-2">
+            <Avatar variant="alumnus-self" name="Adam Farouk" size="sm" />
+          </div>
         </nav>
       }
     />
