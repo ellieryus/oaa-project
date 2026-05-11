@@ -1,4 +1,4 @@
-import type { InboxRequest } from "@/features/requests/types";
+import type { InboxRequest } from "@/lib/mock-inbox";
 import { RequestRepository } from "./request.repository";
 
 export const RequestService = {

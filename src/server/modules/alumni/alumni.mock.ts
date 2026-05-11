@@ -2,7 +2,7 @@
  * Mock alumni data for MVP development.
  * In production this will be replaced by AlumnusRepository queries.
  */
-import type { AlumnusProfile } from "@/features/alumni/types";
+import type { AlumnusProfile } from "@/lib/mock-alumni";
 
 export const ALUMNI: AlumnusProfile[] = [
   {

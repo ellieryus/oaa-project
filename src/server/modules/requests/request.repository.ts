@@ -1,4 +1,4 @@
-import type { InboxRequest } from "@/features/requests/types";
+import type { InboxRequest } from "@/lib/mock-inbox";
 import {
   INBOX_REQUESTS,
   PENDING_REQUESTS,

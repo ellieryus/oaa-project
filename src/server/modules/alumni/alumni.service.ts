@@ -4,7 +4,7 @@
  * Contains all business logic for the alumni domain.
  * Call-sites (Server Actions, Route Handlers) should use this, not the repository directly.
  */
-import type { AlumnusProfile, AlumnusCard } from "@/features/alumni/types";
+import type { AlumnusProfile } from "@/lib/mock-alumni";
 import { AlumnusRepository } from "./alumni.repository";
 
 export const AlumnusService = {
@@ -12,7 +12,7 @@ export const AlumnusService = {
     return AlumnusRepository.findById(id);
   },
 
-  async getTopMatchesForStudent(studentId: string): Promise<AlumnusCard[]> {
+  async getTopMatchesForStudent(studentId: string): Promise<AlumnusProfile[]> {
     return AlumnusRepository.findTopMatches(studentId);
   },
 

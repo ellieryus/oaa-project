@@ -7,7 +7,7 @@ export type Offering = {
 export type NonOffering = {
   id: string;
   title: string;
-  reason: string;
+  reason?: string;
 };
 
 export type BackgroundEntry = {
