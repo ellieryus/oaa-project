@@ -263,3 +263,23 @@ Render `/public/logo-mark.svg` at 28px height + 8px gap + wordmark "One Ask Away
 
 **Color rule:**
 Logo only ever rendered in `--accent-primary` (#D17455) on light backgrounds, `--accent-on-dark` (#E89876) on inverse backgrounds. Never recolor outside these two values.
+
+## Design rules — color usage
+
+These rules are non-negotiable across the codebase. Future screens must comply.
+
+### Rule 1 — Cards never use fill colors
+Cards (any boxed content container) must use border + transparent/default background only.
+- ✓ Allowed: `border border-border bg-card` or `border border-brand-500 bg-card`
+- ✗ Forbidden on cards: `bg-foreground/5`, `bg-brand-50`, `bg-muted`, any tinted fill
+
+### Rule 2 — Selected / AI-recommended state uses border stroke, not fill
+To highlight a selected option, AI suggestion, or active state on a card:
+- ✓ Use `border-brand-500` (clay stroke) on transparent bg
+- ✗ Do NOT use `bg-brand-50`, `bg-foreground/5`, or any tinted fill
+
+### Rule 3 — Only badges and pills may use fill colors
+Small inline elements (status pills, count badges, rating pills like "refer now") are the ONLY elements allowed to use solid or tinted fills like `bg-brand-500`, `bg-foreground`, `bg-green-50`, etc.
+
+### Rule 4 — Icons stand alone, not in boxes
+Confirmation checkmarks and similar icons render as plain icons (`<Check className="text-foreground" />`). Do NOT wrap them in a filled square/circle background.
