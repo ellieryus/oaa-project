@@ -8,7 +8,7 @@ import { getAlumnus } from "@/lib/mock-alumni";
 import { STUDENT } from "@/lib/mock-student";
 import { Avatar } from "@/components/oaa/Avatar";
 import { BackHeader } from "@/components/oaa/BackHeader";
-import { PrimaryButton } from "@/components/oaa/buttons";
+import { PrimaryButton, PrimaryLink } from "@/components/oaa/buttons";
 
 const SAMPLE_OPENER =
   "Hi Adam — I'm a current MMA student aiming for product analytics roles. I noticed you pivoted from consulting into Shopify's analytics team — that path is exactly what I'm trying to navigate. Could we spend 15 minutes on how you positioned yourself for that switch?";
@@ -268,13 +268,9 @@ export default function AskComposerPage({ params }: Props) {
               </button>
               <div className="flex items-center gap-3">
                 <span className="text-sm text-muted-foreground">Ready to send.</span>
-                <Link
-                  href={`/ask/${alumniId}/sent`}
-                  className="inline-flex items-center gap-2 rounded-md bg-brand-500 px-5 py-3 text-sm font-medium leading-none text-white transition-colors hover:bg-brand-600"
-                >
+                <PrimaryLink tone="clay" href={`/ask/${alumniId}/sent`} trailingArrow>
                   Send ask
-                  <span aria-hidden>↗</span>
-                </Link>
+                </PrimaryLink>
               </div>
             </div>
           </div>

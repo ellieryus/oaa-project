@@ -11,6 +11,7 @@ import { BackHeader } from "@/components/oaa/BackHeader";
 import { AcceptModal } from "@/components/oaa/AcceptModal";
 import { DeclineModal } from "@/components/oaa/DeclineModal";
 import { getInboxRequest } from "@/lib/mock-inbox";
+import { PrimaryButton } from "@/components/oaa/buttons";
 
 type Props = { params: Promise<{ requestId: string }> };
 
@@ -238,12 +239,9 @@ export default function InboxRequestDetailPage({ params }: Props) {
                 request={req}
                 defaultTimeId={acceptDefaultTimeId}
                 trigger={
-                  <button
-                    type="button"
-                    className="rounded-md bg-brand-500 px-5 py-2.5 text-sm font-medium leading-none text-white transition-colors hover:bg-brand-600"
-                  >
+                  <PrimaryButton tone="clay" type="button">
                     Accept
-                  </button>
+                  </PrimaryButton>
                 }
               />
             </div>
