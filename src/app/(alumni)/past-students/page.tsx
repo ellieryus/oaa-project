@@ -1,9 +1,12 @@
 "use client";
 
+import { useState } from "react";
+
 import { AlumnusNav } from "@/components/oaa/AlumnusNav";
 import { Avatar } from "@/components/oaa/Avatar";
 import { GhostLink } from "@/components/oaa/buttons";
-import { AILink } from "@/components/oaa/AIButton";
+import { AIButton } from "@/components/oaa/AIButton";
+import { ReferralComposeModal } from "@/components/oaa/ReferralComposeModal";
 import { ADAM_WATCHING, type ReferralRating } from "@/lib/mock-video";
 
 const RATING_LABEL: Record<ReferralRating, string> = {
@@ -24,6 +27,17 @@ export default function PastStudentsPage() {
   const watching = [...ADAM_WATCHING].sort(
     (a, b) => RATING_SORT_ORDER[a.rating] - RATING_SORT_ORDER[b.rating],
   );
+
+  const [dmTarget, setDmTarget] = useState<typeof watching[number] | null>(null);
+  const [toast, setToast] = useState<string | null>(null);
+
+  function handleSendReferral() {
+    if (!dmTarget) return;
+    const firstName = dmTarget.name.split(" ")[0];
+    setDmTarget(null);
+    setToast(`Referral sent to ${firstName}.`);
+    setTimeout(() => setToast(null), 3500);
+  }
 
   return (
     <>
@@ -97,7 +111,9 @@ export default function PastStudentsPage() {
                     </GhostLink>
 
                     {s.rating === "refer-now" && (
-                      <AILink href={`/dm/${s.id}`}>Refer now</AILink>
+                      <AIButton type="button" onClick={() => setDmTarget(s)}>
+                        Refer now
+                      </AIButton>
                     )}
                   </div>
                 </div>
@@ -106,6 +122,31 @@ export default function PastStudentsPage() {
           ))}
         </div>
       </main>
+
+      <ReferralComposeModal
+        open={dmTarget !== null}
+        student={
+          dmTarget
+            ? {
+                id: dmTarget.id,
+                name: dmTarget.name,
+                program: "",
+                cohort: dmTarget.cohort,
+              }
+            : null
+        }
+        onClose={() => setDmTarget(null)}
+        onConfirm={handleSendReferral}
+      />
+
+      {toast && (
+        <div
+          role="status"
+          className="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 rounded-md border border-border bg-card px-5 py-3 text-sm text-foreground shadow-md"
+        >
+          {toast}
+        </div>
+      )}
     </>
   );
 }

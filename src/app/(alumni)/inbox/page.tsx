@@ -8,6 +8,7 @@ import { AlumnusNav } from "@/components/oaa/AlumnusNav";
 import { Avatar } from "@/components/oaa/Avatar";
 import { LiveCallBanner } from "@/components/oaa/LiveCallBanner";
 import { InboxRowHome } from "@/components/oaa/InboxRowHome";
+import { InboxDigestCard } from "@/components/oaa/InboxDigestCard";
 import { UpcomingCallCard } from "@/components/oaa/UpcomingCallCard";
 import {
   Dialog,
@@ -154,6 +155,14 @@ export default function AlumnusInboxHome() {
           ) : (
             <p className="text-sm text-muted-foreground">No pending requests.</p>
           )}
+        </section>
+
+        {/* Updates from past students */}
+        <section className="mb-12">
+          <h2 className="mb-4 text-xl font-semibold text-foreground">
+            Updates from past students
+          </h2>
+          <InboxDigestCard />
         </section>
 
         {/* Upcoming calls */}
