@@ -18,7 +18,7 @@ export function OnboardingHeader({
   return (
     <header
       className={cn(
-        "border-b border-oaa-hairline bg-oaa-bg",
+        "border-b border-border bg-background",
         className,
       )}
     >
@@ -30,15 +30,15 @@ export function OnboardingHeader({
             alt="One Ask Away"
             className="h-7 w-auto"
           />
-          <span className="ml-2 font-mono text-[11px] tracking-[0.08em] uppercase text-oaa-muted">
+          <span className="ml-2 text-[11px] tracking-[0.08em] uppercase text-muted-foreground">
             {eyebrow}
           </span>
         </div>
         <div className="flex items-center gap-6 text-[13px] leading-[1.45]">
-          <span className="text-oaa-muted">{email}</span>
+          <span className="text-muted-foreground">{email}</span>
           <Link
             href={exitHref}
-            className="text-oaa-ink underline underline-offset-2 hover:no-underline"
+            className="text-foreground underline underline-offset-2 hover:no-underline"
           >
             Save &amp; exit
           </Link>

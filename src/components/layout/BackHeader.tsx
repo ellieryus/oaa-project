@@ -9,11 +9,11 @@ type Props = {
 
 export function BackHeader({ backHref, backLabel, rightContent }: Props) {
   return (
-    <header className="bg-oaa-bg">
+    <header className="bg-background">
       <div className="mx-auto flex max-w-[1200px] items-center justify-between px-8 py-5">
         <Link
           href={backHref}
-          className="flex items-center gap-1.5 text-[13px] text-oaa-muted transition-colors hover:text-oaa-ink"
+          className="flex items-center gap-1.5 text-[13px] text-muted-foreground transition-colors hover:text-foreground"
         >
           <ArrowLeft className="h-4 w-4" strokeWidth={1.5} aria-hidden />
           {backLabel}

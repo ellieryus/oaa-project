@@ -25,7 +25,7 @@ export default function RootLayout({
           href="https://api.fontshare.com/v2/css?f[]=switzer@400,500,600,700&display=swap"
         />
       </head>
-      <body className="min-h-full font-sans bg-oaa-bg text-oaa-ink">
+      <body className="min-h-full bg-background text-foreground">
         {children}
       </body>
     </html>

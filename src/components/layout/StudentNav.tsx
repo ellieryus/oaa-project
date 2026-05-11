@@ -19,8 +19,8 @@ export function StudentNav({ active, notificationCount = 1, className }: Props) 
       className={cn(
         "text-[14px] leading-none transition-colors",
         active === key
-          ? "font-semibold text-oaa-ink underline underline-offset-4"
-          : "text-oaa-muted hover:text-oaa-ink",
+          ? "font-semibold text-foreground underline underline-offset-4"
+          : "text-muted-foreground hover:text-foreground",
       )}
     >
       {label}
@@ -28,12 +28,12 @@ export function StudentNav({ active, notificationCount = 1, className }: Props) 
   );
 
   return (
-    <header className={cn("bg-oaa-bg", className)}>
+    <header className={cn("bg-background", className)}>
       <div className="mx-auto flex max-w-[1200px] items-center justify-between px-8 py-4">
         <Link href="/home" className="flex items-center gap-2">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img src="/logo-mark.svg" alt="One Ask Away" className="h-7 w-auto" />
-          <span className="font-sans text-[16px] font-semibold leading-none text-oaa-ink">
+          <span className="font-sans text-[16px] font-semibold leading-none text-foreground">
             One Ask Away
           </span>
         </Link>
@@ -51,15 +51,15 @@ export function StudentNav({ active, notificationCount = 1, className }: Props) 
               className={cn(
                 "text-[14px] leading-none transition-colors",
                 active === "notifications"
-                  ? "font-semibold text-oaa-ink underline underline-offset-4"
-                  : "text-oaa-muted hover:text-oaa-ink",
+                  ? "font-semibold text-foreground underline underline-offset-4"
+                  : "text-muted-foreground hover:text-foreground",
               )}
             >
               Notifications
             </Link>
             {notificationCount > 0 && (
               <span
-                className="absolute -top-1 -right-1.5 h-1.5 w-1.5 rounded-full bg-oaa-clay"
+                className="absolute -top-1 -right-1.5 h-1.5 w-1.5 rounded-full bg-brand-500"
                 aria-label={`${notificationCount} notification`}
               />
             )}

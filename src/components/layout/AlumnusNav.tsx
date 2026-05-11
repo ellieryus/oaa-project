@@ -26,7 +26,7 @@ export function AlumnusNav({ active, unreadCount = 0 }: Props) {
             <Link
               key={link.key}
               href={link.href}
-              className="flex items-center gap-2 rounded-sm px-4 py-2 text-[14px] text-oaa-ink transition-colors hover:bg-oaa-ink/5"
+              className="flex items-center gap-2 rounded-sm px-4 py-2 text-[14px] text-foreground transition-colors hover:bg-foreground/5"
             >
               <span
                 className={
@@ -36,7 +36,7 @@ export function AlumnusNav({ active, unreadCount = 0 }: Props) {
                 {link.label}
               </span>
               {link.key === "inbox" && unreadCount > 0 && (
-                <span className="inline-flex h-5 min-w-[20px] items-center justify-center rounded-full bg-oaa-clay px-1.5 font-mono text-[10px] leading-none text-white no-underline">
+                <span className="inline-flex h-5 min-w-[20px] items-center justify-center rounded-full bg-brand-500 px-1.5 text-[10px] leading-none text-white no-underline">
                   {unreadCount}
                 </span>
               )}

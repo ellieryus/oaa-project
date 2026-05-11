@@ -1,0 +1,354 @@
+export type Offering = {
+  id: string;
+  title: string;
+  description: string;
+};
+
+export type NonOffering = {
+  id: string;
+  title: string;
+  reason: string;
+};
+
+export type BackgroundEntry = {
+  company: string;
+  role: string;
+  location?: string;
+  start: string;
+  end: string | "Present";
+};
+
+export type AvailabilitySlot = {
+  dayLabel: string; // e.g. "TUE APR 28"
+  timeRange: string; // e.g. "5:00 — 5:15 PM EDT"
+  altTz?: string; // e.g. "(2:00 PM PDT)"
+};
+
+export type AlumnusProfile = {
+  id: string;
+  name: string;
+  initials: string;
+  role: string;
+  company: string;
+  city: string;
+  cohort: string;
+  linkedinUrl: string;
+  score: number;
+  shortBio: string; // quote on match card
+  customMessage?: string; // shown on /ask compose page to set expectations
+  background: BackgroundEntry[];
+  industries: string[];
+  offerings: Offering[];
+  nonOfferings: NonOffering[];
+  nonOfferingsQuote: string;
+  availabilityDays: string[]; // ["Tue", "Fri"]
+  availabilitySlots: AvailabilitySlot[];
+  availabilityTimezone: string;
+  availabilityLevel: "Available this week" | "Available next week" | "Limited availability";
+  responseTimeHours: number;
+};
+
+export const ALUMNI: AlumnusProfile[] = [
+  {
+    id: "adam-farouk",
+    name: "Adam Farouk",
+    initials: "AF",
+    role: "Director of Data",
+    company: "Shopify",
+    city: "Toronto",
+    cohort: "MMA '19",
+    linkedinUrl: "https://linkedin.com/in/adam-farouk",
+    score: 92,
+    shortBio: "Pivoted from McKinsey to Shopify analytics — same path you're considering.",
+    customMessage: "I prep for these. So come ready — share a doc, a question, a goal. Vague messages get vague answers.",
+    background: [
+      { company: "Shopify", role: "Director of Data", location: "Toronto", start: "2022", end: "Present" },
+      { company: "RBC", role: "Senior Data Analyst", start: "2019", end: "2022" },
+      { company: "McKinsey & Company", role: "Business Analyst (intern)", start: "2018", end: "2018" },
+    ],
+    industries: ["Tech", "Finance"],
+    offerings: [
+      { id: "career-pivot", title: "Career pivot", description: "Talk through changing tracks based on his consulting → tech experience." },
+      { id: "portfolio-review", title: "Portfolio review", description: "Walk through your portfolio with critique." },
+      { id: "data-case", title: "Data case", description: "Mock or prep for analytics/data case rounds." },
+    ],
+    nonOfferings: [
+      { id: "job-referral", title: "Job referral", reason: "" },
+      { id: "salary-negotiation", title: "Salary negotiation", reason: "" },
+    ],
+    nonOfferingsQuote: "I can't refer anyone outside my immediate team. Happy to talk pivot stories instead.",
+    availabilityDays: ["Tue", "Fri"],
+    availabilitySlots: [
+      { dayLabel: "TUE APR 28", timeRange: "5:00 — 5:15 PM EDT", altTz: "(2:00 PM PDT)" },
+      { dayLabel: "TUE APR 28", timeRange: "5:30 — 5:45 PM EDT", altTz: "(2:30 PM PDT)" },
+      { dayLabel: "FRI MAY 1", timeRange: "1:00 — 1:15 PM EDT", altTz: "(10:00 AM PDT)" },
+      { dayLabel: "FRI MAY 1", timeRange: "1:30 — 1:45 PM EDT", altTz: "(10:30 AM PDT)" },
+      { dayLabel: "FRI MAY 8", timeRange: "5:00 — 5:15 PM EDT", altTz: "(2:00 PM PDT)" },
+      { dayLabel: "TUE MAY 5", timeRange: "5:30 — 5:45 PM EDT", altTz: "(2:30 PM PDT)" },
+    ],
+    availabilityTimezone: "America/Toronto",
+    availabilityLevel: "Available this week",
+    responseTimeHours: 48,
+  },
+  {
+    id: "lena-park",
+    name: "Lena Park",
+    initials: "LP",
+    role: "Senior PM, Analytics",
+    company: "Wealthsimple",
+    city: "Toronto",
+    cohort: "MMA '21",
+    linkedinUrl: "https://linkedin.com/in/lena-park",
+    score: 84,
+    shortBio: "Toronto-based, MMA cohort '21, leads data hiring at Wealthsimple.",
+    background: [
+      { company: "Wealthsimple", role: "Senior PM, Analytics", location: "Toronto", start: "2022", end: "Present" },
+      { company: "TD Bank", role: "Product Analyst", start: "2021", end: "2022" },
+      { company: "McKinsey & Company", role: "Business Analyst", start: "2019", end: "2021" },
+    ],
+    industries: ["Finance", "Tech"],
+    offerings: [
+      { id: "behavioral-interview", title: "Behavioral interview", description: "Run through STAR-format PM/analyst interview questions." },
+      { id: "resume-review", title: "Resume review", description: "Line-by-line feedback on your resume and positioning." },
+      { id: "career-pivot", title: "Career pivot", description: "How to frame a marketing-to-data story for hiring managers." },
+    ],
+    nonOfferings: [
+      { id: "technical-interview", title: "Technical interview", reason: "Not her strength — she comes from the strategy side." },
+    ],
+    nonOfferingsQuote: "I'm happy to help with story and positioning. For SQL and coding prep, find someone on the engineering side.",
+    availabilityDays: ["Mon", "Thu"],
+    availabilitySlots: [
+      { dayLabel: "MON MAY 4", timeRange: "10:00 — 10:15 AM EDT", altTz: "(7:00 AM PDT)" },
+      { dayLabel: "MON MAY 4", timeRange: "10:30 — 10:45 AM EDT", altTz: "(7:30 AM PDT)" },
+      { dayLabel: "THU MAY 7", timeRange: "4:00 — 4:15 PM EDT", altTz: "(1:00 PM PDT)" },
+      { dayLabel: "THU MAY 7", timeRange: "4:30 — 4:45 PM EDT", altTz: "(1:30 PM PDT)" },
+    ],
+    availabilityTimezone: "America/Toronto",
+    availabilityLevel: "Available next week",
+    responseTimeHours: 48,
+  },
+  {
+    id: "kwame-boateng",
+    name: "Kwame Boateng",
+    initials: "KB",
+    role: "Staff Data Scientist",
+    company: "Spotify",
+    city: "Toronto / NYC",
+    cohort: "MMA '20",
+    linkedinUrl: "https://linkedin.com/in/kwame-boateng",
+    score: 78,
+    shortBio: "Built the recommendation analytics team you applied to last week.",
+    background: [
+      { company: "Spotify", role: "Staff Data Scientist", location: "NYC", start: "2021", end: "Present" },
+      { company: "Spotify", role: "Senior Data Scientist", location: "Toronto", start: "2020", end: "2021" },
+      { company: "Deloitte", role: "Data Analyst", start: "2018", end: "2020" },
+    ],
+    industries: ["Tech", "Media"],
+    offerings: [
+      { id: "technical-interview", title: "Technical interview", description: "SQL, Python, stats — full mock technical loop." },
+      { id: "portfolio-review", title: "Portfolio review", description: "Review projects and advise on presentation for DS roles." },
+      { id: "data-case", title: "Data case", description: "Run through product analytics case scenarios end to end." },
+    ],
+    nonOfferings: [
+      { id: "job-referral", title: "Job referral", reason: "Team is currently frozen — referrals aren't open right now." },
+    ],
+    nonOfferingsQuote: "Hi Maya — appreciate you reaching out. Resume reviews aren't something I do well — I lean toward portfolio walkthroughs and technical interview prep. If either of those would help, happy to chat then.",
+    availabilityDays: ["Wed"],
+    availabilitySlots: [
+      { dayLabel: "WED MAY 6", timeRange: "6:00 — 6:15 PM EDT", altTz: "(3:00 PM PDT)" },
+      { dayLabel: "WED MAY 13", timeRange: "6:00 — 6:15 PM EDT", altTz: "(3:00 PM PDT)" },
+    ],
+    availabilityTimezone: "America/New_York",
+    availabilityLevel: "Limited availability",
+    responseTimeHours: 72,
+  },
+  {
+    id: "sarah-reyes",
+    name: "Sarah Reyes",
+    initials: "SR",
+    role: "Senior Analyst",
+    company: "RBC",
+    city: "Montréal",
+    cohort: "MMA '18",
+    linkedinUrl: "https://linkedin.com/in/sarah-reyes",
+    score: 74,
+    shortBio: "Six years at RBC — knows exactly what they look for in analyst interviews.",
+    background: [
+      { company: "RBC", role: "Senior Analyst, Strategy", location: "Montréal", start: "2021", end: "Present" },
+      { company: "RBC", role: "Analyst, Capital Markets", start: "2018", end: "2021" },
+      { company: "National Bank", role: "Intern", start: "2017", end: "2017" },
+    ],
+    industries: ["Finance", "Banking"],
+    offerings: [
+      { id: "behavioral-interview", title: "Behavioral interview", description: "Prepare for bank-style competency interviews with real examples." },
+      { id: "resume-review", title: "Resume review", description: "Tailor your resume for financial services roles." },
+      { id: "career-pivot", title: "Career pivot", description: "Moving from marketing or consulting into finance analytics." },
+    ],
+    nonOfferings: [
+      { id: "technical-interview", title: "Technical interview", reason: "RBC interviews are mostly behavioral, not technical." },
+      { id: "job-referral", title: "Job referral", reason: "Not in a hiring position currently." },
+    ],
+    nonOfferingsQuote: "I can help you tell your story for finance. Coding prep is outside my lane — I'm strategy-side.",
+    availabilityDays: ["Tue", "Thu"],
+    availabilitySlots: [
+      { dayLabel: "TUE APR 28", timeRange: "12:00 — 12:15 PM EDT" },
+      { dayLabel: "THU APR 30", timeRange: "5:00 — 5:15 PM EDT" },
+      { dayLabel: "TUE MAY 5", timeRange: "12:00 — 12:15 PM EDT" },
+    ],
+    availabilityTimezone: "America/Toronto",
+    availabilityLevel: "Available this week",
+    responseTimeHours: 24,
+  },
+  {
+    id: "priya-iyer",
+    name: "Priya Iyer",
+    initials: "PI",
+    role: "ML Engineer",
+    company: "Air Canada",
+    city: "Montréal",
+    cohort: "MMA '20",
+    linkedinUrl: "https://linkedin.com/in/priya-iyer",
+    score: 70,
+    shortBio: "Went from MMA quant track to ML at Air Canada — a rarer pivot worth talking through.",
+    background: [
+      { company: "Air Canada", role: "ML Engineer", location: "Montréal", start: "2022", end: "Present" },
+      { company: "Intact Financial", role: "Data Scientist", start: "2020", end: "2022" },
+      { company: "BCG", role: "Analyst (intern)", start: "2019", end: "2019" },
+    ],
+    industries: ["Tech", "Aviation"],
+    offerings: [
+      { id: "technical-interview", title: "Technical interview", description: "ML-focused mock interviews — Python, stats, modelling." },
+      { id: "data-case", title: "Data case", description: "Operations and logistics analytics cases from her field." },
+      { id: "career-pivot", title: "Career pivot", description: "Consulting or strategy to ML engineering — what it actually takes." },
+    ],
+    nonOfferings: [
+      { id: "resume-review", title: "Resume review", reason: "Not her strength — she'd rather prep you for the room." },
+      { id: "job-referral", title: "Job referral", reason: "Air Canada hiring is centralized — she can't fast-track applications." },
+    ],
+    nonOfferingsQuote: "I'm good at interview prep, not resume polish. If you want to practice thinking like a data scientist, let's talk.",
+    availabilityDays: ["Mon", "Fri"],
+    availabilitySlots: [
+      { dayLabel: "MON MAY 4", timeRange: "8:00 — 8:15 AM EDT" },
+      { dayLabel: "FRI MAY 8", timeRange: "3:00 — 3:15 PM EDT" },
+    ],
+    availabilityTimezone: "America/Toronto",
+    availabilityLevel: "Available next week",
+    responseTimeHours: 48,
+  },
+  {
+    id: "james-okafor",
+    name: "James Okafor",
+    initials: "JO",
+    role: "Data Engineer",
+    company: "Lululemon",
+    city: "Vancouver",
+    cohort: "MMA '19",
+    linkedinUrl: "https://linkedin.com/in/james-okafor",
+    score: 67,
+    shortBio: "Built Lululemon's real-time inventory pipeline — talks data infra and retail analytics.",
+    background: [
+      { company: "Lululemon", role: "Data Engineer", location: "Vancouver", start: "2021", end: "Present" },
+      { company: "Hootsuite", role: "Analytics Engineer", start: "2019", end: "2021" },
+      { company: "KPMG", role: "Advisory Analyst", start: "2018", end: "2019" },
+    ],
+    industries: ["Tech", "Retail"],
+    offerings: [
+      { id: "technical-interview", title: "Technical interview", description: "SQL, dbt, Spark — data engineering interview prep." },
+      { id: "data-case", title: "Data case", description: "Retail and e-commerce analytics problems." },
+      { id: "portfolio-review", title: "Portfolio review", description: "Review your project work and advise on engineer positioning." },
+    ],
+    nonOfferings: [
+      { id: "behavioral-interview", title: "Behavioral interview", reason: "Better done with someone on the people side." },
+      { id: "job-referral", title: "Job referral", reason: "Lululemon Vancouver roles are very competitive — he can't promise anything." },
+    ],
+    nonOfferingsQuote: "I'm a technical person. If you want SQL help or to talk about data platforms, I'm great. Soft skills coaching is not my thing.",
+    availabilityDays: ["Wed", "Sat"],
+    availabilitySlots: [
+      { dayLabel: "WED MAY 6", timeRange: "7:00 — 7:15 PM EDT", altTz: "(4:00 PM PDT)" },
+      { dayLabel: "SAT MAY 9", timeRange: "11:00 — 11:15 AM EDT", altTz: "(8:00 AM PDT)" },
+    ],
+    availabilityTimezone: "America/Vancouver",
+    availabilityLevel: "Available next week",
+    responseTimeHours: 72,
+  },
+  {
+    id: "sofia-rodriguez",
+    name: "Sofia Rodriguez",
+    initials: "SR",
+    role: "People Analytics Lead",
+    company: "Bell",
+    city: "Montréal",
+    cohort: "MMA '18",
+    linkedinUrl: "https://linkedin.com/in/sofia-rodriguez",
+    score: 63,
+    shortBio: "Runs people analytics at Bell — rare lens on workforce data for anyone pivoting to HR tech.",
+    background: [
+      { company: "Bell Canada", role: "People Analytics Lead", location: "Montréal", start: "2020", end: "Present" },
+      { company: "Deloitte", role: "HR Consultant", start: "2018", end: "2020" },
+      { company: "Intact Financial", role: "Intern", start: "2017", end: "2017" },
+    ],
+    industries: ["Telecom", "HR Tech"],
+    offerings: [
+      { id: "career-pivot", title: "Career pivot", description: "Marketing or generalist analytics to people analytics." },
+      { id: "behavioral-interview", title: "Behavioral interview", description: "HR-adjacent interview prep — values, impact stories, leadership." },
+      { id: "resume-review", title: "Resume review", description: "Positioning for non-technical analytics and HR tech roles." },
+    ],
+    nonOfferings: [
+      { id: "technical-interview", title: "Technical interview", reason: "People analytics is less coding-heavy — not her lane." },
+      { id: "data-case", title: "Data case", reason: "Traditional case prep is not relevant to her field." },
+    ],
+    nonOfferingsQuote: "I help with the people side of analytics careers. If you're aiming for DS or engineering, I'm not your person.",
+    availabilityDays: ["Tue", "Thu"],
+    availabilitySlots: [
+      { dayLabel: "TUE APR 28", timeRange: "1:00 — 1:15 PM EDT" },
+      { dayLabel: "THU APR 30", timeRange: "1:00 — 1:15 PM EDT" },
+      { dayLabel: "TUE MAY 5", timeRange: "1:00 — 1:15 PM EDT" },
+    ],
+    availabilityTimezone: "America/Toronto",
+    availabilityLevel: "Available this week",
+    responseTimeHours: 24,
+  },
+  {
+    id: "daniel-kim",
+    name: "Daniel Kim",
+    initials: "DK",
+    role: "Senior PM, Analytics",
+    company: "Spotify",
+    city: "Vancouver",
+    cohort: "MMA '21",
+    linkedinUrl: "https://linkedin.com/in/daniel-kim",
+    score: 60,
+    shortBio: "PM on Spotify's creator analytics team — bridges product sense and data fluency.",
+    background: [
+      { company: "Spotify", role: "Senior PM, Analytics", location: "Vancouver", start: "2022", end: "Present" },
+      { company: "Amazon", role: "Product Analyst", start: "2021", end: "2022" },
+      { company: "Roland Berger", role: "Consultant", start: "2019", end: "2021" },
+    ],
+    industries: ["Tech", "Media"],
+    offerings: [
+      { id: "career-pivot", title: "Career pivot", description: "Consulting or analytics to product management." },
+      { id: "behavioral-interview", title: "Behavioral interview", description: "PM interview prep — product sense, metrics, leadership." },
+      { id: "portfolio-review", title: "Portfolio review", description: "Review case studies and advise on PM portfolio presentation." },
+    ],
+    nonOfferings: [
+      { id: "technical-interview", title: "Technical interview", reason: "PM interviews don't go deep on coding — not his focus." },
+      { id: "job-referral", title: "Job referral", reason: "Spotify Vancouver PM headcount is frozen right now." },
+    ],
+    nonOfferingsQuote: "I'm great for PM track questions. If you're targeting pure data science, I'd point you toward someone on the engineering side.",
+    availabilityDays: ["Mon", "Wed"],
+    availabilitySlots: [
+      { dayLabel: "MON MAY 4", timeRange: "5:00 — 5:15 PM EDT", altTz: "(2:00 PM PDT)" },
+      { dayLabel: "WED MAY 6", timeRange: "5:00 — 5:15 PM EDT", altTz: "(2:00 PM PDT)" },
+      { dayLabel: "MON MAY 11", timeRange: "5:00 — 5:15 PM EDT", altTz: "(2:00 PM PDT)" },
+    ],
+    availabilityTimezone: "America/Vancouver",
+    availabilityLevel: "Available next week",
+    responseTimeHours: 48,
+  },
+];
+
+export function getAlumnus(id: string): AlumnusProfile | undefined {
+  return ALUMNI.find((a) => a.id === id);
+}
+
+export const TOP_3 = ALUMNI.slice(0, 3);
