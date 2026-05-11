@@ -283,3 +283,11 @@ Small inline elements (status pills, count badges, rating pills like "refer now"
 
 ### Rule 4 — Icons stand alone, not in boxes
 Confirmation checkmarks and similar icons render as plain icons (`<Check className="text-foreground" />`). Do NOT wrap them in a filled square/circle background.
+
+### Rule 5 — AI-suggested actions use the AIButton component
+Any action surfaced as an AI suggestion (Refer now after positive rubric, AI-drafted regenerate, suggested next step, etc.) MUST use `<AIButton>` or `<AILink>` from `@/components/oaa/AIButton`. The component:
+- Has Sparkles icon (lucide-react) on the left, always
+- Uses clay fill (`bg-brand-500 text-white`) — one of the few places clay fill is allowed
+- Never mix custom inline classes that override these properties
+
+Do NOT inline a button with `bg-brand-500` + manual `<Sparkles>` — import AIButton/AILink instead.
