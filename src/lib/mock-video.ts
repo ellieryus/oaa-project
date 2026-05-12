@@ -253,6 +253,32 @@ export const SARAH_DASHBOARD = {
   alumniResponseRate: 0.78,
 };
 
+// --- Maya × Adam in-call screen ---
+
+export const MAYA_IN_CALL = {
+  requestId: "req-adam",
+  topic: "Career pivot",
+  duration: "15 min scheduled",
+  timer: "12:34",
+  participants: {
+    self: { name: "Maya Chen", initials: "MC" },
+    other: {
+      name: "Adam Farouk",
+      initials: "AF",
+      role: "Director of Data, Shopify",
+    },
+  },
+  aiNotes: {
+    topicsCovered: [
+      { label: "Career pivot framing", status: "done" as const },
+      { label: "Adam's transition from consulting", status: "done" as const },
+      { label: "Portfolio recommendations", status: "in-progress" as const },
+    ],
+    strengthsEmerging: ["Analytical structure", "Learning velocity"],
+    gapsMentioned: ["End-to-end project (mentioned 2x)"],
+  },
+};
+
 // --- Type helpers ---
 
 export type ReferralRating =
