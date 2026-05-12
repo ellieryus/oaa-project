@@ -5,6 +5,7 @@ import { useState } from "react";
 import { StudentNav } from "@/components/oaa/StudentNav";
 import { Avatar } from "@/components/oaa/Avatar";
 import { GapClosureModal } from "@/components/oaa/GapClosureModal";
+import { CallNotesPreview } from "@/components/oaa/CallNotesPreview";
 import { MAYA_DASHBOARD, ADAM_VIDEO } from "@/lib/mock-video";
 
 type Priority = (typeof MAYA_DASHBOARD.priorities)[number];
@@ -30,9 +31,14 @@ export default function PastContactsPage() {
 
       <main className="mx-auto max-w-[1200px] px-8 pb-32 pt-12">
         {/* Greeting */}
-        <h1 className="mb-12 text-4xl font-semibold leading-[1.05] text-foreground">
+        <h1 className="mb-8 text-4xl font-semibold leading-[1.05] text-foreground">
           Hi Maya.
         </h1>
+
+        {/* Call notes recap */}
+        <div className="mb-12">
+          <CallNotesPreview variant="student" />
+        </div>
 
         {/* Priorities */}
         <section className="mb-16">

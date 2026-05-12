@@ -9,6 +9,7 @@ import { Avatar } from "@/components/oaa/Avatar";
 import { LiveCallBanner } from "@/components/oaa/LiveCallBanner";
 import { InboxRowHome } from "@/components/oaa/InboxRowHome";
 import { InboxDigestCard } from "@/components/oaa/InboxDigestCard";
+import { CallNotesPreview } from "@/components/oaa/CallNotesPreview";
 import { UpcomingCallCard } from "@/components/oaa/UpcomingCallCard";
 import {
   Dialog,
@@ -115,6 +116,11 @@ export default function AlumnusInboxHome() {
         <h1 className="mb-8 text-4xl font-semibold leading-[1.05] text-foreground">
           Hi Adam.
         </h1>
+
+        {/* Call notes recap */}
+        <div className="mb-8">
+          <CallNotesPreview variant="alumnus" />
+        </div>
 
         {/* Live call banner */}
         {IMMINENT_CALL && (
