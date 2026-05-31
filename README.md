@@ -1,5 +1,8 @@
 # One Ask Away (OAA)
 
+Status: App runs on mock data across all routes; server logic is implemented. The data model is defined in prisma/schema.prisma (relationships being reviewed) — DB migration is the next phase. Frontend UI is mid-redesign (current screens show the flow, not the final visual).
+
+
 > Scoped career conversations between McGill MMA students and alumni.
 
 One Ask Away is a two-sided platform that connects McGill MMA students with alumni for short, intentional career conversations. Students get AI-drafted, scope-aware asks. Alumni define exactly what they will and won't help with — so every request that lands in their inbox is already on-topic.
@@ -183,7 +186,7 @@ npx prisma generate
 npx prisma migrate dev
 ```
 
-The full data model is already defined in `prisma/schema.prisma`.
+The data model is defined in prisma/schema.prisma (relationships currently being reviewed.
 
 ---
 
