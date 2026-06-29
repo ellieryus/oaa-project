@@ -45,6 +45,7 @@ model StudentProfile {
   skills          StudentSkill[]
   requests        Request[]
   reflections     Reflection[]
+  matches         Match[]
 
   createdAt       DateTime @default(now())
   updatedAt       DateTime @updatedAt
@@ -103,10 +104,12 @@ model AlumnusProfile {
   background        AlumnusBackground[]
   industries        AlumnusIndustry[]
   offeringItems     OfferingItem[]
-  availabilitySlots AvailabilitySlot[]
   inboxRequests     Request[]
   postCallNotes     PostCallNote[]
   matches           Match[]
+
+  calendlyUrl       String?  // e.g. https://calendly.com/adam/oaa-chat
+  calendlyUserId    String?  // Calendly user URI, populated via OAuth if used
 
   createdAt         DateTime @default(now())
   updatedAt         DateTime @updatedAt
@@ -144,19 +147,6 @@ model OfferingItem {
   requests        Request[]
 }
 
-// ─── Availability ────────────────────────────────────────────────────────────
-
-model AvailabilitySlot {
-  id              String         @id @default(cuid())
-  alumnusProfile  AlumnusProfile @relation(fields: [alumnusProfileId], references: [id])
-  alumnusProfileId String
-  dayOfWeek       String         // "Mon" | "Tue" | ...
-  startTime       String         // "17:00"
-  endTime         String         // "17:15"
-  timezone        String         // "America/Toronto"
-  recurrence      String         @default("weekly") // "weekly" | "once"
-}
-
 // ─── Matching ─────────────────────────────────────────────────────────────────
 
 model Match {
@@ -186,9 +176,9 @@ model Request {
   opener          String
   question        String
   format          String         // "15min" | "20min"
-  proposedTimes   String[]       // ISO strings
-  chosenTime      DateTime?
-  status          String         @default("pending") // "pending" | "accepted" | "declined" | "completed"
+  chosenTime      DateTime?      // filled by Calendly webhook on booking
+  calendlyEventUri String?       // Calendly event URI for cancel/reschedule
+  status          String         @default("pending") // "pending" | "accepted" | "declined" | "scheduled" | "completed"
   declineReason   String?
   declineNote     String?
   acceptNote      String?
