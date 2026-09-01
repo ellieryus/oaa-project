@@ -24,7 +24,7 @@ The student should receive a small, relevant, diversified set of alumni matches 
 - the same alumnus cannot appear twice in the same active batch
 - students may send requests to one, two, or all three matches
 - no pass, skip, or not interested action exists in MVP 1
-- matching must diversify across industry fit, role fit, offering fit, and background similarity
+- matching must diversify across industry fit, role fit, offering fit
 - a student help need that conflicts with an alumnus non-offering is a hard exclusion
 - previously declined or expired student-alumnus pairs are excluded from future automated matching
 - declined or qualifying expired slots are replaced individually, not as full-batch refreshes
