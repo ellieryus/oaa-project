@@ -1,6 +1,6 @@
 # For Ellie: Backend
 
-Last updated: 2026-07-27
+Last updated: 2026-09-11
 
 **Primary readers:** Backend  
 **Priority:** Highest  
@@ -20,7 +20,8 @@ This guide tells the backend lead exactly what to read first, what to own, and w
 6. `docs/features/request-lifecycle.md`
 7. `docs/features/calendly.md`
 8. `docs/features/pulse-survey.md`
-9. `docs/project-context.md`
+9. `docs/features/alumni-retention.md`
+10. `docs/project-context.md`
 
 ## Primary Ownership
 
@@ -37,7 +38,7 @@ This guide tells the backend lead exactly what to read first, what to own, and w
 
 - accepted requests use a **24-hour elapsed scheduling window**
 - matching begins only when the student explicitly selects Start finding alumni
-- each student batch has exactly 3 active matches
+- each student batch has exactly 3 active qualified matches when available; otherwise it may show fewer
 - declined requests are final
 - repo-local Markdown feature specs are the working source of truth
 
@@ -55,6 +56,7 @@ This guide tells the backend lead exactly what to read first, what to own, and w
 
 - `docs/features/matching.md`
 - `docs/features/pulse-survey.md`
+- `docs/features/alumni-retention.md`
 - `docs/requirements/traceability-matrix.md`
 - `docs/project-context.md`
 

@@ -1,6 +1,6 @@
 # System Architecture
 
-Last updated: 2026-07-27
+Last updated: 2026-09-11
 
 **Primary readers:** Backend, Frontend, PM  
 **Priority:** Highest  
@@ -67,12 +67,20 @@ The target application is a Next.js web app with:
 - creates inbox items
 - sends transactional emails
 - tracks delivery state
+- applies request-reminder and non-urgent re-engagement suppression rules
 
 ### Post-call service
 
 - marks meetings completed
 - creates pulse prompts
 - stores reflections and private notes
+- stores student appreciation actions and derives alumni impact signals
+
+### Recognition service
+
+- evaluates verified completed-conversation milestones idempotently
+- issues and verifies community credentials
+- provides public credential records and sharing metadata
 
 ### Background jobs
 

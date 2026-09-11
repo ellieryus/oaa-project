@@ -1,6 +1,6 @@
 # PRD
 
-Last updated: 2026-07-27
+Last updated: 2026-09-11
 
 **Primary readers:** PM, Product Owner, Backend, Frontend  
 **Priority:** High  
@@ -33,11 +33,13 @@ Needs:
 - email verification and roster eligibility
 - student and alumni onboarding
 - profile confirmation and alumni availability eligibility
-- three-match generation with exclusions and replacements
+- dynamic current priorities, three-match generation with structured exclusions, partial-scope fallback, and replacements
 - request submission and response lifecycle
 - scheduling via Calendly after acceptance
 - meeting completion and optional pulse survey
 - student reflection and alumnus private notes
+- one student appreciation action per completed meeting
+- alumni retention, impact summaries, and one community-recognition credential
 - transactional notifications
 
 ## Non-Functional Scope
@@ -48,6 +50,8 @@ Needs:
 - retry-safe notification and integration handling
 - clear deadline and action messaging
 - privacy boundaries between students and alumni
+- explainable matching without exposing raw relevance scores
+- immutable request-context snapshots for alumni review
 
 ## Feature Inventory
 
@@ -59,6 +63,7 @@ Needs:
 | Request lifecycle | `features/request-lifecycle.md` |
 | Calendly and meeting lifecycle | `features/calendly.md` |
 | Pulse survey and post-call capture | `features/pulse-survey.md` |
+| Alumni retention, re-engagement, and recognition | `features/alumni-retention.md` |
 
 ## Release Gate Summary
 

@@ -1,6 +1,6 @@
 # Documentation Map
 
-Last updated: 2026-07-27
+Last updated: 2026-09-11
 
 **Primary readers:** All  
 **Priority:** High  
@@ -37,6 +37,7 @@ That material is now normalized into:
 - `features/request-lifecycle.md`
 - `features/calendly.md`
 - `features/pulse-survey.md`
+- `features/alumni-retention.md`
 
 The repo-local Markdown files should now be treated as the maintained working version.
 

@@ -1,6 +1,6 @@
 # Calendly
 
-Last updated: 2026-07-27
+Last updated: 2026-09-11
 
 **Primary readers:** Backend, Frontend  
 **Priority:** Highest  
@@ -25,7 +25,9 @@ Scheduling should happen only after a valid request is accepted, and the meeting
 - no valid booking by deadline expires the request with `ACCEPTED_NOT_SCHEDULED`
 - scheduling access is removed after expiry
 - only OAA-linked Calendly bookings are treated as official meetings
-- cancellation and rescheduling updates must preserve history and avoid duplicates
+- after an initial booking, rescheduling and time coordination are outside OAA scope; participants coordinate directly through personal Calendly, LinkedIn, or email
+- OAA provides no reschedule or cancel UI, workflow, negotiation, or participant-support process
+- if an OAA-linked Calendly provider event reports a cancellation or reschedule, the backend may passively update meeting history for data integrity; this does not create an OAA rescheduling experience
 - an eligible non-canceled meeting becomes completed when its scheduled end time passes
 
 ## Frontend Requirements
@@ -35,7 +37,7 @@ Scheduling should happen only after a valid request is accepted, and the meeting
 - show the exact 24-hour scheduling deadline and disappearance warning
 - reject late scheduling attempts and show current request status
 - show confirmed meeting time only after verified booking
-- show updated meeting state after cancellation or rescheduling
+- direct participants to coordinate any later time changes outside OAA
 
 ## Backend Requirements
 
@@ -45,7 +47,7 @@ Scheduling should happen only after a valid request is accepted, and the meeting
 - validate incoming booking events against user, request, and alumnus identity
 - create `Meeting` records only from verified OAA-linked bookings
 - expire unscheduled accepted requests at deadline with correct expiration reason
-- update meeting history on cancellation and rescheduling
+- passively update meeting history when verified OAA-linked provider events report cancellation or rescheduling
 - mark eligible meetings completed when scheduled end time passes
 - prevent duplicate meetings or duplicate booking updates from repeated provider events
 
@@ -54,7 +56,7 @@ Scheduling should happen only after a valid request is accepted, and the meeting
 - on accept, notify the student with scheduling CTA and exact 24-hour deadline
 - on confirmed booking, notify both participants of meeting time
 - on accepted-request expiry due to no booking, notify the student and remove scheduling CTA
-- on cancellation or rescheduling, notify both participants and link to the active meeting
+- do not send OAA rescheduling or cancellation notifications; participants coordinate time changes outside OAA
 - if Calendly connection becomes invalid, notify the alumnus and suppress broken scheduling flow for students
 
 ## Security And Reliability Requirements

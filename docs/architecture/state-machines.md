@@ -1,6 +1,6 @@
 # State Machines
 
-Last updated: 2026-07-27
+Last updated: 2026-09-11
 
 **Primary readers:** Backend, Frontend  
 **Priority:** Highest  
@@ -45,7 +45,7 @@ ACCEPTED
 
 SCHEDULED
   -> COMPLETED
-  -> CANCELED or RESCHEDULED via meeting updates
+  -> CANCELED or RESCHEDULED only from verified OAA-linked provider updates
 ```
 
 Rules:
@@ -70,7 +70,7 @@ ACTIVE
 
 Rules:
 
-- matching batch starts with exactly three active slots
+- matching batch starts with up to three qualified active slots; the system must not fill a missing slot with a weak or out-of-scope candidate
 - only the affected slot is replaced on decline or qualifying expiry
 - declined or expired student-alumnus pairs are excluded from future automated matching according to policy
 
@@ -90,6 +90,7 @@ RESCHEDULED
 Rules:
 
 - only verified OAA-linked Calendly bookings create official meetings
+- `CANCELED` and `RESCHEDULED` are passive record updates, not OAA participant workflows
 - completed means the scheduled end time has passed
 - canceled or superseded meetings do not auto-complete
 

@@ -1,6 +1,6 @@
 # Email Verification
 
-Last updated: 2026-07-27
+Last updated: 2026-09-11
 
 **Primary readers:** Backend, Frontend  
 **Priority:** High  
@@ -16,7 +16,8 @@ Only eligible McGill users should be able to access One Ask Away. Email ownershi
 
 ## Core Rules
 
-- students and alumni must use eligible `@mail.mcgill.ca` addresses
+- students must use eligible `@mail.mcgill.ca` addresses
+- roster-approved alumni may verify the invited email address on their roster record, including a personal email address
 - authorized program staff may use eligible `@mcgill.ca` addresses
 - role and cohort are assigned from roster data, not from user self-selection alone
 - accounts progress from `PENDING_VERIFICATION` to `ONBOARDING` to `ACTIVE`
@@ -30,7 +31,7 @@ Only eligible McGill users should be able to access One Ask Away. Email ownershi
 
 ## Frontend Requirements
 
-- provide a single email-entry flow with neutral eligibility messaging
+- provide role-appropriate email-entry flows with neutral eligibility messaging
 - do not reveal whether a user is on the roster when eligibility fails
 - provide a code-entry screen with resend behavior and clear countdown messaging
 - show clear account-state progress: verification, onboarding, active
@@ -40,7 +41,7 @@ Only eligible McGill users should be able to access One Ask Away. Email ownershi
 ## Backend Requirements
 
 - normalize email before any lookup or rate limiting
-- verify supported domain and roster membership separately
+- verify the student domain requirement and roster membership separately; verify alumni against their roster-approved invited email
 - create or retrieve a pending account before sending code
 - generate verification codes securely and store only code hashes
 - store purpose, send time, expiry, invalidation, attempt count, and usage timestamps

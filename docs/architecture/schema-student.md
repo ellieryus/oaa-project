@@ -1,6 +1,6 @@
 # Student Schema Proposal
 
-Last updated: 2026-07-31
+Last updated: 2026-09-11
 
 **Primary readers:** Product Owner, Backend, Frontend  
 **Priority:** High  
@@ -34,7 +34,7 @@ The student schema must make these product rules enforceable:
 
 1. The student cannot start matching until the account is `ACTIVE`.
 2. The student cannot start matching until required profile fields are complete and the profile is explicitly confirmed.
-3. Matching must be based on student aspirations, help needs, and relevant background signals.
+3. Matching must be based on student aspirations, ranked current priorities, and relevant background signals.
 4. Profile data must persist across refresh and later edits.
 5. The system must be able to compute whether the student is currently eligible for matching without using mock-only fields.
 
@@ -45,7 +45,7 @@ The minimum persisted student model should answer:
 - who is this student
 - what cohort and program are they in
 - what roles are they targeting
-- what kinds of help are they looking for
+- what one to three current kinds of help they are looking for
 - what background and skills are relevant for matching
 - have they completed and confirmed their profile
 - are they paused from matching
@@ -111,18 +111,21 @@ Notes:
 
 - `rank` is required because product says the top aspiration weighs heaviest in matching.
 
-### StudentHelpNeed
+### CurrentPriority
 
 Required persisted fields:
 
 - `id`
 - `studentProfileId`
-- `area`
+- `topicId`
 - `rank`
+- `createdAt`
+- `retiredAt`
 
 Notes:
 
-- `area` must remain normalized enough for hard exclusion checks against alumni non-offerings.
+- `topicId` must be a canonical topic ID shared with standard alumni offerings and non-offerings.
+- only one to three entries may be active for a student at once; prior entries remain available for history and audit after retirement.
 
 ### StudentBackground
 
@@ -166,7 +169,7 @@ These should live in the database:
 - `profileConfirmedAt`
 - `pausedMatching`
 - `aspirations`
-- `helpNeeds`
+- `currentPriorities`
 - `background`
 - `skills`
 
@@ -238,7 +241,7 @@ model StudentProfile {
   updatedAt          DateTime            @updatedAt
 
   aspirations        StudentAspiration[]
-  helpNeeds          StudentHelpNeed[]
+  currentPriorities  CurrentPriority[]
   background         StudentBackground[]
   skills             StudentSkill[]
   requests           Request[]
@@ -259,8 +262,8 @@ model StudentProfile {
 - `StudentProfile.pausedMatching`
 - `StudentAspiration.role`
 - `StudentAspiration.rank`
-- `StudentHelpNeed.area`
-- `StudentHelpNeed.rank`
+- `CurrentPriority.topicId`
+- `CurrentPriority.rank`
 - `StudentBackground.institution`
 - `StudentBackground.role`
 - `StudentSkill.skill`

@@ -1,6 +1,6 @@
 # Traceability Matrix
 
-Last updated: 2026-07-27
+Last updated: 2026-09-11
 
 **Primary readers:** PM, Backend, Frontend, QA  
 **Priority:** Medium  
@@ -15,11 +15,12 @@ This matrix maps approved MVP 1 business-rule areas to repo-local feature and ar
 | Rule IDs | Topic | Feature spec | Architecture reference | Notes |
 | --- | --- | --- | --- | --- |
 | PRO-01 to PRO-06 | profile completion and eligibility | `features/matching.md` | `architecture/state-machines.md` | Includes profile confirmation and alumni availability gate. |
-| MAT-01 to MAT-09 | match generation, exclusions, renewal, replacement | `features/matching.md` | `architecture/system-architecture.md` | Three-match lifecycle with slot replacement. |
-| REQ-01 to REQ-07 | request lifecycle | `features/request-lifecycle.md` | `architecture/state-machines.md` | Includes deadlines, decline finality, and request history rules. |
+| MAT-01 to MAT-14 | current priorities, match generation, exclusions, regeneration, partial-scope fallback, and replacement | `features/matching.md` | `architecture/system-architecture.md`, `architecture/erd.md` | Structured 1-3 priorities; three-match lifecycle with transparent repeats and no raw score. |
+| REQ-01 to REQ-11 | request lifecycle and immutable alumnus-review context | `features/request-lifecycle.md` | `architecture/state-machines.md`, `architecture/erd.md` | Includes deadlines, decline finality, request history, and submission-time context snapshots. |
 | CAL-01 to CAL-06 | scheduling and meetings | `features/calendly.md` | `architecture/state-machines.md` | Uses 24-hour scheduling decision override. |
 | MET-01 to MET-02 | meeting completion | `features/calendly.md` | `architecture/state-machines.md` | Meeting completion depends on verified scheduled meetings. |
-| PUL-01 to PUL-04 | pulse survey | `features/pulse-survey.md` | `architecture/system-architecture.md` | Optional and private per participant. |
+| PUL-01 to PUL-07 | post-call pulse feedback, private reflection, and student appreciation | `features/pulse-survey.md` | `architecture/system-architecture.md`, `architecture/erd.md` | Private feedback per participant plus one non-monetary appreciation action per completed meeting. |
+| RET-01 to RET-28 | alumni request reminders, re-engagement, impact, and recognition | `features/alumni-retention.md` | `architecture/system-architecture.md`, `architecture/erd.md` | One pending-request reminder, truthful low-frequency engagement, and one verified community credential. |
 | NOT-01 to NOT-12 | notifications | `features/request-lifecycle.md`, `features/calendly.md`, `features/matching.md` | `architecture/system-architecture.md` | Notification behavior is split by lifecycle area. |
 | EV-01 to EV-10 | email verification and eligibility | `features/email-verification.md` | `architecture/state-machines.md` | Includes role assignment and account-state rules. |
 | NFR-01 to NFR-08 | security, authorization, idempotency, auditability | all feature docs | `architecture/system-architecture.md` | Cross-cutting platform requirements. |
@@ -31,3 +32,4 @@ This matrix maps approved MVP 1 business-rule areas to repo-local feature and ar
 
 - Accepted-request scheduling is 24 elapsed hours.
 - Repo-local Markdown docs supersede the external PDF when conflicts remain unresolved in the external copy.
+- Structured current priorities are the MVP matching source of truth; general natural-language alumni search and Surprise Me are deferred.

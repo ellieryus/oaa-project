@@ -1,6 +1,6 @@
 # For Trang: Frontend
 
-Last updated: 2026-07-27
+Last updated: 2026-09-11
 
 **Primary readers:** Frontend, UX  
 **Priority:** Highest  
@@ -18,8 +18,9 @@ This guide tells the frontend and UX lead exactly what to read first, what to ow
 4. `docs/features/request-lifecycle.md`
 5. `docs/features/calendly.md`
 6. `docs/features/pulse-survey.md`
-7. `CLAUDE.md`
-8. `docs/project-context.md`
+7. `docs/features/alumni-retention.md`
+8. `CLAUDE.md`
+9. `docs/project-context.md`
 
 ## Primary Ownership
 
@@ -47,6 +48,7 @@ This guide tells the frontend and UX lead exactly what to read first, what to ow
 - `docs/features/matching.md`
 - `docs/features/request-lifecycle.md`
 - `docs/features/calendly.md`
+- `docs/features/alumni-retention.md`
 - `CLAUDE.md`
 
 ### Important

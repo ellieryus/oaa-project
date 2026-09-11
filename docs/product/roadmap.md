@@ -1,6 +1,6 @@
 # Roadmap
 
-Last updated: 2026-07-27
+Last updated: 2026-09-11
 
 **Primary readers:** PM, Product Owner, Backend, Frontend  
 **Priority:** Medium  
@@ -60,7 +60,7 @@ Status: Planned
 - 24-hour booking window
 - verified Calendly booking handling
 - meeting history and completion jobs
-- cancellation and reschedule handling
+- passive OAA-linked Calendly cancellation and reschedule history updates only
 
 ### M5. Notifications and post-call flows
 
@@ -71,6 +71,7 @@ Status: Planned
 - pulse survey prompts
 - student reflection persistence
 - alumnus private notes persistence
+- one pending-request reminder, re-engagement, impact summaries, and credential issuance
 
 ### M6. Hardening and beta readiness
 

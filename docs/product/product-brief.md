@@ -1,6 +1,6 @@
 # Product Brief
 
-Last updated: 2026-07-27
+Last updated: 2026-09-11
 
 **Primary readers:** PM, Product Owner, Backend, Frontend  
 **Priority:** Highest  
@@ -69,11 +69,14 @@ Validate that a scoped, structured request flow performs better than generic out
 - pulse survey
 - student reflection
 - alumnus private post-call notes
+- student appreciation actions after completed conversations
+- alumni impact summaries and the OAA Community Contributor credential
 
 ### Out of scope
 
 - LinkedIn messaging integration
 - Google or Outlook calendar sync
+- native rescheduling, cancellation, or participant time-coordination workflows
 - mobile app
 - admin analytics dashboard
 - donations or fundraising
@@ -119,12 +122,13 @@ These are proposed MVP metrics and should be ratified before launch.
 ### Journey 1: Student onboarding
 
 Goal:
-Student defines aspirations, background, and help needs well enough to receive relevant matches.
+Student defines aspirations, background, and one to three ranked current priorities well enough to receive relevant matches.
 
 Acceptance criteria:
 
 - student can sign in with an approved McGill address
 - student can complete all onboarding steps without data loss
+- student can select and rank one to three current priorities from the approved taxonomy
 - required fields are validated with clear inline feedback
 - on completion, onboarding data is persisted and available after refresh
 - student lands in the authenticated product flow after completion
@@ -149,7 +153,8 @@ Student sees a small, relevant set of alumni matches aligned to stated goals.
 
 Acceptance criteria:
 
-- student can access a matches view after onboarding and receives three matches
+- student can access a matches view after onboarding and receives up to three qualified matches
+- match cards show a human-readable reason for relevance, not a raw relevance score
 - each match shows enough context to decide whether to reach out
 - student can open a full alumni detail view from matches
 - match list loads from production data, not mock imports
@@ -207,6 +212,7 @@ Acceptance criteria:
 - reflection data persists after refresh and is tied to the correct request
 - reflection can safely tolerate a page reload or resume
 - any AI-drafted next step is editable before save
+- student can send one non-monetary `Thank You` or `Coffee Bag` appreciation after a completed conversation
 
 ### Journey 8: Alumni post-call notes
 
@@ -219,6 +225,7 @@ Acceptance criteria:
 - notes persist after refresh
 - notes are visible only to the alumnus who created them
 - notes do not leak into student-visible UI or notifications
+- alumnus can view any appreciation action sent by the participating student without seeing the student's private feedback or reflection
 
 ## Core Principles
 

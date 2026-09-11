@@ -1,6 +1,6 @@
 # ERD Notes
 
-Last updated: 2026-07-27
+Last updated: 2026-09-11
 
 **Primary readers:** Backend  
 **Priority:** High  
@@ -18,7 +18,7 @@ This document summarizes the target MVP 1 domain model that should be represente
 - `StudentProfile`
 - `AlumnusProfile`
 - `StudentAspiration`
-- `StudentHelpNeed`
+- `CurrentPriority`
 - `StudentBackground`
 - `StudentSkill`
 - `AlumnusBackground`
@@ -32,6 +32,10 @@ This document summarizes the target MVP 1 domain model that should be represente
 - `Notification`
 - `PulseSurveyInvitation`
 - `PulseSurveyResponse`
+- `StudentAppreciation`
+- `AlumniImpactStats`
+- `CommunityCredential`
+- `AlumniReengagementEvent`
 - `StudentReflection`
 - `AlumnusNote`
 - `AuditEvent`
@@ -39,12 +43,15 @@ This document summarizes the target MVP 1 domain model that should be represente
 ## Relationship Summary
 
 - one `User` may own one student profile or one alumnus profile
-- one student profile has many aspirations, help-need entries, background entries, and requests
+- one student profile has many aspirations, current-priority entries, background entries, and requests
 - one alumnus profile has many offerings, non-offerings, background entries, industry entries, and inbox requests
-- one `Match` links one student profile to one alumnus profile for a specific active or historical slot
-- one `Request` links one student, one alumnus, and one offering topic
+- one `CurrentPriority` records a ranked, dynamic student matching priority and its update history
+- one `Match` links one student profile to one alumnus profile for a specific active or historical slot and stores internal ranking metadata, match tier, reason metadata, and impression history
+- one `Request` links one student, one alumnus, and one offering topic and stores an immutable student-context snapshot used for alumnus review
 - one accepted and verified request may create one active `Meeting`
 - one completed meeting may create one student pulse response and one alumnus pulse response
+- one completed meeting may have one student appreciation action, chosen by the participating student
+- one alumnus may have derived impact statistics, many re-engagement events, and one active credential per credential type
 - one request may also own one student reflection and one alumnus note
 - one request or meeting may have many notifications and audit events
 
@@ -55,6 +62,8 @@ This document summarizes the target MVP 1 domain model that should be represente
 - `Meeting` should be a first-class entity rather than only fields on `Request`
 - notification and audit records should be explicit first-class tables
 - verification and session data should not be folded into `User`
+- canonical topic IDs must be shared by `CurrentPriority`, standard alumni offerings, and alumni non-offerings; profile display labels may be separate from canonical IDs
+- `Open to All` should be an alumnus setting rather than an offering-topic record
 
 ## Current Gap
 
