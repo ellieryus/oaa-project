@@ -73,6 +73,17 @@ Alumni select one to five standard offering topics, or `Open to All`. `Open to A
 - alumni detail pages show the same match reason plus clear offerings and non-offerings
 - skill, certification, project, and seniority signals are reserved for future Surprise Me discovery, not standard MVP match reasons
 
+## Future: Surprise Me Discovery (Post-MVP)
+
+`Surprise Me` is a future discovery experience, not a replacement for structured current priorities or the scoped request flow.
+
+- it must remain out of MVP 1 until beta data shows that structured matches produce clear asks, high alumni confidence, and relevant conversations
+- it may recommend a small curated set of alumni using student development goals, relevant skills, industry or career trajectory, certifications, projects, and alumni seniority or years after MMA
+- hobbies and optional bio context may be used only as a secondary tie-breaker; they are never required profile fields or core matching signals
+- every recommendation must retain a human-readable explanation and show current offerings and non-offerings before a student can send a request
+- it must respect the same eligibility, availability, pair-exclusion, and non-offering safeguards as structured matching
+- the future team must decide the trigger, recommendation count, regeneration frequency, whether it occupies an active structured-match slot, and success thresholds before implementation
+
 ## Frontend Requirements
 
 - block Start finding alumni until student verification and profile confirmation are complete
