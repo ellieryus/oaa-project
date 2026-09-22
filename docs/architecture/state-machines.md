@@ -13,10 +13,6 @@ This document defines the target lifecycle states and allowed transitions for MV
 ## Account State Machine
 
 ```text
-PENDING_ELIGIBILITY_REVIEW (alumni only)
-  -> PENDING_VERIFICATION (manual approval)
-  -> BLOCKED_ELIGIBILITY (manual rejection)
-
 PENDING_VERIFICATION
   -> ONBOARDING
   -> BLOCKED_ELIGIBILITY (optional support state)
@@ -31,10 +27,30 @@ ACTIVE
 
 Rules:
 
-- students enter `PENDING_VERIFICATION` after eligible sign-up; alumni enter `PENDING_ELIGIBILITY_REVIEW` until an authorized reviewer confirms roster eligibility
+- students enter `PENDING_VERIFICATION` after eligible sign-up; approved alumni enter `PENDING_VERIFICATION` after their personal-email ownership check begins
 - verification success moves the account to `ONBOARDING`
 - only completed and confirmed onboarding moves the account to `ACTIVE`
 - users not in `ACTIVE` cannot match, request, or schedule
+
+## Alumni Access Request State Machine
+
+```text
+PENDING_REVIEW
+  -> APPROVED (manual roster review)
+  -> REJECTED (manual roster review)
+
+APPROVED
+  -> PENDING_VERIFICATION (create alumni account and send code)
+
+REJECTED
+  -> PENDING_REVIEW (corrected alumni resubmission creates a new review attempt)
+```
+
+Rules:
+
+- every alumni access request is manually reviewed by the backend developer through backend/database tooling in beta and MVP 1
+- only `APPROVED` requests may create a pending alumni account and send a verification code
+- rejection must not disclose roster-match details; a corrected submission retains the earlier request and begins a new review attempt
 
 ## Request State Machine
 

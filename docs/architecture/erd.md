@@ -45,7 +45,7 @@ This document summarizes the target MVP 1 domain model that should be represente
 ## Relationship Summary
 
 - one `User` may own one student profile or one alumnus profile
-- one `AlumniAccessRequest` stores an alumnus-supplied name, cohort or graduation year, personal email, consent record, review decision, reviewer, and optional link to the minimum `AlumniRosterEntry` used for manual eligibility review
+- one `AlumniAccessRequest` stores an alumnus-supplied legal first name, McGill preferred first name, last name, cohort code, personal email, consent acknowledgement, review decision, reviewer, and optional link to the minimum `AlumniRosterEntry` used for manual eligibility review
 - one approved `AlumniAccessRequest` creates or links one alumni `User`; a roster entry never stores or supplies the alumnus's personal email to OAA
 - one student profile has many aspirations, current-priority entries, background entries, and requests
 - one alumnus profile has many offerings, non-offerings, background entries, industry entries, and inbox requests
@@ -66,8 +66,9 @@ This document summarizes the target MVP 1 domain model that should be represente
 - `Meeting` should be a first-class entity rather than only fields on `Request`
 - notification and audit records should be explicit first-class tables
 - verification and session data should not be folded into `User`
-- `AlumniRosterEntry` stores only minimum program-supplied eligibility fields, such as name and cohort or graduation year; it is not an invitation or contact-email table
-- `AlumniAccessRequest` review status should use enums such as `PENDING`, `APPROVED`, and `REJECTED`, with reviewer and decision timestamps
+- `AlumniRosterEntry` stores only minimum program-supplied eligibility fields, such as name and cohort code; it is not an invitation or contact-email table
+- cohort codes must come from a canonical program-supplied picklist, with no free-text or `Other` cohort value
+- `AlumniAccessRequest` review status should use enums such as `PENDING_REVIEW`, `APPROVED`, and `REJECTED`, with reviewer and decision timestamps; corrected resubmissions must retain prior review history
 - canonical topic IDs must be shared by `CurrentPriority`, standard alumni offerings, and alumni non-offerings; profile display labels may be separate from canonical IDs
 - `Open to All` should be an alumnus setting rather than an offering-topic record
 

@@ -33,7 +33,8 @@ The target application is a Next.js web app with:
 
 - verifies email ownership
 - records alumni self-service access requests and consent
-- requires authorized manual review against the minimum name-and-cohort program roster before alumni email verification
+- validates a program-supplied cohort-code picklist and requires manual review against the minimum name-and-cohort program roster before alumni email verification
+- supports backend-tooling review by the backend developer for beta and MVP 1; a role-based review UI is post-beta scope
 - assigns role and cohort
 - establishes authenticated sessions
 

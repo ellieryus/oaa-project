@@ -17,13 +17,16 @@ Only eligible McGill community members should be able to access One Ask Away. Em
 ## Core Rules
 
 - students must use eligible `@mail.mcgill.ca` addresses
-- an alumnus supplies their own personal email address, full name, and MMA cohort or graduation year through the alumni access-request flow
+- an alumnus submits an access-request form containing required legal first name, McGill preferred first name, last name, MMA cohort code, and personal email address
+- cohort is a required canonical picklist supplied by the program, for example `MMA8` and `MMAO1`; it has no `Other` or free-text option
 - every alumni access request requires manual eligibility review against the program-provided name-and-cohort roster; no alumni request is approved automatically
-- the program roster must contain only the minimum eligibility data needed for review, such as full name and cohort or graduation year; OAA must not request, import, or use alumni personal email addresses from the program roster
+- the program roster must contain only the minimum eligibility data needed for review, such as name and cohort code; OAA must not request, import, or use alumni personal email addresses from the program roster
 - after manual approval, the alumnus verifies ownership of the personal email they supplied; email verification does not by itself prove alumni eligibility
 - authorized program staff may use eligible `@mcgill.ca` addresses
 - role is assigned only after manual alumni eligibility approval; cohort is confirmed by the reviewer from the roster, not from self-selection alone
-- student accounts progress from `PENDING_VERIFICATION` to `ONBOARDING` to `ACTIVE`; alumni accounts progress from `PENDING_ELIGIBILITY_REVIEW` to `PENDING_VERIFICATION` to `ONBOARDING` to `ACTIVE`
+- for beta and MVP 1, a backend developer performs reviews through backend/database tooling; no end-user admin-review UI is required
+- OAA Admin and Program Director role-based review permissions, including read-only program access, are post-beta decisions and must not block this workflow
+- student accounts progress from `PENDING_VERIFICATION` to `ONBOARDING` to `ACTIVE`; an approved alumni access request creates an alumni account at `PENDING_VERIFICATION`, which then progresses to `ONBOARDING` and `ACTIVE`
 - users cannot match, request, or schedule until the account is `ACTIVE`
 - verification uses a six-digit numeric code
 - code expiry is 10 minutes
@@ -35,8 +38,10 @@ Only eligible McGill community members should be able to access One Ask Away. Em
 ## Frontend Requirements
 
 - provide role-appropriate email-entry flows with neutral eligibility messaging
-- for alumni, collect full name, MMA cohort or graduation year, personal email, and explicit consent for OAA to use that email for account verification and selected operational notifications
+- for alumni, collect required legal first name, McGill preferred first name, last name, cohort-code picklist selection, and personal email
+- present the required consent acknowledgement; exact consent copy, notification purposes, consent versioning, and withdrawal handling will be finalized separately before launch
 - show a pending-review state after alumni submission; do not reveal whether a name appears on the roster when a request is rejected or cannot be matched
+- allow a rejected alumnus to correct the submitted details and resubmit for a new manual review
 - provide a code-entry screen with resend behavior and clear countdown messaging
 - show clear account-state progress: verification, onboarding, active
 - block access to onboarding completion, matching, requests, and scheduling until verification succeeds
@@ -46,7 +51,9 @@ Only eligible McGill community members should be able to access One Ask Away. Em
 
 - normalize email before any lookup or rate limiting
 - verify the student domain requirement and roster membership separately
-- create an `AlumniAccessRequest` for each alumni submission and require an authorized reviewer to approve or reject it against the name-and-cohort roster
+- create an `AlumniAccessRequest` for each alumni submission, validate cohort against the program-supplied canonical picklist, and set it to `PENDING_REVIEW`
+- for beta and MVP 1, enable the backend developer to approve or reject every access request through backend/database tooling after manually checking the name-and-cohort roster
+- preserve each review attempt and its decision history when an alumnus corrects details and resubmits; do not overwrite the rejected request
 - never automatically approve an alumnus from a name, cohort, email, or LinkedIn match
 - do not send an alumni verification code or activate an alumni account until manual eligibility approval succeeds
 - create or retrieve a pending alumni account only after approval; bind it to the personal email supplied in the approved request
@@ -65,11 +72,12 @@ Only eligible McGill community members should be able to access One Ask Away. Em
 ## Data And Audit Requirements
 
 - audit code generation, resend, invalidation, attempt increments, success, and failure
-- audit alumni access-request submission, consent capture, reviewer identity, approval or rejection, roster-match reference, and any subsequent email change
+- audit alumni access-request submission, submitted cohort code, consent acknowledgement, reviewer identity, approval or rejection, roster-match reference, resubmission, and any subsequent email change
 - retain only the minimum roster-match data necessary for eligibility audit and support; do not store program-supplied personal email addresses
 - retain enough history to explain why a user could or could not verify
 
 ## Open Technical Questions
 
-- which authorized team members may approve or reject alumni access requests
+- final consent copy, notification purposes, consent versioning, and withdrawal handling
+- post-beta role-based permissions for OAA Admin and Program Director access
 - retention period for rejected access requests and manual-review evidence
