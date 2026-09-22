@@ -1,6 +1,6 @@
 # Decision Log
 
-Last updated: 2026-09-11
+Last updated: 2026-09-22
 
 **Primary readers:** PM, Product Owner, Backend, Frontend  
 **Priority:** High  
@@ -31,10 +31,11 @@ This file records product and architecture decisions that should override older 
 | 2026-09-11 | DEC-015 | OAA does not manage rescheduling or time coordination after an initial booking. | Scheduling changes are better handled directly by the participants in the tools they already use. | Participants coordinate through personal Calendly, LinkedIn, or email; OAA provides no reschedule/cancel UI, workflow, or support. |
 | 2026-09-11 | DEC-016 | Each completed conversation offers private feedback for both participants and one student appreciation action. | OAA needs match-quality signals while giving students a lightweight way to acknowledge alumni time. | Feedback remains private; students may send one non-monetary `Thank You` or `Coffee Bag` appreciation per completed meeting. |
 | 2026-09-11 | DEC-017 | Alumni retention relies on one request reminder, truthful re-engagement, impact recognition, and one earned community credential. | Alumni should feel recognized rather than repeatedly pressured to respond. | Request reminders stop after 24 hours; re-engagement requires a genuine event; `OAA Community Contributor` is issued by Master of Management Analytics (MMA) only with program authorization. |
+| 2026-09-22 | DEC-018 | Alumni eligibility requires manual review of every self-service request against a minimum name-and-cohort program roster before personal-email verification. | Personal email ownership does not prove alumni status, and OAA should not obtain alumni personal emails from the program roster. | Alumni self-submit name, cohort or graduation year, personal email, and consent; an authorized reviewer approves eligibility before a code is sent. |
 
 ## Open Decisions
 
-- final roster source and sync process
+- final roster source, permitted fields, and secure transfer process
 - final session implementation
 - exact shape of the production meeting entity
 - whether expired-request reactivation remains in MVP 1 or is deferred

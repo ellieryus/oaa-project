@@ -1,6 +1,6 @@
 # PRD
 
-Last updated: 2026-09-11
+Last updated: 2026-09-22
 
 **Primary readers:** PM, Product Owner, Backend, Frontend  
 **Priority:** High  
@@ -30,7 +30,7 @@ Needs:
 
 ## Functional Scope
 
-- email verification and roster eligibility
+- email verification, manual alumni roster eligibility review, and personal-email ownership verification
 - student and alumni onboarding
 - profile confirmation and alumni availability eligibility
 - dynamic current priorities, three-match generation with structured exclusions, partial-scope fallback, and replacements

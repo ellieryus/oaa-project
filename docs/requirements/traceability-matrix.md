@@ -1,6 +1,6 @@
 # Traceability Matrix
 
-Last updated: 2026-09-11
+Last updated: 2026-09-22
 
 **Primary readers:** PM, Backend, Frontend, QA  
 **Priority:** Medium  
@@ -22,7 +22,7 @@ This matrix maps approved MVP 1 business-rule areas to repo-local feature and ar
 | PUL-01 to PUL-07 | post-call pulse feedback, private reflection, and student appreciation | `features/pulse-survey.md` | `architecture/system-architecture.md`, `architecture/erd.md` | Private feedback per participant plus one non-monetary appreciation action per completed meeting. |
 | RET-01 to RET-28 | alumni request reminders, re-engagement, impact, and recognition | `features/alumni-retention.md` | `architecture/system-architecture.md`, `architecture/erd.md` | One pending-request reminder, truthful low-frequency engagement, and one verified community credential. |
 | NOT-01 to NOT-12 | notifications | `features/request-lifecycle.md`, `features/calendly.md`, `features/matching.md` | `architecture/system-architecture.md` | Notification behavior is split by lifecycle area. |
-| EV-01 to EV-10 | email verification and eligibility | `features/email-verification.md` | `architecture/state-machines.md` | Includes role assignment and account-state rules. |
+| EV-01 to EV-10 | email verification and eligibility | `features/email-verification.md` | `architecture/state-machines.md`, `architecture/erd.md` | Students use McGill email; every alumnus request is manually roster-reviewed before verifying the personal email they supplied. |
 | NFR-01 to NFR-08 | security, authorization, idempotency, auditability | all feature docs | `architecture/system-architecture.md` | Cross-cutting platform requirements. |
 | NFR-NOT-01 to NFR-NOT-04 | notification reliability, privacy, auditability | `features/request-lifecycle.md`, `features/calendly.md`, `features/matching.md` | `architecture/system-architecture.md` | Retry-safe and deadline-clear notifications. |
 | NFR-EV-01 to NFR-EV-04 | verification security, rate limiting, privacy, audit | `features/email-verification.md` | `architecture/system-architecture.md` | Must be implemented before private beta. |

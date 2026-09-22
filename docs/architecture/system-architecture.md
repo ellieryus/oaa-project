@@ -1,6 +1,6 @@
 # System Architecture
 
-Last updated: 2026-09-11
+Last updated: 2026-09-22
 
 **Primary readers:** Backend, Frontend, PM  
 **Priority:** Highest  
@@ -32,7 +32,8 @@ The target application is a Next.js web app with:
 ### Auth and eligibility service
 
 - verifies email ownership
-- validates roster eligibility
+- records alumni self-service access requests and consent
+- requires authorized manual review against the minimum name-and-cohort program roster before alumni email verification
 - assigns role and cohort
 - establishes authenticated sessions
 

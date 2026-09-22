@@ -1,6 +1,6 @@
 # State Machines
 
-Last updated: 2026-09-11
+Last updated: 2026-09-22
 
 **Primary readers:** Backend, Frontend  
 **Priority:** Highest  
@@ -13,6 +13,10 @@ This document defines the target lifecycle states and allowed transitions for MV
 ## Account State Machine
 
 ```text
+PENDING_ELIGIBILITY_REVIEW (alumni only)
+  -> PENDING_VERIFICATION (manual approval)
+  -> BLOCKED_ELIGIBILITY (manual rejection)
+
 PENDING_VERIFICATION
   -> ONBOARDING
   -> BLOCKED_ELIGIBILITY (optional support state)
@@ -27,6 +31,7 @@ ACTIVE
 
 Rules:
 
+- students enter `PENDING_VERIFICATION` after eligible sign-up; alumni enter `PENDING_ELIGIBILITY_REVIEW` until an authorized reviewer confirms roster eligibility
 - verification success moves the account to `ONBOARDING`
 - only completed and confirmed onboarding moves the account to `ACTIVE`
 - users not in `ACTIVE` cannot match, request, or schedule
