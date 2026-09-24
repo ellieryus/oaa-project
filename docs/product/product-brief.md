@@ -1,6 +1,6 @@
 # Product Brief
 
-Last updated: 2026-09-11
+Last updated: 2026-09-24
 
 **Primary readers:** PM, Product Owner, Backend, Frontend  
 **Priority:** Highest  
@@ -38,7 +38,7 @@ The core product promise is:
 
 ### Primary release goal
 
-Launch a production-ready private beta that proves students can move from verified account to completed alumni conversation inside a structured workflow.
+Launch a production-ready private beta that proves students can move from verified account to a high-quality accepted alumni request inside a structured workflow, with self-reported conversation signals as a secondary outcome.
 
 ### Release type
 
@@ -60,23 +60,24 @@ Validate that a scoped, structured request flow performs better than generic out
 - email verification and eligibility
 - student onboarding
 - alumni onboarding
-- alumni availability connection
+- optional alumni Calendly or LinkedIn coordination preference
 - three-match generation
 - alumni detail view
 - ask composition and submission
 - alumni inbox and accept or decline flow
-- scheduling handoff and meeting tracking
+- accepted-request coordination handoff and self-reported conversation follow-up
 - pulse survey
 - student reflection
 - alumnus private post-call notes
 - student appreciation actions after completed conversations
-- alumni impact summaries and the OAA Community Contributor credential
+- alumni impact summaries based on stored MVP activity
 
 ### Out of scope
 
 - LinkedIn messaging integration
 - Google or Outlook calendar sync
 - native rescheduling, cancellation, or participant time-coordination workflows
+- Calendly OAuth, API, webhooks, verified booking, verified completion, and the OAA Community Contributor credential
 - mobile app
 - admin analytics dashboard
 - donations or fundraising
@@ -91,8 +92,8 @@ These are proposed MVP metrics and should be ratified before launch.
 
 ### Business outcome
 
-- a meaningful share of active students complete at least one alumni conversation
-- completed scoped conversations per active student cohort is the preferred north-star metric
+- a meaningful share of active students receive a high-quality accepted request
+- high-quality accepted-match rate is the preferred north-star metric; self-reported conversation occurrence is a secondary effectiveness metric
 
 ### Adoption and activation
 
@@ -104,7 +105,7 @@ These are proposed MVP metrics and should be ratified before launch.
 
 - at least 35% of onboarded students submit at least one ask
 - at least 50% of submitted asks receive an alumni response within 48 elapsed hours
-- at least 25% of submitted asks lead to an accepted conversation
+- at least 25% of submitted asks lead to an accepted request
 
 ### Conversation quality
 
@@ -115,7 +116,7 @@ These are proposed MVP metrics and should be ratified before launch.
 
 - fewer than 5% of core journey attempts end in a blocking product error
 - no loss of submitted onboarding, request, or reflection data in production
-- no duplicate meeting, notification, or slot-replacement records caused by retries or provider events
+- no duplicate follow-up, notification, or slot-replacement records caused by retries
 
 ## Core Journeys
 
@@ -136,14 +137,14 @@ Acceptance criteria:
 ### Journey 2: Alumni onboarding
 
 Goal:
-Alumnus defines background, offerings, non-offerings, and availability clearly enough to receive scoped asks.
+Alumnus defines background, offerings, non-offerings, and request-acceptance status clearly enough to receive scoped asks.
 
 Acceptance criteria:
 
 - alumnus can sign in with an approved identity flow
 - alumnus can complete all onboarding steps without data loss
 - offerings and non-offerings are clearly separated in stored data
-- availability is persisted and displayed consistently after refresh
+- an optional saved Calendly or LinkedIn coordination preference is persisted after refresh, without blocking matching
 - alumnus can update onboarding data later without corrupting prior data
 
 ### Journey 3: Match discovery
@@ -189,17 +190,15 @@ Acceptance criteria:
 ### Journey 6: Conversation handoff
 
 Goal:
-Accepted requests turn into a clearly scheduled conversation with minimal friction.
+Accepted requests give the student one clear alumnus-selected route to coordinate a conversation with minimal friction.
 
 Acceptance criteria:
 
-- scheduling access is available only from an accepted request
-- the student has 24 elapsed hours from acceptance to create a valid booking
-- an accepted request records a chosen time and conversation state
-- if no valid booking is created within the 24-hour window, the request expires and scheduling access is removed
-- the participant receives the essential confirmation details
-- if invite sending is in MVP, the invite is generated and delivered successfully
-- if invite sending is not ready, the release must explicitly downgrade this to a manual workflow
+- an acceptance is exposed to the student only after the alumnus selects one valid Calendly or LinkedIn coordination route
+- the student sees one clear CTA for the snapshotted route
+- accepted requests do not expire because logistics are incomplete
+- OAA does not manage rescheduling, cancellation, or participant coordination
+- OAA collects only private self-reported scheduling and conversation signals in MVP 1
 
 ### Journey 7: Student reflection
 
@@ -208,11 +207,11 @@ Student captures what they learned and a meaningful next step after the conversa
 
 Acceptance criteria:
 
-- student can complete a reflection after an accepted or completed conversation
+- student can complete a reflection after self-reporting that the conversation happened
 - reflection data persists after refresh and is tied to the correct request
 - reflection can safely tolerate a page reload or resume
 - any AI-drafted next step is editable before save
-- student can send one non-monetary `Thank You` or `Coffee Bag` appreciation after a completed conversation
+- student can send one non-monetary `Thank You` or `Coffee Bag` appreciation after self-reporting that the conversation happened
 
 ### Journey 8: Alumni post-call notes
 
@@ -256,7 +255,7 @@ These are proposed MVP rules and should be confirmed with the team's legal and p
 
 ### Privacy principles
 
-- collect only the data required to enable matching, requests, scheduling, and post-call reflection
+- collect only the data required to enable matching, requests, coordination handoff, and post-call reflection
 - keep alumnus private notes private to the alumnus
 - do not expose student reflections or private notes outside the intended role
 - avoid storing more sensitive personal data than needed for the MVP
@@ -265,8 +264,8 @@ These are proposed MVP rules and should be confirmed with the team's legal and p
 
 - identity and account data
 - student profile and aspirations
-- alumni profile, offerings, and availability
-- request and scheduling metadata
+- alumni profile, offerings, request-acceptance status, and optional coordination preference
+- request and self-reported coordination metadata
 - reflection and post-call notes
 - essential operational logs
 

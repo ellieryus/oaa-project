@@ -1,6 +1,6 @@
 # For Trang: Frontend
 
-Last updated: 2026-09-11
+Last updated: 2026-09-24
 
 **Primary readers:** Frontend, UX  
 **Priority:** Highest  
@@ -37,8 +37,8 @@ This guide tells the frontend and UX lead exactly what to read first, what to ow
 - profiles should be scannable in a few seconds
 - requests must force objective and topic specificity
 - avoid mentorship framing; use conversation and request framing
-- accepted requests use a **24-hour elapsed scheduling window**
-- the fastest flow is review request, accept or decline, then book
+- acceptance is shown only after the alumnus selects one Calendly or LinkedIn route; accepted requests do not expire for incomplete logistics
+- the fastest flow is review request, accept or decline with one coordination route, then hand off the student to that route
 
 ## Main Docs To Pay Attention To
 
@@ -67,8 +67,8 @@ This guide tells the frontend and UX lead exactly what to read first, what to ow
 - many routes still read mock data directly
 - information hierarchy still needs to reflect alumni-feedback priorities consistently
 - request specificity needs stronger UI enforcement
-- deadlines and urgency messaging need to be explicit everywhere
-- scheduling handoff should stay lightweight and not feel like a native calendar product
+- the 48-hour pending-request response deadline must be explicit, while accepted requests must not imply a booking deadline
+- coordination handoff should stay lightweight and not feel like a native calendar product
 
 ## What To Ignore On First Pass
 

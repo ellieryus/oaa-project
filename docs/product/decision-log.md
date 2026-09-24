@@ -1,6 +1,6 @@
 # Decision Log
 
-Last updated: 2026-09-22
+Last updated: 2026-09-24
 
 **Primary readers:** PM, Product Owner, Backend, Frontend  
 **Priority:** High  
@@ -15,7 +15,7 @@ This file records product and architecture decisions that should override older 
 | Date | ID | Decision | Reason | Impact |
 | --- | --- | --- | --- | --- |
 | 2026-07-27 | DEC-001 | Repo-local Markdown docs supersede the external MVP 1 business-rules PDF as the working source of truth. | The technical team needs reviewable, editable documentation in Git. | Feature behavior should now be updated in `features/*.md` and related docs. |
-| 2026-07-27 | DEC-002 | Accepted requests use a 24-hour elapsed scheduling window. | The external source had a 12-hour vs 24-hour conflict and the team chose 24 hours. | Update request, scheduling, notification, and state-machine logic accordingly. |
+| 2026-07-27 | DEC-002 | Accepted requests use a 24-hour elapsed scheduling window. | The external source had a 12-hour vs 24-hour conflict and the team chose 24 hours. | Superseded by DEC-021. |
 | 2026-07-27 | DEC-003 | Matching begins only when the student explicitly selects Start finding alumni. | This preserves deliberate matching activation and aligns with approved MVP behavior. | No automatic matching on profile completion. |
 | 2026-07-27 | DEC-004 | MVP 1 uses exactly three active alumni matches per student batch. | This keeps the experience focused and aligns with approved matching rules. | Matching and replacement logic must preserve slot-based behavior. |
 | 2026-07-27 | DEC-005 | Declined requests are final and cannot be reactivated. | This protects alumnus intent and simplifies lifecycle behavior. | Students cannot resend or reopen declined requests. |
@@ -29,10 +29,12 @@ This file records product and architecture decisions that should override older 
 | 2026-09-11 | DEC-013 | Alumni scope changes apply to future matching only. | Alumni must retain control of their current availability and scope without rewriting a request already under review. | Existing match and request records retain their historical matching context; new requests must validate against the alumnus's current offerings. |
 | 2026-09-11 | DEC-014 | Decline reasons are student-visible, structured feedback. | Students need a clear outcome and OAA needs signal on scope and matching quality. | A final decline records one reason and may include an optional student-visible follow-up message; private internal notes are never exposed. |
 | 2026-09-11 | DEC-015 | OAA does not manage rescheduling or time coordination after an initial booking. | Scheduling changes are better handled directly by the participants in the tools they already use. | Participants coordinate through personal Calendly, LinkedIn, or email; OAA provides no reschedule/cancel UI, workflow, or support. |
-| 2026-09-11 | DEC-016 | Each completed conversation offers private feedback for both participants and one student appreciation action. | OAA needs match-quality signals while giving students a lightweight way to acknowledge alumni time. | Feedback remains private; students may send one non-monetary `Thank You` or `Coffee Bag` appreciation per completed meeting. |
-| 2026-09-11 | DEC-017 | Alumni retention relies on one request reminder, truthful re-engagement, impact recognition, and one earned community credential. | Alumni should feel recognized rather than repeatedly pressured to respond. | Request reminders stop after 24 hours; re-engagement requires a genuine event; `OAA Community Contributor` is issued by Master of Management Analytics (MMA) only with program authorization. |
+| 2026-09-11 | DEC-016 | Each self-reported conversation offers private feedback for both participants and one student appreciation action. | OAA needs match-quality signals while giving students a lightweight way to acknowledge alumni time. | Feedback remains private; students may send one non-monetary `Thank You` or `Coffee Bag` appreciation after reporting that the conversation happened. |
+| 2026-09-11 | DEC-017 | Alumni retention relies on one request reminder, truthful re-engagement, and impact recognition. | Alumni should feel recognized rather than repeatedly pressured to respond. | Request reminders stop after 24 hours and re-engagement requires a genuine event. The community credential is post-MVP because it requires verified completion evidence. |
 | 2026-09-22 | DEC-018 | Alumni eligibility requires manual review of every self-service request against a minimum name-and-cohort-code program roster before personal-email verification. | Personal email ownership does not prove alumni status, and OAA should not obtain alumni personal emails from the program roster. | Alumni self-submit required name fields, a cohort code, personal email, and consent; the backend developer approves eligibility before a code is sent in beta and MVP 1. |
 | 2026-09-22 | DEC-019 | For beta and MVP 1, the backend developer manually reviews every alumni access request through backend/database tooling; a dedicated admin-review UI is deferred. | The beta volume does not justify a new admin surface, but review decisions must remain auditable. | The form uses required name fields, a program-supplied cohort-code picklist with no `Other`, and a resubmission path. OAA Admin and Program Director role permissions will be decided post-beta. |
+| 2026-09-22 | DEC-020 | Student-to-alumni conversion is a future additive flow, not a destructive role switch. | A graduate's student history must remain intact, while future alumni and alumni-to-alumni use cases require one identity to support multiple profiles and emails. | The target model uses non-exclusive student/alumni memberships and multiple verified email identities. The graduate completes normal alumni verification and onboarding; alumni-to-alumni discovery is deferred. |
+| 2026-09-24 | DEC-021 | MVP coordination uses one alumni-selected Calendly or LinkedIn route at acceptance, not calendar availability gating or verified scheduling. | The beta should preserve high-quality accepted matches, avoid forcing low-frequency alumni to create Calendly accounts, and avoid paid integration complexity. | Acceptance snapshots one valid route; accepted requests do not expire for incomplete logistics. MVP tracks private self-reported conversation signals, while verified completion and the community credential are post-MVP. |
 
 ## Open Decisions
 
@@ -40,3 +42,4 @@ This file records product and architecture decisions that should override older 
 - final session implementation
 - exact shape of the production meeting entity
 - whether expired-request reactivation remains in MVP 1 or is deferred
+- whether a converted alumnus retains eligibility for new student matches and asks, or has student history only

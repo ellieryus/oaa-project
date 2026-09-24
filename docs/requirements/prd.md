@@ -1,6 +1,6 @@
 # PRD
 
-Last updated: 2026-09-22
+Last updated: 2026-09-24
 
 **Primary readers:** PM, Product Owner, Backend, Frontend  
 **Priority:** High  
@@ -8,7 +8,7 @@ Last updated: 2026-09-22
 
 ## Objective
 
-Deliver a production-ready MVP 1 for One Ask Away that supports verified users, structured alumni matching, scoped asks, booking handoff, and post-meeting capture.
+Deliver a production-ready MVP 1 for One Ask Away that supports verified users, structured alumni matching, scoped asks, coordination handoff, and self-reported post-conversation capture.
 
 ## Users
 
@@ -18,7 +18,7 @@ Needs:
 
 - trusted and relevant alumni matches
 - help writing an ask
-- a clear next step after the meeting
+- a clear next step after an accepted request
 
 ### Alumnus
 
@@ -32,14 +32,14 @@ Needs:
 
 - email verification, manual alumni roster eligibility review, and personal-email ownership verification
 - student and alumni onboarding
-- profile confirmation and alumni availability eligibility
+- profile confirmation and alumni request-acceptance eligibility
 - dynamic current priorities, three-match generation with structured exclusions, partial-scope fallback, and replacements
 - request submission and response lifecycle
-- scheduling via Calendly after acceptance
-- meeting completion and optional pulse survey
+- Calendly or LinkedIn coordination handoff after acceptance
+- self-reported conversation follow-up and optional pulse survey
 - student reflection and alumnus private notes
-- one student appreciation action per completed meeting
-- alumni retention, impact summaries, and one community-recognition credential
+- one student appreciation action after a self-reported conversation
+- alumni retention and impact summaries
 - transactional notifications
 
 ## Non-Functional Scope
@@ -61,7 +61,7 @@ Needs:
 | LinkedIn and CV profile prefill | `features/linkedin-prefill.md` |
 | Matching lifecycle | `features/matching.md` |
 | Request lifecycle | `features/request-lifecycle.md` |
-| Calendly and meeting lifecycle | `features/calendly.md` |
+| Calendly and coordination lifecycle | `features/calendly.md` |
 | Pulse survey and post-call capture | `features/pulse-survey.md` |
 | Alumni retention, re-engagement, and recognition | `features/alumni-retention.md` |
 

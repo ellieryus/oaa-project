@@ -1,6 +1,6 @@
 # System Architecture
 
-Last updated: 2026-09-22
+Last updated: 2026-09-24
 
 **Primary readers:** Backend, Frontend, PM  
 **Priority:** Highest  
@@ -32,10 +32,12 @@ The target application is a Next.js web app with:
 ### Auth and eligibility service
 
 - verifies email ownership
+- maintains role-independent user identity with multiple verified email addresses and non-exclusive program memberships
 - records alumni self-service access requests and consent
 - validates a program-supplied cohort-code picklist and requires manual review against the minimum name-and-cohort program roster before alumni email verification
 - supports backend-tooling review by the backend developer for beta and MVP 1; a role-based review UI is post-beta scope
 - assigns role and cohort
+- preserves student history when a former student later gains verified alumni membership; an active role context is a future session/UI concern, not a destructive account conversion
 - establishes authenticated sessions
 
 ### Onboarding service
@@ -57,12 +59,12 @@ The target application is a Next.js web app with:
 - tracks 48-hour response windows
 - applies accept, decline, and expiry transitions
 
-### Scheduling and meeting service
+### Coordination and conversation-follow-up service
 
-- opens scheduling for accepted requests only
-- enforces the 24-hour scheduling window
-- validates Calendly booking events
-- creates and updates meeting records
+- snapshots one alumnus-selected Calendly or LinkedIn coordination route when an acceptance is finalized
+- renders Calendly embed links without OAuth, API tokens, webhooks, or provider-event tracking
+- records limited CTA telemetry and private self-reported conversation status
+- schedules private follow-up prompts from a reported expected conversation date
 
 ### Notification service
 
@@ -73,22 +75,20 @@ The target application is a Next.js web app with:
 
 ### Post-call service
 
-- marks meetings completed
-- creates pulse prompts
+- creates pulse prompts from student-reported status or expected dates
 - stores reflections and private notes
 - stores student appreciation actions and derives alumni impact signals
 
-### Recognition service
+### Recognition service (Post-MVP)
 
-- evaluates verified completed-conversation milestones idempotently
-- issues and verifies community credentials
-- provides public credential records and sharing metadata
+- is deferred until provider-verified completion evidence is available
+- will evaluate verified completed-conversation milestones idempotently
+- will issue and verify community credentials and provide public credential records
 
 ### Background jobs
 
 - request expiry
-- scheduling expiry
-- meeting completion sweep
+- self-reported scheduling follow-up and pulse invitation jobs
 - notification retry
 - match replacement processing
 

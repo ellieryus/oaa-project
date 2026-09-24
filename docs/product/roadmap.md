@@ -1,6 +1,6 @@
 # Roadmap
 
-Last updated: 2026-09-11
+Last updated: 2026-09-24
 
 **Primary readers:** PM, Product Owner, Backend, Frontend  
 **Priority:** Medium  
@@ -39,7 +39,7 @@ Status: Planned
 - student onboarding persistence
 - alumni onboarding persistence
 - final profile confirmation
-- alumni availability eligibility gate
+- optional alumni coordination-preference setup, without blocking matching
 - imported draft-data review behavior
 
 ### M3. Matching and request lifecycle
@@ -52,15 +52,14 @@ Status: Planned
 - accept and decline flow
 - match replacement rules
 
-### M4. Scheduling and meeting lifecycle
+### M4. Coordination handoff and conversation follow-up
 
 Status: Planned
 
-- accepted-request scheduling access
-- 24-hour booking window
-- verified Calendly booking handling
-- meeting history and completion jobs
-- passive OAA-linked Calendly cancellation and reschedule history updates only
+- accepted-request Calendly or LinkedIn coordination route
+- inline Calendly embed and external LinkedIn handoff
+- self-reported scheduling status and conversation follow-up jobs
+- no provider booking, cancellation, or reschedule tracking in MVP 1
 
 ### M5. Notifications and post-call flows
 
@@ -71,7 +70,7 @@ Status: Planned
 - pulse survey prompts
 - student reflection persistence
 - alumnus private notes persistence
-- one pending-request reminder, re-engagement, impact summaries, and credential issuance
+- one pending-request reminder, re-engagement, and impact summaries
 
 ### M6. Hardening and beta readiness
 

@@ -1,6 +1,6 @@
 # Email Verification
 
-Last updated: 2026-09-22
+Last updated: 2026-09-24
 
 **Primary readers:** Backend, Frontend  
 **Priority:** High  
@@ -76,8 +76,73 @@ Only eligible McGill community members should be able to access One Ask Away. Em
 - retain only the minimum roster-match data necessary for eligibility audit and support; do not store program-supplied personal email addresses
 - retain enough history to explain why a user could or could not verify
 
-## Open Technical Questions
+## Open Technical Questions (Must Decide)
 
 - final consent copy, notification purposes, consent versioning, and withdrawal handling
 - post-beta role-based permissions for OAA Admin and Program Director access
 - retention period for rejected access requests and manual-review evidence
+- after an active student becomes an alumnus, whether their student mode remains eligible for new matches and asks, or becomes history-only
+- confirm the availability of the Switch to Alumni button
+
+
+## Future: Student To Alumni Conversion (Post-MVP)
+
+A student-to-alumni conversion must add an alumni capability to the existing person; it must never delete or overwrite the student's profile, requests, reflections, meetings, or matching history.
+
+- a verified active student may choose `Move to alumni` after graduation eligibility is confirmed; rollover is not automatic based only on elapsed time
+- the conversion starts a new `AlumniAccessRequest` linked to the existing `User`, then follows the same manual roster review and personal-email verification flow as any other alumni request
+- the conversion form may offer an opt-in choice to use existing basic account information to prefill the alumni profile; all prefilled values must be editable before confirmation
+- student-only onboarding data, including aspirations, current priorities, and target-role context, must not be treated as alumni offerings or reused as matching signals without the user's confirmation
+- after approval and personal-email verification, the user completes alumni-specific onboarding: career background, current role/company/city, offerings, optional non-offerings, and request-acceptance status; a Calendly or LinkedIn coordination preference is optional until they finalize an acceptance
+- no existing alumni onboarding requirement is skipped solely because the person was formerly a student; only verified basic identity data may be prefilled
+- alumni-to-alumni discovery and an end-user role-switching interface remain post-MVP scope
+
+```mermaid
+flowchart TD
+    A[Active student selects Move to alumni] --> B[Confirm identity and cohort details]
+    B --> C{Use basic account information to prefill alumni profile?}
+    C -->|Yes| D[Prefill editable basic information]
+    C -->|No| E[Start blank alumni profile]
+    D --> F[Submit AlumniAccessRequest]
+    E --> F
+    F --> G[Manual roster review]
+    G -->|Approved| H[Verify personal email]
+    G -->|Rejected| I[Correct and resubmit]
+    I --> F
+    H --> J[Complete alumni-specific onboarding]
+    J --> K[Confirm profile and request-acceptance status]
+    K --> L[Alumni profile eligible for matching]
+```
+
+## Process Flow
+```mermaid
+flowchart TD
+    A[Alumnus submits access request] --> B[
+Required fields:
+Legal first name
+McGill preferred first name
+Last name
+Cohort - picklist
+Personal email
+]
+
+    B --> C[Backend creates AlumniAccessRequest:
+PENDING_REVIEW]
+
+    C --> D[Backend developer reviews request
+against program name + cohort roster]
+
+    D -->|Approved| E[Set request to APPROVED]
+    E --> F[Create pending alumni account]
+    F --> G[Send six-digit verification code
+to alumnus personal email]
+    G --> H{Code valid?}
+
+    H -->|Yes| I[Set account to ONBOARDING]
+    H -->|No or expired| J[Allow resend within rate limits]
+
+    D -->|Rejected| K[Set request to REJECTED]
+    K --> L[Show generic eligibility message]
+    L --> M[Alumnus corrects form and resubmits]
+    M --> C
+```

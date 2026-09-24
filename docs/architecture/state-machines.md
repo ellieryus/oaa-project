@@ -1,6 +1,6 @@
 # State Machines
 
-Last updated: 2026-09-22
+Last updated: 2026-09-24
 
 **Primary readers:** Backend, Frontend  
 **Priority:** Highest  
@@ -30,7 +30,7 @@ Rules:
 - students enter `PENDING_VERIFICATION` after eligible sign-up; approved alumni enter `PENDING_VERIFICATION` after their personal-email ownership check begins
 - verification success moves the account to `ONBOARDING`
 - only completed and confirmed onboarding moves the account to `ACTIVE`
-- users not in `ACTIVE` cannot match, request, or schedule
+- users not in `ACTIVE` cannot match, send requests, or access accepted-request coordination
 
 ## Alumni Access Request State Machine
 
@@ -61,20 +61,16 @@ PENDING_ALUMNI_RESPONSE
   -> EXPIRED(NO_ALUMNI_RESPONSE)
 
 ACCEPTED
-  -> SCHEDULED
-  -> EXPIRED(ACCEPTED_NOT_SCHEDULED)
-
-SCHEDULED
-  -> COMPLETED
-  -> CANCELED or RESCHEDULED only from verified OAA-linked provider updates
+  -> remains accepted while coordination and conversation occur off-platform
 ```
 
 Rules:
 
 - decline is final
 - no-response expiry is terminal for student action
-- accepted requests open a 24-hour scheduling window
-- only verified bookings move requests to `SCHEDULED`
+- acceptance requires one snapshotted coordination route before it is exposed to the student
+- accepted requests do not expire because scheduling is incomplete
+- scheduling and completion signals are stored separately from request response state
 
 ## Match Slot State Model
 
@@ -84,9 +80,7 @@ ACTIVE
   -> INACTIVE_REPLACED
   -> DECLINED
   -> EXPIRED_NO_RESPONSE
-  -> EXPIRED_NOT_SCHEDULED
-  -> SCHEDULED
-  -> COMPLETED
+  -> ACCEPTED
 ```
 
 Rules:
@@ -95,25 +89,25 @@ Rules:
 - only the affected slot is replaced on decline or qualifying expiry
 - declined or expired student-alumnus pairs are excluded from future automated matching according to policy
 
-## Meeting State Machine
+## Self-Reported Conversation Follow-Up State
 
 ```text
-SCHEDULED
-  -> RESCHEDULED
-  -> CANCELED
-  -> COMPLETED
+UNKNOWN
+  -> SCHEDULED_SELF_REPORTED (expected date supplied)
+  -> NOT_SCHEDULED
+  -> HAPPENED_SELF_REPORTED
 
-RESCHEDULED
-  -> CANCELED
-  -> COMPLETED
+NOT_SCHEDULED
+  -> SCHEDULED_SELF_REPORTED
+  -> HAPPENED_SELF_REPORTED
+  -> DID_NOT_HAPPEN
 ```
 
 Rules:
 
-- only verified OAA-linked Calendly bookings create official meetings
-- `CANCELED` and `RESCHEDULED` are passive record updates, not OAA participant workflows
-- completed means the scheduled end time has passed
-- canceled or superseded meetings do not auto-complete
+- this is private participant reporting, not a verified booking or meeting record
+- one day after a student-reported expected date, invite both participants to complete their private pulse
+- post-MVP provider-verified meeting states require OAuth and signed Calendly webhooks
 
 ## Notification Read Model
 

@@ -1,6 +1,6 @@
 # Student Schema Proposal
 
-Last updated: 2026-09-11
+Last updated: 2026-09-22
 
 **Primary readers:** Product Owner, Backend, Frontend  
 **Priority:** High  
@@ -59,8 +59,7 @@ The student depends on a parent `User` record.
 Required parent fields:
 
 - `id`
-- `email`
-- `role`
+- verified email identity
 - `accountStatus`
 - `createdAt`
 - `updatedAt`
@@ -73,6 +72,8 @@ Required parent fields:
 - `PAUSED`
 - `BANNED`
 - `BLOCKED_ELIGIBILITY`
+
+Student and alumnus capabilities must not be represented by a single exclusive user role. One person may retain both profiles and verified program memberships as they progress from student to alumnus. See `docs/architecture/erd.md` for `UserEmail` and `ProgramMembership` requirements.
 
 `status @default("active")` in the current Prisma schema is not compatible with the documented lifecycle.
 
@@ -216,12 +217,12 @@ enum AccountStatus {
 
 model User {
   id            String        @id @default(cuid())
-  email         String        @unique
-  role          String
   accountStatus AccountStatus @default(PENDING_VERIFICATION)
   createdAt     DateTime      @default(now())
   updatedAt     DateTime      @updatedAt
 
+  emailAddresses UserEmail[]
+  memberships    ProgramMembership[]
   studentProfile StudentProfile?
   alumnusProfile AlumnusProfile?
 }
@@ -272,6 +273,7 @@ model StudentProfile {
 ### Change
 
 - `User.status` -> replace with lifecycle-compatible `accountStatus`
+- a single `User.email` and exclusive `User.role` -> replace with verified email identities and non-exclusive program memberships before student-to-alumni conversion is implemented
 - `StudentProfile.onboardingDone` -> replace with derived completion logic plus `profileConfirmedAt`
 
 ### Drop From Source Of Truth

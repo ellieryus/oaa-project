@@ -1,6 +1,6 @@
 # Request Lifecycle
 
-Last updated: 2026-09-11
+Last updated: 2026-09-24
 
 **Primary readers:** Backend, Frontend  
 **Priority:** Highest  
@@ -22,6 +22,7 @@ Students should be able to send scoped asks tied to an alumnus offering, and alu
 - the opening ask must be editable by the student, including when initially AI drafted
 - alumnus receives an in-app inbox item and email notification
 - alumnus has 48 elapsed hours to accept or decline
+- acceptance is committed and exposed to the student only after the alumnus selects exactly one valid coordination route: a public Calendly event link or a LinkedIn profile URL
 - viewing a notification or opening the inbox does not count as a response
 - opening the full request records first-viewed time but does not change request response status
 - decline is final and cannot be reactivated
@@ -40,6 +41,7 @@ Students should be able to send scoped asks tied to an alumnus offering, and alu
 - show the student any relevant alumnus non-offering before submission
 - show submitted request status clearly in student and alumnus views
 - show exact 48-hour response deadline in request-related UI and notifications
+- during acceptance, require the alumnus to confirm one coordination route; do not expose personal email or show both routes to the student
 - prevent student actions on declined or expired requests beyond history viewing
 - record and display full-request view separately from notification read state
 - show the selected decline reason and any optional student-visible follow-up message; do not expose internal notes
@@ -52,6 +54,7 @@ Students should be able to send scoped asks tied to an alumnus offering, and alu
 - snapshot request context at submission: selected offering; all current priorities and ranks; primary aspiration; target role, industry, and relevant skills; background; optional bio; one AI-generated profile summary constrained to those fields; and the final opening ask
 - never mutate a request snapshot after the student updates profile fields, bio, or current priorities
 - set response deadline to submitted time plus 48 elapsed hours
+- snapshot the accepted coordination route, validated URL, and selection time; do not replace it when the alumnus later edits a saved profile preference
 - store request status, status timestamps, expiration reason, first-viewed timestamp, and related match slot
 - enforce valid transitions only
 - mark no-response expiry with `NO_ALUMNI_RESPONSE`
@@ -65,7 +68,7 @@ Students should be able to send scoped asks tied to an alumnus offering, and alu
 
 - on request submission, create one inbox item and send one email to the alumnus
 - 24 elapsed hours after submission, send one pending-request reminder if the request is still pending; choose reminder copy from `first_viewed_at` and never send another request-specific reminder
-- on accept, notify the student and show scheduling CTA and deadline
+- on accept, notify the student with `Here's how to connect with [Alumnus]` and render only the snapshotted Calendly or LinkedIn route
 - on decline, notify the student with the selected decline reason and any optional student-visible follow-up message; never expose private internal text
 - on no-response expiry, notify the student without framing it as an explicit rejection
 

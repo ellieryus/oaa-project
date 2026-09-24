@@ -1,23 +1,23 @@
 # Pulse Survey
 
-Last updated: 2026-09-11
+Last updated: 2026-09-24
 
 **Primary readers:** Frontend, Backend  
 **Priority:** Medium  
-**Read this when:** You are implementing meeting completion prompts, reflections, or private notes.
+**Read this when:** You are implementing self-reported conversation prompts, reflections, or private notes.
 
 ## Purpose
 
-This feature governs meeting completion prompts, optional pulse surveys, student reflection, and alumnus private notes.
+This feature governs self-reported conversation prompts, optional pulse surveys, student reflection, and alumnus private notes.
 
 ## Business Intent
 
-After a completed meeting, One Ask Away should capture lightweight feedback and preserve role-private post-meeting information without blocking continued product use.
+After a self-reported or future verified conversation, One Ask Away should capture lightweight feedback and preserve role-private post-meeting information without blocking continued product use.
 
 ## Core Rules
 
-- a verified non-canceled meeting becomes completed when its stored end time passes
-- one optional pulse-survey invitation is created for each participant
+- in MVP 1, pulse invitations are created from a student-reported completed conversation or one day after a student-reported expected meeting date; they are not triggered by Calendly provider events
+- one optional pulse-survey invitation is created for each participant for the same conversation follow-up
 - pulse survey is non-blocking
 - pulse survey contains no more than three scored or multiple-choice questions per respondent
 - student and alumnus survey responses remain private from each other
@@ -26,13 +26,13 @@ After a completed meeting, One Ask Away should capture lightweight feedback and 
 - alumnus private notes are never student-visible
 - the student pulse survey asks: `Was this conversation helpful?` and `Did it match what you expected?`
 - the alumnus pulse survey asks: `Was the request clear and within your scope?` and `Would you accept a similar request again?`
-- a student may send one appreciation action after a completed meeting: `Thank You` or `Coffee Bag`, with an optional note of up to 280 characters
+- a student may send one appreciation action after self-reporting that the conversation happened: `Thank You` or `Coffee Bag`, with an optional note of up to 280 characters
 - `Coffee Bag` is a virtual, non-monetary big thank you; it does not transfer money, gift cards, donations, or other value
 - appreciation is separate from pulse feedback and does not expose the student's private reflection or survey response
 
 ## Frontend Requirements
 
-- show a non-blocking prompt after meeting completion
+- show a non-blocking prompt after the self-reported conversation timing rule is met
 - allow submit or dismiss behavior
 - do not block platform use if the prompt is ignored
 - keep student reflection UI separate from alumnus private-notes UI
@@ -43,13 +43,13 @@ After a completed meeting, One Ask Away should capture lightweight feedback and 
 
 ## Backend Requirements
 
-- create exactly one pulse-survey invitation per participant per completed meeting
-- store one response per participant per meeting
+- create exactly one pulse-survey invitation per participant per eligible conversation follow-up
+- store one response per participant per eligible conversation follow-up
 - keep response ownership and visibility strictly role-scoped
 - persist student reflection separately from alumnus notes
-- store at most one appreciation action per student per completed meeting, including its type, optional note, and sent timestamp
-- allow only the student who participated in the meeting to create the appreciation action
-- preserve meeting-completion audit trail and response timestamps
+- store at most one appreciation action per student per self-reported conversation, including its type, optional note, and sent timestamp
+- allow only the student who participated in the accepted request to create the appreciation action after reporting the conversation happened
+- preserve self-reported scheduling/conversation status, expected date where supplied, and response timestamps
 
 ## Privacy Requirements
 
@@ -62,4 +62,4 @@ After a completed meeting, One Ask Away should capture lightweight feedback and 
 
 `Thank You` is a lightweight acknowledgement. `Coffee Bag` is a more prominent virtual acknowledgement for an especially valuable conversation. Both actions may include an optional note of up to 280 characters; neither has monetary value in MVP 1.
 
-The student chooses one action per completed meeting. The action is immutable after sending and does not open a messaging thread or create a follow-up obligation for either participant.
+The student chooses one action after self-reporting that the conversation happened. The action is immutable after sending and does not open a messaging thread or create a follow-up obligation for either participant.

@@ -1,6 +1,6 @@
 # Matching
 
-Last updated: 2026-09-11
+Last updated: 2026-09-24
 
 **Primary readers:** Frontend, Backend  
 **Priority:** High  
@@ -46,7 +46,7 @@ Alumni select one to five standard offering topics, or `Open to All`. `Open to A
 
 - a user is not match-eligible until required fields are complete and the profile is explicitly confirmed
 - a student becomes eligible to start matching only after verification and profile confirmation
-- an alumnus becomes eligible for the active matching pool only after availability is completed
+- an alumnus becomes eligible for the active matching pool after verification, profile confirmation, and `acceptingRequests = true`; calendar or LinkedIn setup is not an eligibility gate
 - matching starts only when the student selects Start finding alumni
 - each active batch contains exactly three qualified alumni when three qualified candidates exist; it may contain fewer only when the qualified pool is smaller than three
 - the same alumnus cannot appear twice in the same active batch
@@ -60,14 +60,14 @@ Alumni select one to five standard offering topics, or `Open to All`. `Open to A
 - students can regenerate uncontacted matches repeatedly; the system must prefer unseen eligible alumni and transparently label repeated candidates as `Previously shown` once the unseen pool is exhausted
 - regeneration must not replace contacted, pending, accepted, scheduled, or completed matches
 - fewer than three qualified matches is valid; the product must not fill a slot with a weak or out-of-scope candidate
-- when an alumnus changes offerings, non-offerings, or availability, the change applies to future matching only
+- when an alumnus changes offerings, non-offerings, or request-acceptance status, the change applies to future matching only
 - an existing match card retains its historical match reason and matched-scope context; if that scope is no longer current, the card must disclose that the alumnus updated their scope
 - a new request from an existing match must always validate against the alumnus's current offerings; if no current offering overlaps the student's current priorities, the uncontacted slot becomes eligible for replacement
 
 ## Ranking And Match Reasons
 
-- hard filters run before ranking: active/eligible account, completed availability, pair exclusions, offering compatibility, and quality threshold
-- ranking uses priority rank first, then relevant industry/function or career trajectory (to be decided by back-end); availability is operational context, not a match reason
+- hard filters run before ranking: active/eligible account, `acceptingRequests = true`, pair exclusions, offering compatibility, and quality threshold
+- ranking uses priority rank first, then relevant industry/function or career trajectory (to be decided by back-end); coordination preference is not a match reason
 - backend ranking scores are internal and must not be displayed as raw numbers or percentages to students or alumni
 - every student-facing match card shows one personalised, human-readable reason grounded in structured data, for example: `Offers CV review and works in finance.`
 - alumni detail pages show the same match reason plus clear offerings and non-offerings
@@ -81,7 +81,7 @@ Alumni select one to five standard offering topics, or `Open to All`. `Open to A
 - it may recommend a small curated set of alumni using student development goals, relevant skills, industry or career trajectory, certifications, projects, and alumni seniority or years after MMA
 - hobbies and optional bio context may be used only as a secondary tie-breaker; they are never required profile fields or core matching signals
 - every recommendation must retain a human-readable explanation and show current offerings and non-offerings before a student can send a request
-- it must respect the same eligibility, availability, pair-exclusion, and non-offering safeguards as structured matching
+- it must respect the same eligibility, request-acceptance, pair-exclusion, and non-offering safeguards as structured matching
 - the future team must decide the trigger, recommendation count, regeneration frequency, whether it occupies an active structured-match slot, and success thresholds before implementation
 
 ## Frontend Requirements
@@ -99,12 +99,12 @@ Alumni select one to five standard offering topics, or `Open to All`. `Open to A
 - preserve active slots that are still valid while replacing only the invalid slot
 - explain inactive, expired, unavailable, and fewer-than-three-match states in plain language
 - when fewer than three qualified matches exist, show available qualified matches and direct the student to update current priorities
-- show alumni who confirmed profile but have not completed availability as unavailable to students
+- do not expose a saved coordination preference on a match card; it is chosen or confirmed only when the alumnus finalizes acceptance
 
 ## Backend Requirements
 
 - persist student profile confirmation state
-- persist alumnus profile confirmation and availability-complete state
+- persist alumnus profile confirmation, `acceptingRequests` state, and optional saved Calendly or LinkedIn coordination preference
 - persist one to three ordered current priorities per student and their update history
 - generate three active matches on explicit student action only
 - apply hard filters before ranking and enforce the strong-match and partial-scope rules
@@ -117,19 +117,14 @@ Alumni select one to five standard offering topics, or `Open to All`. `Open to A
 - persist match impressions so regeneration can prefer unseen candidates and identify repeat recommendations
 - exclude declined and expired pairs from future automated matching
 - replace only the affected slot when decline or qualifying expiry occurs
-- on a student-confirmed priority update or regeneration, replace only eligible uncontacted slots and preserve valid active requests or scheduled meetings
+- on a student-confirmed priority update or regeneration, replace only eligible uncontacted slots and preserve valid active requests
 - preserve historical matched-scope metadata for active and historical match cards after an alumnus scope update
-- preserve valid active requests or scheduled meetings during renewal
+- preserve valid active requests during renewal
 - return fewer than three matches when the qualified pool is smaller than three
-
-## Notifications
-
-- send a non-blocking reminder to alumni who confirmed profile but have incomplete availability
-- notification CTA must return directly to the availability step
 
 ## Dependencies
 
 - active student account
 - verified and active alumnus accounts
 - confirmed student and alumnus profiles
-- alumnus availability connection
+- alumnus `acceptingRequests` state

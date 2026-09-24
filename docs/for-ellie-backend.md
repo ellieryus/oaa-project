@@ -1,6 +1,6 @@
 # For Ellie: Backend
 
-Last updated: 2026-09-11
+Last updated: 2026-09-24
 
 **Primary readers:** Backend  
 **Priority:** Highest  
@@ -29,14 +29,15 @@ This guide tells the backend lead exactly what to read first, what to own, and w
 - sessions and authorization
 - Prisma-backed persistence
 - request lifecycle state transitions
-- scheduling and meeting lifecycle
+- accepted-request coordination handoff and self-reported conversation follow-up
 - email and Calendly integrations
 - background jobs
 - auditability and idempotency
 
 ## Highest-Priority Decisions To Respect
 
-- accepted requests use a **24-hour elapsed scheduling window**
+- Calendly or LinkedIn is selected when finalizing acceptance, not a matching gate; accepted requests do not expire for incomplete logistics
+- MVP does not use Calendly OAuth, APIs, webhooks, calendar sync, or verified booking/completion
 - matching begins only when the student explicitly selects Start finding alumni
 - each student batch has exactly 3 active qualified matches when available; otherwise it may show fewer
 - declined requests are final
@@ -71,7 +72,7 @@ This guide tells the backend lead exactly what to read first, what to own, and w
 - Prisma client is still not live
 - repositories still rely on mock data
 - request lifecycle is only partially stubbed
-- meeting, notification, audit, verification, and session records need explicit persistence
+- conversation follow-up, notification, audit, verification, and session records need explicit persistence
 - background jobs for deadlines and retries do not exist yet
 
 ## What To Ignore On First Pass
@@ -82,6 +83,18 @@ This guide tells the backend lead exactly what to read first, what to own, and w
 
 Focus first on lifecycle correctness, persistence, and authorization.
 
+## Future-Ready Identity Constraints
+
+Keep these constraints in the MVP persistence and authorization design. They support future student-to-alumni conversion without expanding current MVP matching scope.
+
+- one person maps to one `User`, which may own both a `StudentProfile` and an `AlumnusProfile`; do not use a single exclusive `User.role`
+- model verified email identities separately from role. A user may retain a McGill student email and later verify a personal email without losing the original identity or creating a second user account
+- model program eligibility as non-exclusive membership history, for example `STUDENT` and later `ALUMNUS`, with cohort code, status, verification source, and timestamps
+- do not make route selection or frontend role selection the authorization source of truth. Server actions must authorize the profile and verified membership relevant to the action; a future active profile context belongs in the session layer
+- keep MVP `Match` and `Request` explicitly student-to-alumnus. Do not generalize them for alumni-to-alumni discovery until that product flow has its own eligibility, ranking, and scope rules
+- never auto-roll a student into alumni status based on elapsed time. A future `Move to alumni` action creates a manual alumni access request, verifies a personal email, then requires alumni-specific onboarding
+- preserve student profiles and historical requests, reflections, and conversation follow-up records when a user later gains alumni membership
+
 ## Backend Working Questions
 
 - what is the final roster source and sync strategy
@@ -89,3 +102,4 @@ Focus first on lifecycle correctness, persistence, and authorization.
 - what state transitions must be transactional
 - which jobs must exist before private beta
 - what audit history is mandatory for support and debugging
+- what migration path replaces a single `User.email` with verified email identities and adds non-exclusive program memberships
