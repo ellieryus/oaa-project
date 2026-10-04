@@ -75,7 +75,7 @@ ACTIVE
 ```
 
 - each community batch starts with up to three qualified active Mentor slots
-- only the affected slot is replaced on decline or qualifying expiry
+- qualifying expiry replaces only the affected slot automatically; decline exposes a one-slot replacement action to the Mentee
 - declined or expired Mentee-Mentor pairs are excluded from future automated matching in the same community
 
 ## Self-Reported Conversation Follow-Up State

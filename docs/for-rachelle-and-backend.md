@@ -4,11 +4,11 @@ Last updated: 2026-10-04
 
 **Purpose:** Decisions requiring PM and backend alignment before implementation.
 
-## LinkedIn PDF / Resume Profile Prefill
+## PDF Profile Prefill
 
 ### Proposed User Flow
 
-1. A Mentor or Mentee may optionally upload their self-exported LinkedIn profile PDF or a resume PDF during profile creation.
+1. A Mentor or Mentee may optionally upload a self-provided PDF during profile creation.
 2. OAA extracts a draft of permitted profile fields.
 3. The user reviews, edits, and confirms the draft before any field is used in their profile or matching.
 4. Mentor offerings, non-offerings, current Mentee priorities, and `acceptingRequests` remain explicit user choices; they are not inferred from the PDF.
@@ -31,7 +31,7 @@ OAA must not scrape a LinkedIn URL. The user uploads a file they choose to provi
 
 ### Backend Questions
 
-1. Can the upload pipeline extract text from normal LinkedIn/resume PDFs reliably enough without retaining the original file?
+1. Can the upload pipeline extract text from normal profile/resume PDFs reliably enough without retaining the original file?
 2. What storage, encryption, file-size/type limit, malware scanning, and deletion job are required for temporary uploads?
 3. Does the extraction provider retain prompts/files or use them for model training? Can we disable this contractually and technically?
 4. Which fields can be extracted deterministically, and which require AI extraction plus user confirmation?

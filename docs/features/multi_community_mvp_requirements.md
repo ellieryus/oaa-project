@@ -19,6 +19,7 @@ This document is binding for the community model. Cross-community mentor discove
 - access, roles, and matching eligibility are determined by `CommunityMembership`, not by a global exclusive user role
 - a membership may grant `MENTOR`, `MENTEE`, or both roles where a community permits it
 - Mentor and Mentee are product roles; the product facilitates scoped career conversations and does not promise a long-term mentorship relationship
+- discovery is directional in MVP: a Mentee may discover eligible Mentors in their active community, but Mentees cannot discover, browse, search, or view other Mentees in that community
 - each community owns its membership policy; during MVP, the backend team provisions communities and assigns Community Admins from an OAA-approved instruction
 
 ## Community Admin
@@ -40,6 +41,13 @@ Community Admin cannot:
 - create a new community or grant themselves broader platform access
 
 Community metrics, individual activity analytics, cross-community scouting, discoverable-mentor search, and self-service membership applications are post-MVP.
+
+### Participant visibility boundary
+
+- there is no Mentee directory, people search, or Mentee profile surface for other Mentees in MVP
+- a Mentee sees only their own profile, their own Ask history, and eligible Mentor match cards for a community they actively belong to
+- a Mentor sees Mentee information only where it is needed to evaluate or handle that Mentee's specific Ask; this does not create a general Mentee directory
+- Community Admin's limited member directory is an operational membership tool, not a participant discovery experience
 
 ## MVP Community Provisioning
 

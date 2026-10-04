@@ -1,6 +1,6 @@
 # Community-Enabled User Flows
 
-Last updated: 2026-10-03
+Last updated: 2026-10-04
 
 **Primary readers:** PM, Product Designer, Frontend, Backend
 **Priority:** Highest
@@ -25,47 +25,60 @@ The flows below are the target MVP behavior. They supersede old UI flow assumpti
 - an email-bound invitation is unique and bound to one normalized email; accepting it proves ownership of that email and does not require a second OTP
 - a user may hold Mentor and Mentee roles; do not force one exclusive role selection at account level
 - current community is explicit in every authenticated community flow
-- optional LinkedIn/resume PDF prefill is shown as a pending branch only; manual completion remains the required fallback until backend, privacy, and agreement terms are approved
+- optional PDF prefill is shown as a pending branch only; manual completion remains the required fallback until backend, privacy, and agreement terms are approved
 
 ## Mentee Access And Ask Flow
 
 ```mermaid
 flowchart TD
-    A{Membership path} -->|Existing account| B[Community Admin finds account by exact known email]
-    B --> C[Community Admin grants Mentee role]
-    C --> D[ACTIVE Mentee membership;<br/>profile incomplete]
-    D --> DP{Use optional PDF prefill?<br/>Pending backend/privacy decision}
-    H --> DP
-    DP -->|LinkedIn PDF or resume PDF| DU[Upload self-provided PDF]
-    DU --> DE[Extract profile draft]
-    DE --> DI[Prefill existing profile or complete it]
-    DP -->|Manual| DI
-    DI --> DJ[Review and confirm Mentee profile]
-    A -->|New account| E[Community Admin sends email-bound Mentee invitation]
-    E --> F[Invitee opens link and creates/signs in]
-    F --> G[Link proves invited-email ownership;<br/>no second OTP]
-    G --> H[Begin Mentee profile:<br/>aspiration, background, 1-3 current priorities]
+    A{Membership path} -->|Existing verified account| B[Community Admin adds Mentee membership<br/>by exact known email]
+    A -->|New account| C[Community Admin sends unique,<br/>email-bound Mentee invitation]
+    C --> D[Invitee opens link and creates/signs in]
+    D --> E[Invitation proves ownership of invited email;<br/>no second OTP]
+    B --> F[ACTIVE Mentee membership;<br/>profile incomplete]
+    E --> F
 
-    DJ --> K[Select current community and<br/>start finding Mentors]
-    K --> M[See up to 3 qualified Mentor matches]
-    M --> N[Open Mentor profile:<br/>reason, offerings, non-offerings]
-    N --> O[Compose scoped Ask]
-    O --> P[Submit Ask]
-    P --> Q[Show Sent and 48-hour deadline;<br/>never show view status]
-    Q --> R{Mentor response within 48 hours}
-    R -->|Accept| S[Show one snapshotted<br/>Calendly or LinkedIn route]
-    R -->|Decline| T[Show decline reason and optional message]
-    R -->|No response| U[Release slot and show replacement;<br/>Ask stays in history]
-    U --> V[Late Mentor accept/decline appears in Ask history]
-    V -->|Late accept| S
-    V -->|Late decline| T
-    S --> W[Private self-reported conversation follow-up]
+    F --> G{Start profile}
+    G -->|Upload a PDF| H[Upload self-provided PDF]
+    H --> I[System prepares profile draft]
+    I --> J[Review draft fields;<br/>edit each field with pencil icon]
+    G -->|Fill manually| J
+    J --> K[Complete required direction/background fields<br/>and manually select 1-3 ranked priorities]
+    K --> L{Confirm profile}
+    L -->|Missing required field| J
+    L -->|Confirmed| M[Persist confirmed fields;<br/>delete raw PDF]
+    M --> N[Home: Your profile is ready.<br/>Start finding Mentors when you are ready.]
 
-    M --> UP[Edit current priorities]
-    UP --> UC[Update matches warning:<br/>replace all uncontacted cards?]
-    UC -->|Confirm| M
-    UC -->|Cancel| M
+    N --> O[Home dashboard:<br/>To Be Completed and To Do]
+    O -->|View matches task| P[Choose an active community icon<br/>such as MMA or DGWA]
+    P --> Q[Show only that community's<br/>up to 3 qualified Mentor cards]
+    Q --> R[View Mentor card:<br/>Why OAA suggested this, offerings,<br/>non-offerings, and profile context]
+    R --> S[Select matching offering and write<br/>required scoped opening Ask]
+    S --> T[Submit Ask]
+    T --> U[Ask history: Sent;<br/>do not show Mentor viewed status]
+
+    U --> V{Mentor outcome}
+    V -->|Accept| W[Home task and Ask page show exactly one<br/>snapshotted Calendly or LinkedIn route]
+    W --> X[Coordinate outside OAA]
+    X --> Y[Post-acceptance timing and feedback flow]
+    V -->|Decline| Z[Home and Ask history show reason,<br/>optional message, and: Don't worry,<br/>we'll help you find another Mentor.]
+    Z --> ZA{Select Find another Mentor?}
+    ZA -->|Yes| ZB[Generate one qualified replacement<br/>for this declined slot only]
+    ZB --> Q
+    ZA -->|No| ZC[Keep declined Ask in combined history]
+    V -->|No response by 48h| ZD[Release slot, generate replacement,<br/>and keep Ask in history as expired]
+    ZD --> ZE{Mentor responds late?}
+    ZE -->|Late accept| W
+    ZE -->|Late decline| ZF[Show late decline in Ask history;<br/>replacement already exists]
+
+    O -->|Update priorities| ZG[Edit one to three ranked priorities<br/>with pencil icons]
+    ZG --> ZH[Select Update matches]
+    ZH --> ZI{Confirm replacement of all<br/>uncontacted cards in active community?}
+    ZI -->|Confirm| Q
+    ZI -->|Cancel| O
 ```
+
+**Mentee visibility boundary:** the community icon rail is not a member directory. A Mentee can access only their own Home, Profile, Ask history, and eligible Mentor cards; they cannot see, search, browse, or open another Mentee's profile.
 
 ## Mentor Join And Accept Flow
 

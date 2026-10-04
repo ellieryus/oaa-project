@@ -33,6 +33,7 @@ This feature governs scoped Asks from a Mentee to a Mentor within the same activ
 - show the exact 48-hour response deadline in Ask UI and notifications
 - during acceptance, require the Mentor to use one coordination route; never show personal email or both routes to the Mentee
 - show the selected decline reason and optional follow-up message; do not expose private internal notes
+- show supportive system copy after a decline: `Don't worry, we'll help you find another Mentor.` Then show `Find another Mentor`; it generates only the affected replacement slot in that community
 - prevent the Mentee from acting on declined or expired Asks beyond history viewing
 - provide the Mentor an `Expired Asks` history list where they can late accept or decline; label the response as late and never remove the replacement match slot
 - show Mentees only Ask status and deadline, never whether or when a Mentor viewed the Ask
@@ -49,7 +50,7 @@ This feature governs scoped Asks from a Mentee to a Mentor within the same activ
 - store status, timestamps, expiry reason, first-viewed time, and related match slot
 - schedule the sole pending-Ask reminder from `firstViewedAt + 24 hours`; cancel it after a response or expiry
 - at no-response expiry, move the Ask to `EXPIRED_AWAITING_LATE_RESPONSE`, release only its active slot, and retain the Ask for late Mentor response
-- trigger matching slot replacement only for a decline or qualifying no-response expiry; never withdraw that replacement after a late response
+- trigger automatic matching slot replacement only for qualifying no-response expiry; a decline replacement is generated when the Mentee selects `Find another Mentor`
 - treat `NOT_AN_OFFERING` as a taxonomy and matching-quality signal
 - persist report actor, reported participant, community, Ask/profile reference, category, optional detail, timestamp, and operations status; authorize it only to backend/OAA operations personnel in MVP
 

@@ -49,7 +49,8 @@ Mentees do not have `Open to All` or `Other` priority options in MVP 1. Mentors 
 - a strong match offers at least one Priority 1 or Priority 2 topic and has no non-offering conflict with the Mentee's active priorities
 - a partial-scope match is used only when fewer than three strong matches exist. It must offer at least one Priority 1 or Priority 2 topic and clearly disclose offered scope and relevant non-offering
 - previously declined or expired Mentee-Mentor pairs are excluded from future automated matching in that community
-- decline and qualifying expiry replace only the affected uncontacted slot
+- qualifying expiry replaces only the affected uncontacted slot automatically
+- a decline exposes `Find another Mentor` to the Mentee; selecting it generates one replacement for only the affected declined slot
 - Mentees may regenerate uncontacted matches repeatedly. Prefer unseen eligible Mentors; once exhausted, label a repeat `Previously shown`
 - regeneration must not replace contacted, pending, accepted, or historical active slots
 - a Mentor scope or membership change applies to future matching only. Existing match cards preserve their historical reason and scope context
@@ -68,13 +69,16 @@ Mentees do not have `Open to All` or `Other` priority options in MVP 1. Mentors 
 - show exactly three qualified Mentor cards when available and fewer only when the qualified pool is smaller
 - allow priority edits from Profile and Matches, followed by explicit `Update matches` confirmation
 - make the replacement scope explicit in the confirmation: all uncontacted cards are replaced; contacted and historical cards are preserved
+- show decline reason and optional message in Ask history, with `Find another Mentor` to generate only the declined Ask's replacement slot
 - show one reason, offerings, non-offerings, partial-scope warnings, and low-supply states in plain language
 - never expose another community's members, profile data, or match cards
+- do not implement a Mentee directory, Mentee search, or Mentee-to-Mentee profile visibility within the same community
 
 ## Backend Requirements
 
 - persist one to three ordered current priorities per Mentee and their update history
 - include `communityId` in every match and validate both memberships at generation and request creation time
+- enforce directional visibility: Mentees can query only their own data and eligible Mentor cards; Mentee data is returned to a Mentor only in the context of that Mentor's specific Ask
 - enforce canonical topic IDs across Mentee priorities, Mentor offerings, and Mentor non-offerings
 - persist active match slots, impression history, match tier, reason metadata, and replacements per community
 - return fewer than three results rather than weakening scope constraints

@@ -50,7 +50,8 @@ The repo-local Markdown files should now be treated as the maintained working ve
 - `for-ellie-backend.md`: backend reading path and focus guide
 - `for-trang-frontend.md`: frontend reading path and focus guide
 - `for-rachelle-and-backend.md`: PM/backend decisions awaiting technical alignment
-- `wireframes/mentee-wireframe.html`: interactive Mentee journey review wireframe
+- `features/mentee-page-spec.md`: Mentee page and interaction specification awaiting PM review
+- `wireframes/mentee-wireframe.html`: legacy Mentee wireframe; rebuild only after `features/mentee-page-spec.md` review
 - `wireframes/mentor-wireframe.html`: interactive Mentor journey review wireframe
 - `wireframes/community-admin-wireframe.html`: interactive Community Admin journey review wireframe
 - `product/`: business scope, roadmap, and product decisions
