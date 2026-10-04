@@ -1,163 +1,43 @@
-# Frontend Adjustments
+# Frontend Product Guidance
 
-Last updated: 2026-07-27
+Last updated: 2026-10-03
 
-**Primary readers:** Frontend, UX  
-**Priority:** High  
-**Read this when:** You need the frontend-specific interpretation of product and alumni feedback.
+**Primary readers:** Frontend, Product Designer
+**Priority:** High
 
-## Purpose
+## Product Framing
 
-This document is a frontend-focused interpretation of alumni and product feedback for MVP 1.
+Use `Mentor` and `Mentee`. One Ask Away facilitates short, scoped career conversations; do not imply guaranteed referral, job placement, or long-term mentorship.
 
-It is intended for Trang as UX Engineer and Frontend Lead, and should be used alongside:
+## Community Context
 
-- `docs/product/product-brief.md`
-- `docs/features/*.md`
-- `docs/architecture/state-machines.md`
-- `CLAUDE.md`
+- show the current community clearly on join, member, matching, and Ask surfaces
+- never expose members from another community
+- a user without an active membership or valid invitation sees no community discovery
+- Community Admin exact-email lookup and directory must show only permitted fields
 
-## Core UX Directives
+## Mentee Matching
 
-### 1. Student must understand immediately what the alumnus helps with
+- immediately show why the Mentor is relevant, including one match reason, offerings, and non-offerings
+- guide the Mentee to select a structured topic and write one clear specific Ask
+- show exactly three qualified Mentor cards when available; explain fewer-result and repeat-result states plainly
+- show non-offerings before submission to prevent mis-scoped Asks
 
-- do not make the user read a long profile before understanding relevance
-- highlight `current role`, `company`, `offerings`, and `matching reason` first
-- keep supporting biography and background secondary
+## Mentor Ask Review
 
-### 2. Profiles must be scannable in a few seconds
+Display in order:
 
-Every alumni-facing surface should make it possible to see immediately:
+1. selected Ask topic
+2. short Mentee profile summary
+3. all current priorities, with selected topic highlighted
+4. final opening Ask
+5. supporting Mentee context
 
-- current role
-- company
-- offerings
-- scoped ask
-- matching reason
+Mentor actions are accept or decline. Decline must show the structured reason selector and optional Mentee-visible message.
 
-The profile should feel fast to scan, not heavy to study.
+## Coordination And Privacy
 
-### 3. Requests must be specific, not generic
-
-- generic requests will be ignored by alumni
-- UI should force the student to define a clear `objective` and `topic`
-- the request composer should guide toward scoped asks, not open-ended networking language
-
-### 4. Do not create a long-term commitment feeling
-
-- avoid language that sounds like mentorship
-- prefer `conversation`, `request`, and `call`
-- avoid `mentor`, `mentorship`, or any framing that implies an ongoing obligation
-
-### 5. The flow should use as few clicks as possible
-
-The preferred mental model is:
-
-1. review request
-2. accept or decline
-3. book
-
-Avoid adding extra confirmation layers or unnecessary steps in the core path.
-
-### 6. Calendly remains the right scheduling direction
-
-- alumni already maintain their own calendars elsewhere
-- OAA should not create a second availability-management system
-- frontend should treat scheduling as a handoff to Calendly, not a native calendar product
-
-## Frontend Implications By Surface
-
-### Match cards
-
-- surface offerings before biography
-- show why this alumnus matches the student
-- keep the card compact and decision-oriented
-- the student should know quickly whether this person is relevant enough to request
-
-### Alumni profile
-
-- move expertise and offerings above long narrative content
-- keep long-form profile content secondary
-- show non-offerings clearly so students do not send mis-scoped asks
-- make the top of the page decision-ready within one screen
-
-### Ask composer
-
-- require a clear topic
-- require a clear objective
-- discourage generic text through UI structure, examples, and validation
-- reinforce that this is a single scoped request, not an open-ended relationship
-
-### Alumni inbox
-
-- support very fast decision-making
-- make accept and decline the primary actions
-- show urgency clearly
-- show what the student needs before secondary context
-
-### Scheduling handoff
-
-- keep the transition from accepted request to booking lightweight
-- explain the deadline clearly
-- avoid introducing extra steps before Calendly
-
-## Copy Rules
-
-Use:
-
-- conversation
-- request
-- 30-minute call
-- help with
-- offering
-
-Avoid:
-
-- mentor
-- mentorship
-- long-term guidance
-- ambiguous networking language
-- vague asks like "would love to connect"
-
-## Information Hierarchy
-
-For any student-facing alumni surface, default order should be:
-
-1. current role
-2. company
-3. offerings
-4. matching reason
-5. call to action
-6. longer profile details
-
-For any alumnus-facing request surface, default order should be:
-
-1. what the student needs
-2. request topic
-3. objective of the call
-4. urgency and deadline
-5. supporting student context
-
-## Derived Product Decisions
-
-These feedback points have already shaped current product decisions.
-
-| Alumni feedback | Current product direction |
-| --- | --- |
-| "I only want to know what this person needs." | Scoped Ask |
-| "Do not make me mentor." | One-time request lifecycle |
-| "Do not build calendar." | Calendly integration |
-| "Do not spam me." | Pair exclusion + 3 recommendations |
-| "Let me decline quickly." | Accept / Decline only |
-| "I want to know what is urgent." | Combined inbox + countdown |
-| "I only want to help in my expertise." | Offerings and Non-offerings |
-
-## Implementation Checklist
-
-- alumni value proposition is visible before long profile content
-- request composer forces topic and objective
-- core request copy avoids mentorship framing
-- inbox screens optimize for fast accept or decline
-- deadlines are visible and understandable
-- Calendly handoff stays lightweight
-- profiles and cards are scannable within a few seconds
+- after acceptance, show one route only: Calendly or LinkedIn
+- do not create chat, personal-email sharing, rescheduling UI, calendar-sync UI, or booking deadline
+- Community Admin never sees email, private pulse, reflection, note, timing, or coordination route
+- profiles must remain scannable before long content or optional context

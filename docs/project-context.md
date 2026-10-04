@@ -28,13 +28,13 @@ It is intended to help a new team member, consultant, or reviewer answer:
 
 ## Product Summary
 
-One Ask Away is a two-sided platform for McGill MMA students and alumni to have short, scoped career conversations.
+One Ask Away is a community-enabled platform for Mentors and Mentees to have short, scoped career conversations. MMA is the first launch community.
 
 The core workflow is:
 
 1. verify eligibility
 2. complete and confirm role-specific onboarding
-3. generate three alumni matches
+3. generate three community-scoped Mentor matches
 4. submit and respond to scoped asks
 5. book a meeting
 6. capture value after the meeting
@@ -66,7 +66,7 @@ The core workflow is:
 | Frontend journeys | Partial | Most screens exist, but many still read mock data directly. |
 | Backend architecture shape | Partial | Actions, services, and repositories exist but are not fully production-backed. |
 | Database model | Good on paper | Prisma schema is defined, but lifecycle entities still need hardening. |
-| Auth and eligibility | Stubbed | No real verification, roster, or session implementation yet. |
+| Auth and eligibility | Stubbed | No real email verification, community membership, invitation, or session implementation yet. |
 | Scheduling and notifications | Stubbed | No live Calendly or email implementation yet. |
 | Reliability and operations | Minimal | No full test, monitoring, or deployment process yet. |
 
@@ -82,8 +82,8 @@ The core workflow is:
 
 ### Mocked or stubbed
 
-- student identity and auth
-- alumni data and student request data
+- Mentee identity and community access
+- Mentor data and Mentee Ask data
 - match generation
 - inbox and notification contents
 - request persistence

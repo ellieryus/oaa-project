@@ -1,85 +1,68 @@
-# Request Lifecycle
+# Ask Lifecycle
 
-Last updated: 2026-09-24
+Last updated: 2026-10-03
 
-**Primary readers:** Backend, Frontend  
-**Priority:** Highest  
-**Read this when:** You are implementing ask submission, inbox behavior, accept or decline, or request expiry.
+**Primary readers:** Backend, Frontend
+**Priority:** Highest
+**Read this when:** You are implementing Ask submission, Mentor inbox behavior, accept/decline, expiry, or immutable context snapshots.
 
 ## Purpose
 
-This feature governs ask submission, alumni response, request deadlines, request history, and request-related notifications.
-
-## Business Intent
-
-Students should be able to send scoped asks tied to an alumnus offering, and alumni should have a clear limited response window with simple lifecycle outcomes.
+This feature governs scoped Asks from a Mentee to a Mentor within the same active community.
 
 ## Core Rules
 
-- student submits a scoped request tied to an alumnus offering
-- the selected request topic must be both a current student priority and a declared alumnus offering
-- the student submits one required opening ask that provides context and asks one specific question
-- the opening ask must be editable by the student, including when initially AI drafted
-- alumnus receives an in-app inbox item and email notification
-- alumnus has 48 elapsed hours to accept or decline
-- acceptance is committed and exposed to the student only after the alumnus selects exactly one valid coordination route: a public Calendly event link or a LinkedIn profile URL
-- viewing a notification or opening the inbox does not count as a response
-- opening the full request records first-viewed time but does not change request response status
-- decline is final and cannot be reactivated
-- every decline records one student-visible reason: `TIMING_UNAVAILABLE`, `OUTSIDE_EXPERTISE`, `NOT_AN_OFFERING`, `AT_CAPACITY`, or `OTHER`
-- an alumnus may add one optional follow-up message that is explicitly visible to the student
-- no alumni response by deadline expires the request
-- expired requests may remain in alumnus history
-- the student cannot reactivate an expired request or resend to the same alumnus if policy excludes the pair
-- request read state, viewed state, response state, and lifecycle state remain separate
+- a Mentee submits an Ask to a Mentor only when both have `ACTIVE` membership in the same community
+- the selected Ask topic must be both an active Mentee priority and a declared Mentor offering
+- the Mentee submits one required opening Ask that provides context and asks one specific question; it must be 80 to 320 characters and editable even when AI drafted
+- the Mentor receives an in-app inbox item and email notification
+- the Mentor has 48 elapsed hours to accept or decline
+- acceptance is committed and shown to the Mentee only after the Mentor selects or confirms exactly one valid coordination route: public Calendly event URL or LinkedIn profile URL
+- viewing notification or opening inbox does not count as a response; read, viewed, response, and lifecycle state remain separate
+- decline is final and records one Mentee-visible reason: `TIMING_UNAVAILABLE`, `OUTSIDE_EXPERTISE`, `NOT_AN_OFFERING`, `AT_CAPACITY`, or `OTHER`
+- the Mentor may add one optional Mentee-visible follow-up message
+- no response by deadline moves the Ask to `EXPIRED_AWAITING_LATE_RESPONSE`, releases its active match slot, and creates an eligible replacement for the Mentee
+- an expired Ask remains visible in the Mentor's `Expired Asks` list. The Mentor may later accept or decline it in-app; no further reminder is sent
+- a late acceptance follows the normal coordination-route requirement and is visible in the Mentee's Ask history; a late decline shows the usual reason and optional message there
+- accepted Asks do not expire because coordination is incomplete; conversation follow-up is stored separately from Ask response state
 
 ## Frontend Requirements
 
-- allow student request creation only from a valid alumni offering
-- require one scoped opening ask of 80 to 320 characters; prompt: `Briefly explain your context and ask one specific question.`
-- keep the selected offering visible throughout composition and review
-- show the student any relevant alumnus non-offering before submission
-- show submitted request status clearly in student and alumnus views
-- show exact 48-hour response deadline in request-related UI and notifications
-- during acceptance, require the alumnus to confirm one coordination route; do not expose personal email or show both routes to the student
-- prevent student actions on declined or expired requests beyond history viewing
-- record and display full-request view separately from notification read state
-- show the selected decline reason and any optional student-visible follow-up message; do not expose internal notes
-- avoid implying that expiry equals an explicit rejection
+- permit Ask creation only from a valid Mentor offering in the current community
+- keep selected offering and any relevant Mentor non-offering visible throughout composition and review
+- show the exact 48-hour response deadline in Ask UI and notifications
+- during acceptance, require the Mentor to use one coordination route; never show personal email or both routes to the Mentee
+- show the selected decline reason and optional follow-up message; do not expose private internal notes
+- prevent the Mentee from acting on declined or expired Asks beyond history viewing
+- provide the Mentor an `Expired Asks` history list where they can late accept or decline; label the response as late and never remove the replacement match slot
+- show Mentees only Ask status and deadline, never whether or when a Mentor viewed the Ask
+- provide a private `Report` action from a Mentor profile and Ask history/detail; submit it to the backend/OAA operations queue, not to the Community Admin by default
 
 ## Backend Requirements
 
-- create request with `PENDING_ALUMNI_RESPONSE`
-- validate that the selected offering is a declared alumnus offering and an active student priority at submission time
-- snapshot request context at submission: selected offering; all current priorities and ranks; primary aspiration; target role, industry, and relevant skills; background; optional bio; one AI-generated profile summary constrained to those fields; and the final opening ask
-- never mutate a request snapshot after the student updates profile fields, bio, or current priorities
+- create an Ask as `PENDING_MENTOR_RESPONSE` with `communityId`
+- validate matching community, active memberships, selected offering, and active Mentee priority at submission time
+- snapshot at submission: community, selected offering, all current priorities and ranks, primary aspiration, target role/industry, relevant skills/background, optional bio, constrained AI-generated profile summary, and final opening Ask
+- never mutate a snapshot after profile or priority edits
 - set response deadline to submitted time plus 48 elapsed hours
-- snapshot the accepted coordination route, validated URL, and selection time; do not replace it when the alumnus later edits a saved profile preference
-- store request status, status timestamps, expiration reason, first-viewed timestamp, and related match slot
-- enforce valid transitions only
-- mark no-response expiry with `NO_ALUMNI_RESPONSE`
-- remove expired or declined requests from active action sets while preserving history
-- prevent invalid reopen or resend transitions where policy forbids them
-- trigger slot replacement rules when decline or qualifying expiry occurs
-- store the structured decline reason separately from the optional student-visible follow-up message
-- treat `NOT_AN_OFFERING` as a matching and taxonomy-quality signal for reporting and future tuning
+- snapshot accepted coordination route, validated URL, and selection time; do not replace it if the Mentor later changes their saved preference
+- store status, timestamps, expiry reason, first-viewed time, and related match slot
+- schedule the sole pending-Ask reminder from `firstViewedAt + 24 hours`; cancel it after a response or expiry
+- at no-response expiry, move the Ask to `EXPIRED_AWAITING_LATE_RESPONSE`, release only its active slot, and retain the Ask for late Mentor response
+- trigger matching slot replacement only for a decline or qualifying no-response expiry; never withdraw that replacement after a late response
+- treat `NOT_AN_OFFERING` as a taxonomy and matching-quality signal
+- persist report actor, reported participant, community, Ask/profile reference, category, optional detail, timestamp, and operations status; authorize it only to backend/OAA operations personnel in MVP
 
-## Notification Requirements
+## Notifications
 
-- on request submission, create one inbox item and send one email to the alumnus
-- 24 elapsed hours after submission, send one pending-request reminder if the request is still pending; choose reminder copy from `first_viewed_at` and never send another request-specific reminder
-- on accept, notify the student with `Here's how to connect with [Alumnus]` and render only the snapshotted Calendly or LinkedIn route
-- on decline, notify the student with the selected decline reason and any optional student-visible follow-up message; never expose private internal text
-- on no-response expiry, notify the student without framing it as an explicit rejection
+- on Ask submission, create one Mentor inbox item and send one email
+- 24 elapsed hours after the Mentor first opens the Ask, send at most one pending-Ask reminder if the Ask remains pending
+- do not send an Ask-specific reminder if the Mentor never opens the Ask; it still expires at the normal 48-hour response deadline
+- on accept, notify the Mentee with `Here's how to connect with [Mentor]` and render only the snapshotted route
+- on decline, notify the Mentee with the structured reason and optional message
+- on no-response expiry, notify the Mentee without framing it as an explicit rejection, show the replacement, and explain the Mentor may still review and respond through OAA later
+- on late accept or decline, update the Mentee's Ask history with the Mentor name and outcome; notify the Mentee on late accept because a coordination route is available
 
-## Audit Requirements
+## Mentor Review Context
 
-- store created-at, viewed-at, accepted-at, declined-at, expired-at, expiration reason, and notification events
-- support later explanation of the full request path from submission to terminal state
-- record the match reason and match tier used when the request was created
-
-## Alumni Request Context
-
-The collapsed alumni inbox view must show a one-sentence AI-generated student profile summary and the selected request topic. The expanded request view must show all priority tags, with the selected topic highlighted, plus the student's aspiration, target role or industry, skills, background, optional bio, and final opening ask.
-
-The generated summary must use only persisted student data, must not invent claims or personality traits, and is a snapshot rather than a live profile read.
+Collapsed inbox view shows a one-sentence AI-generated Mentee profile summary and selected Ask topic. Expanded view shows all priority tags with the selected topic highlighted, plus aspiration, target role/industry, skills, background, optional bio, and final opening Ask. The generated summary must use only persisted Mentee data and must not invent claims.

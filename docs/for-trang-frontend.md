@@ -1,87 +1,33 @@
 # For Trang: Frontend
 
-Last updated: 2026-09-24
+Last updated: 2026-10-03
 
-**Primary readers:** Frontend, UX  
-**Priority:** Highest  
-**Read this when:** You are implementing UI flows, hierarchy, copy, or interaction behavior.
-
-## Purpose
-
-This guide tells the frontend and UX lead exactly what to read first, what to own, and what to confirm before implementing.
+**Primary readers:** Frontend, UX
+**Priority:** Highest
 
 ## Read First
 
 1. `docs/product/product-brief.md`
-2. `docs/delivery/frontend-adjustments.md`
-3. `docs/features/matching.md`
-4. `docs/features/request-lifecycle.md`
-5. `docs/features/calendly.md`
-6. `docs/features/pulse-survey.md`
-7. `docs/features/alumni-retention.md`
-8. `CLAUDE.md`
-9. `docs/project-context.md`
+2. `docs/features/multi_community_mvp_requirements.md`
+3. `docs/features/email-verification.md`
+4. `docs/features/matching.md`
+5. `docs/features/request-lifecycle.md`
+6. `docs/features/calendly.md`
 
-## Primary Ownership
+## Core UX Rules
 
-- screen behavior and information hierarchy
-- request-composer structure and validation UX
-- alumni profile scanability
-- inbox and urgency presentation
-- lifecycle-state clarity in the UI
-- accessibility and route-level user experience
+- use `Mentor` and `Mentee`; describe a short career conversation, not a promised long-term mentorship relationship
+- always make the current community visible in authenticated community flows
+- users see a community only after Community Admin add or valid invitation acceptance; do not render community discovery for non-members
+- invite acceptance must clearly show the invited community and granted role without exposing the invited email to the Community Admin
+- Community Admin needs exact-email member add plus a simple directory; it sees only minimum lookup identity plus name, role, status, offerings, and non-offerings
+- Community Admin never sees stored member personal email, private feedback, notes, schedule status, or coordination route. After entering an invitee email, UI shows only invitation status
+- Mentee match cards show one clear reason, Mentor offerings/non-offerings, and exactly three qualified results when available
+- Mentor acceptance must end with one Calendly or LinkedIn route. Do not show both routes to the Mentee or a booking deadline after acceptance
 
-## Highest-Priority Decisions To Respect
+## Do Not Build In MVP
 
-- student must understand what the alumnus helps with immediately
-- profiles should be scannable in a few seconds
-- requests must force objective and topic specificity
-- avoid mentorship framing; use conversation and request framing
-- acceptance is shown only after the alumnus selects one Calendly or LinkedIn route; accepted requests do not expire for incomplete logistics
-- the fastest flow is review request, accept or decline with one coordination route, then hand off the student to that route
-
-## Main Docs To Pay Attention To
-
-### Critical
-
-- `docs/delivery/frontend-adjustments.md`
-- `docs/features/matching.md`
-- `docs/features/request-lifecycle.md`
-- `docs/features/calendly.md`
-- `docs/features/alumni-retention.md`
-- `CLAUDE.md`
-
-### Important
-
-- `docs/features/pulse-survey.md`
-- `docs/product/product-brief.md`
-- `docs/project-context.md`
-
-### Reference
-
-- `docs/architecture/state-machines.md`
-- `docs/product/decision-log.md`
-
-## Current Frontend Gaps To Focus On
-
-- many routes still read mock data directly
-- information hierarchy still needs to reflect alumni-feedback priorities consistently
-- request specificity needs stronger UI enforcement
-- the 48-hour pending-request response deadline must be explicit, while accepted requests must not imply a booking deadline
-- coordination handoff should stay lightweight and not feel like a native calendar product
-
-## What To Ignore On First Pass
-
-- detailed backend persistence mechanics
-- job orchestration details
-- lower-priority policy and operational notes
-
-Focus first on scanability, specificity, low-friction flows, and deadline clarity.
-
-## Frontend Working Questions
-
-- does each alumni-facing surface show role, company, offerings, ask, and matching reason immediately
-- does the request composer prevent vague asks
-- does the inbox support fast accept or decline decisions
-- does scheduling feel like a quick handoff rather than a heavy new workflow
-- does the UI ever imply long-term mentorship or excessive commitment
+- Community Admin metrics/dashboard
+- cross-community mentor discovery/scouting
+- native chat, rescheduling, or calendar sync
+- surfaces that imply global directory access or institutional verification

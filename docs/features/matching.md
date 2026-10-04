@@ -1,31 +1,28 @@
-# Matching
+# Community-Scoped Matching
 
-Last updated: 2026-09-24
+Last updated: 2026-10-03
 
-**Primary readers:** Frontend, Backend  
-**Priority:** High  
-**Read this when:** You are implementing eligibility, match generation, slot replacement, or renewal rules.
+**Primary readers:** Frontend, Backend
+**Priority:** High
+**Read this when:** You are implementing Mentee priorities, Mentor eligibility, match generation, slot replacement, or regeneration.
 
 ## Purpose
 
-This feature governs profile eligibility, active matching eligibility, initial match generation, slot replacement, and weekly renewal behavior.
-
-## Business Intent
-
-The student should receive a small, relevant, diversified set of alumni matches based on their current career priorities, only after the student is fully eligible and explicitly asks to begin matching.
+This feature governs matching inside one active community. A Mentee receives a small, relevant, diversified set of Mentors who have an active membership in that same community.
 
 ## Current Priorities
 
-- current priorities are the source of truth for matching; the MVP does not retain a separate long-term help-needs list
-- a student selects and ranks one to three current priorities from the canonical topic taxonomy
-- initial priorities are collected during onboarding and remain active until the student changes them
-- students can update priorities from Profile or Matches without repeating onboarding
-- saving a priority update does not change active matches automatically; the student must explicitly select `Update matches`
-- profile bio, including optional hobbies or personal context, is not a core matching signal
+- current priorities are the matching source of truth; the MVP does not retain a separate long-term help-needs list
+- a Mentee selects and ranks one to three current priorities from the canonical topic taxonomy
+- initial priorities are collected during Mentee onboarding and remain active until changed
+- Mentees can update priorities from Profile or Matches without repeating onboarding
+- saving a priority update does not change active matches automatically; the Mentee must explicitly select `Update matches`
+- before `Update matches` runs, warn that every uncontacted card will be replaced and require confirmation; contacted, pending, accepted, and historical cards remain unchanged
+- optional bio, hobbies, or personal context are not core matching signals
 
 ### Canonical Topic Taxonomy
 
-Students may select only from these standard topics:
+Mentees may select only these standard topics:
 
 - Career direction
 - Company insights
@@ -38,93 +35,55 @@ Students may select only from these standard topics:
 - Referrals and referral advice
 - Portfolio review
 
-Students do not have `Open to All` or `Other` priority options in MVP 1. Current priorities must remain specific, structured, and visible to alumni so alumni can quickly understand the student’s intended scope before accepting a request. This also preserves reliable matching against alumni offerings and non-offerings.
-
-Alumni select one to five standard offering topics, or `Open to All`. `Open to All` is an offering-scope setting that represents all standard topics, subject to declared non-offerings, rather than a matchable topic itself. Alumni may select zero to three standard non-offering topics; `None` means no standard non-offering is stored. Alumni may add an `Other` free-text label to an offering or non-offering, with required supporting text, for student-visible profile context. `Other` is not a primary matching or hard-filter signal and cannot be selected as a request topic.
+Mentees do not have `Open to All` or `Other` priority options in MVP 1. Mentors select one to five standard offering topics, or `Open to All`, and may select zero to three standard non-offering topics. `Open to All` is an offering-scope setting, not a matchable topic. A Mentor may add an `Other` free-text label for display-only context; it cannot create a match or validate an Ask topic.
 
 ## Core Rules
 
-- a user is not match-eligible until required fields are complete and the profile is explicitly confirmed
-- a student becomes eligible to start matching only after verification and profile confirmation
-- an alumnus becomes eligible for the active matching pool after verification, profile confirmation, and `acceptingRequests = true`; calendar or LinkedIn setup is not an eligibility gate
-- matching starts only when the student selects Start finding alumni
-- each active batch contains exactly three qualified alumni when three qualified candidates exist; it may contain fewer only when the qualified pool is smaller than three
-- the same alumnus cannot appear twice in the same active batch
-- students may send requests to one, two, or all three matches
-- matching must diversify across structured priority fit, industry/function or career trajectory, and offering fit
-- a strong match offers at least one Priority 1 or Priority 2 topic and has no non-offering conflict with the student's active priorities
-- a partial-scope match is used only when fewer than three strong matches exist; it must offer at least one Priority 1 or Priority 2 topic, and the UI must clearly state the offered scope and any relevant non-offering
-- a non-offering removes that topic from an alumnus's available scope; a partial-scope match must never be presented as able to help with that non-offered topic
-- previously declined or expired student-alumnus pairs are excluded from future automated matching
-- declined or qualifying expired slots are replaced individually, not as full-batch refreshes
-- students can regenerate uncontacted matches repeatedly; the system must prefer unseen eligible alumni and transparently label repeated candidates as `Previously shown` once the unseen pool is exhausted
-- regeneration must not replace contacted, pending, accepted, scheduled, or completed matches
-- fewer than three qualified matches is valid; the product must not fill a slot with a weak or out-of-scope candidate
-- when an alumnus changes offerings, non-offerings, or request-acceptance status, the change applies to future matching only
-- an existing match card retains its historical match reason and matched-scope context; if that scope is no longer current, the card must disclose that the alumnus updated their scope
-- a new request from an existing match must always validate against the alumnus's current offerings; if no current offering overlaps the student's current priorities, the uncontacted slot becomes eligible for replacement
+- both participants require `ACTIVE` membership in the same community; membership in another community never grants matching access
+- a Mentee becomes eligible only after verified email, confirmed Mentee profile, and active Mentee membership
+- a Mentor becomes eligible only after verified email, confirmed Mentor profile, active Mentor membership, and `acceptingRequests = true`
+- Calendly or LinkedIn setup is not a matching filter
+- matching begins only when the Mentee selects `Start finding mentors` in a community
+- each active batch contains exactly three qualified Mentors when three exist; it may contain fewer only when the qualified pool is smaller than three
+- the same Mentor cannot appear twice in the same active batch
+- a strong match offers at least one Priority 1 or Priority 2 topic and has no non-offering conflict with the Mentee's active priorities
+- a partial-scope match is used only when fewer than three strong matches exist. It must offer at least one Priority 1 or Priority 2 topic and clearly disclose offered scope and relevant non-offering
+- previously declined or expired Mentee-Mentor pairs are excluded from future automated matching in that community
+- decline and qualifying expiry replace only the affected uncontacted slot
+- Mentees may regenerate uncontacted matches repeatedly. Prefer unseen eligible Mentors; once exhausted, label a repeat `Previously shown`
+- regeneration must not replace contacted, pending, accepted, or historical active slots
+- a Mentor scope or membership change applies to future matching only. Existing match cards preserve their historical reason and scope context
 
 ## Ranking And Match Reasons
 
-- hard filters run before ranking: active/eligible account, `acceptingRequests = true`, pair exclusions, offering compatibility, and quality threshold
-- ranking uses priority rank first, then relevant industry/function or career trajectory (to be decided by back-end); coordination preference is not a match reason
-- backend ranking scores are internal and must not be displayed as raw numbers or percentages to students or alumni
-- every student-facing match card shows one personalised, human-readable reason grounded in structured data, for example: `Offers CV review and works in finance.`
-- alumni detail pages show the same match reason plus clear offerings and non-offerings
-- skill, certification, project, and seniority signals are reserved for future Surprise Me discovery, not standard MVP match reasons
-
-## Future: Surprise Me Discovery (Post-MVP)
-
-`Surprise Me` is a future discovery experience, not a replacement for structured current priorities or the scoped request flow.
-
-- it must remain out of MVP 1 until beta data shows that structured matches produce clear asks, high alumni confidence, and relevant conversations
-- it may recommend a small curated set of alumni using student development goals, relevant skills, industry or career trajectory, certifications, projects, and alumni seniority or years after MMA
-- hobbies and optional bio context may be used only as a secondary tie-breaker; they are never required profile fields or core matching signals
-- every recommendation must retain a human-readable explanation and show current offerings and non-offerings before a student can send a request
-- it must respect the same eligibility, request-acceptance, pair-exclusion, and non-offering safeguards as structured matching
-- the future team must decide the trigger, recommendation count, regeneration frequency, whether it occupies an active structured-match slot, and success thresholds before implementation
+- hard filters run before ranking: same active community, active Mentee/Mentor memberships, `acceptingRequests = true`, pair exclusions, offering compatibility, and quality threshold
+- rank by priority rank first, then relevant industry, function, or career trajectory; raw scores are internal and never shown
+- every match card shows one human-readable reason grounded in structured data, for example: `Offers CV review and works in finance.`
+- show Mentor offerings and non-offerings before a Mentee sends an Ask
+- skills, certifications, projects, and seniority are reserved for future `Surprise Me` discovery, not standard MVP reasons
 
 ## Frontend Requirements
 
-- block Start finding alumni until student verification and profile confirmation are complete
-- show exactly three active qualified matches per batch when available, and fewer only when the qualified pool is smaller than three
-- display enough alumni context to support request decisions
-- allow students to edit and save their current priorities from Profile and Matches
-- after a priority update, show an explicit `Update matches` confirmation before replacing uncontacted match slots
-- allow match regeneration without implying that every refresh contains unseen or better candidates
-- label a repeated candidate as `Previously shown`
-- show a clear partial-scope warning when a candidate is filling a missing strong-match slot, for example: `Can help with Career pivot guidance. They don't offer CV/resume review.`
-- show one personalised match reason, offerings, and non-offerings; do not show raw relevance scores
-- preserve historical match context when an alumnus later updates scope, while clearly displaying the current scope before the student can send a new request
-- preserve active slots that are still valid while replacing only the invalid slot
-- explain inactive, expired, unavailable, and fewer-than-three-match states in plain language
-- when fewer than three qualified matches exist, show available qualified matches and direct the student to update current priorities
-- do not expose a saved coordination preference on a match card; it is chosen or confirmed only when the alumnus finalizes acceptance
+- block matching until the current community membership and required Mentee profile are active
+- show exactly three qualified Mentor cards when available and fewer only when the qualified pool is smaller
+- allow priority edits from Profile and Matches, followed by explicit `Update matches` confirmation
+- make the replacement scope explicit in the confirmation: all uncontacted cards are replaced; contacted and historical cards are preserved
+- show one reason, offerings, non-offerings, partial-scope warnings, and low-supply states in plain language
+- never expose another community's members, profile data, or match cards
 
 ## Backend Requirements
 
-- persist student profile confirmation state
-- persist alumnus profile confirmation, `acceptingRequests` state, and optional saved Calendly or LinkedIn coordination preference
-- persist one to three ordered current priorities per student and their update history
-- generate three active matches on explicit student action only
-- apply hard filters before ranking and enforce the strong-match and partial-scope rules
-- define and maintain the canonical topic taxonomy, including canonical IDs shared by student priorities, alumni offerings, and alumni non-offerings
-- represent `Open to All` as an alumnus setting, not as a topic ID
-- enforce a maximum of three standard non-offerings; treat `None` as an empty selection rather than a stored topic
-- store `Other` labels and supporting text as display-only scope context; do not use them to create matches or validate request topics
-- retain raw ranking scores internally and return structured, explainable match-reason metadata for the UI
-- persist active match slot history and replacement history
-- persist match impressions so regeneration can prefer unseen candidates and identify repeat recommendations
-- exclude declined and expired pairs from future automated matching
-- replace only the affected slot when decline or qualifying expiry occurs
-- on a student-confirmed priority update or regeneration, replace only eligible uncontacted slots and preserve valid active requests
-- preserve historical matched-scope metadata for active and historical match cards after an alumnus scope update
-- preserve valid active requests during renewal
-- return fewer than three matches when the qualified pool is smaller than three
+- persist one to three ordered current priorities per Mentee and their update history
+- include `communityId` in every match and validate both memberships at generation and request creation time
+- enforce canonical topic IDs across Mentee priorities, Mentor offerings, and Mentor non-offerings
+- persist active match slots, impression history, match tier, reason metadata, and replacements per community
+- return fewer than three results rather than weakening scope constraints
+- preserve historical match context after a Mentor updates scope or leaves a community
 
-## Dependencies
+## Future: Surprise Me And Cross-Community Discovery
 
-- active student account
-- verified and active alumnus accounts
-- confirmed student and alumnus profiles
-- alumnus `acceptingRequests` state
+`Surprise Me` and cross-community Mentor discovery are post-MVP. Neither may bypass same-community membership, explicit Mentor opt-in, non-offering exclusions, or explainable matching safeguards.
+
+## Open Team Decision
+
+- Keep unseen-first regeneration and the `Previously shown` repeat label for now. The final low-supply copy and regenerate placement need UX/backend team review before implementation.

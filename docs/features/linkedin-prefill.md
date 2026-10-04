@@ -46,8 +46,8 @@ Imported data should reduce typing effort, but it must remain editable draft inf
 
 ## Data Requirements
 
-- student import targets may include experience and skills
-- alumni import targets may include past and current industries and roles
+- Mentee import targets may include experience and skills
+- Mentor import targets may include past and current industries and roles
 - optional portfolio or LinkedIn URLs may be stored separately from imported structured fields
 
 ## Error Handling

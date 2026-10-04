@@ -1,83 +1,45 @@
 # Roadmap
 
-Last updated: 2026-09-24
+Last updated: 2026-10-03
 
-**Primary readers:** PM, Product Owner, Backend, Frontend  
-**Priority:** Medium  
-**Read this when:** You need milestone sequencing and immediate priorities.
+## M0. Documentation Alignment
 
-## Roadmap Intent
+Status: In progress
 
-This roadmap focuses on the work needed to move from demo MVP to production-ready MVP 1.
+- community-enabled MVP scope and role boundaries
+- authorization and privacy review
+- backend/frontend implementation review
 
-## Milestones
+## M1. Identity And Community Access
 
-### M0. Documentation alignment
+- email verification and sessions
+- Community, membership, role, and invitation persistence
+- backend provisioning of MMA and manual Community Admin assignment from OAA-approved instructions
+- exact-email existing-member add and privacy-limited member directory
+- unique email-bound Mentor and Mentee invitations
 
-Status: In progress 
+## M2. Profiles And Matching
 
-- business brief created
-- current-state context created
-- system architecture created
-- external business rules imported into repo-local feature docs
-- team review and QA : in progress 
+- Mentor and Mentee onboarding persistence
+- profile confirmation and membership-aware eligibility
+- current priorities, offerings/non-offerings, and three persisted community-scoped matches
 
-### M1. Auth and eligibility
+## M3. Ask And Coordination
 
-Status: Next
+- scoped Ask lifecycle, 48-hour response deadline, and match replacement
+- Calendly/LinkedIn accepted-Ask handoff
+- self-reported conversation follow-up
 
-- eligible email verification
-- roster-based role assignment
-- pending, onboarding, and active account states
-- secure session handling
-- route and action authorization
+## M4. Beta Hardening
 
-### M2. Persistent onboarding
+- transactional notifications, audit history, retries, and authorization tests
+- Community Admin field-level privacy tests
+- staging validation and beta operating runbook
 
-Status: Planned
+## Post-MVP Candidates
 
-- student onboarding persistence
-- alumni onboarding persistence
-- final profile confirmation
-- optional alumni coordination-preference setup, without blocking matching
-- imported draft-data review behavior
-
-### M3. Matching and request lifecycle
-
-Status: Planned
-
-- generate three persisted matches
-- enforce non-offering hard exclusions
-- create and expire requests
-- accept and decline flow
-- match replacement rules
-
-### M4. Coordination handoff and conversation follow-up
-
-Status: Planned
-
-- accepted-request Calendly or LinkedIn coordination route
-- inline Calendly embed and external LinkedIn handoff
-- self-reported scheduling status and conversation follow-up jobs
-- no provider booking, cancellation, or reschedule tracking in MVP 1
-
-### M5. Notifications and post-call flows
-
-Status: Planned
-
-- verification emails
-- request and deadline notifications
-- pulse survey prompts
-- student reflection persistence
-- alumnus private notes persistence
-- one pending-request reminder, re-engagement, and impact summaries
-
-### M6. Hardening and beta readiness
-
-Status: Planned
-
-- integration tests
-- audit and lifecycle history
-- retry-safe jobs
-- monitoring and operational runbook
-- staging validation
+- cross-community Mentor discovery and opt-in scouting
+- Community Admin metrics and supply/demand dashboards
+- institutional verification, roster integrations, and SSO
+- verified completion, credentialing, and badges
+- platform-admin role/UI, self-service community creation, and Community Admin assignment workflow

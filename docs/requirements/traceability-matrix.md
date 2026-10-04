@@ -1,35 +1,13 @@
 # Traceability Matrix
 
-Last updated: 2026-09-24
+Last updated: 2026-10-03
 
-**Primary readers:** PM, Backend, Frontend, QA  
-**Priority:** Medium  
-**Read this when:** You need to trace business rules to feature and architecture docs.
-
-## Purpose
-
-This matrix maps approved MVP 1 business-rule areas to repo-local feature and architecture documents.
-
-## Matrix
-
-| Rule IDs | Topic | Feature spec | Architecture reference | Notes |
-| --- | --- | --- | --- | --- |
-| PRO-01 to PRO-06 | profile completion and eligibility | `features/matching.md` | `architecture/state-machines.md` | Includes profile confirmation and alumni request-acceptance gate; coordination setup is not a matching gate. |
-| MAT-01 to MAT-14 | current priorities, match generation, exclusions, regeneration, partial-scope fallback, and replacement | `features/matching.md` | `architecture/system-architecture.md`, `architecture/erd.md` | Structured 1-3 priorities; three-match lifecycle with transparent repeats and no raw score. |
-| REQ-01 to REQ-11 | request lifecycle and immutable alumnus-review context | `features/request-lifecycle.md` | `architecture/state-machines.md`, `architecture/erd.md` | Includes deadlines, decline finality, request history, and submission-time context snapshots. |
-| CAL-01 to CAL-06 | accepted-request coordination handoff | `features/calendly.md` | `architecture/state-machines.md`, `architecture/erd.md` | One snapshotted Calendly or LinkedIn route; no matching gate or scheduling expiry. |
-| MET-01 to MET-02 | self-reported conversation follow-up | `features/calendly.md`, `features/pulse-survey.md` | `architecture/state-machines.md`, `architecture/erd.md` | MVP signals are private self-reports, not verified meeting records. |
-| PUL-01 to PUL-07 | post-conversation pulse feedback, private reflection, and student appreciation | `features/pulse-survey.md` | `architecture/system-architecture.md`, `architecture/erd.md` | Private feedback per participant plus one non-monetary appreciation action after student-reported conversation occurrence. |
-| RET-01 to RET-28 | alumni request reminders, re-engagement, and impact | `features/alumni-retention.md` | `architecture/system-architecture.md`, `architecture/erd.md` | One pending-request reminder, truthful low-frequency engagement, and impact summaries; credential is post-MVP. |
-| NOT-01 to NOT-12 | notifications | `features/request-lifecycle.md`, `features/calendly.md`, `features/matching.md` | `architecture/system-architecture.md` | Notification behavior is split by lifecycle area. |
-| EV-01 to EV-10 | email verification and eligibility | `features/email-verification.md` | `architecture/state-machines.md`, `architecture/erd.md` | Students use McGill email; every alumnus request is manually roster-reviewed before verifying the personal email they supplied. |
-| NFR-01 to NFR-08 | security, authorization, idempotency, auditability | all feature docs | `architecture/system-architecture.md` | Cross-cutting platform requirements. |
-| NFR-NOT-01 to NFR-NOT-04 | notification reliability, privacy, auditability | `features/request-lifecycle.md`, `features/calendly.md`, `features/matching.md` | `architecture/system-architecture.md` | Retry-safe and deadline-clear notifications. |
-| NFR-EV-01 to NFR-EV-04 | verification security, rate limiting, privacy, audit | `features/email-verification.md` | `architecture/system-architecture.md` | Must be implemented before private beta. |
-| CV prefill rules | profile prefill and imported draft behavior | `features/linkedin-prefill.md` | `architecture/system-architecture.md` | Covers editable draft import and no invented data. |
-
-## Current Overrides
-
-- Pending alumni requests expire after 48 elapsed hours; accepted requests do not expire for incomplete logistics.
-- Repo-local Markdown docs supersede the external PDF when conflicts remain unresolved in the external copy.
-- Structured current priorities are the MVP matching source of truth; general natural-language alumni search and Surprise Me are deferred.
+| Rule area | Feature source | Architecture source | MVP requirement |
+| --- | --- | --- | --- |
+| Community access and roles | `features/multi_community_mvp_requirements.md`, `features/email-verification.md` | `architecture/state-machines.md`, `architecture/erd.md` | Backend provisions MMA and assigns Community Admins from OAA-approved instructions; Community Admin adds known accounts only in assigned community. |
+| Invitations | `features/multi_community_mvp_requirements.md`, `features/email-verification.md` | `architecture/state-machines.md`, `architecture/system-architecture.md` | Mentor and Mentee invites are unique and email-bound; acceptance proves email ownership without a second OTP. |
+| Community-scoped matching | `features/matching.md` | `architecture/erd.md`, `architecture/system-architecture.md` | Active Mentee and Mentor memberships in the same community, three qualified matches when available. |
+| Ask lifecycle | `features/request-lifecycle.md` | `architecture/state-machines.md`, `architecture/erd.md` | 48-hour Mentor response window; immutable Mentee snapshot; structured decline; expired Ask may receive a late Mentor response without withdrawing replacement slot. |
+| Coordination | `features/calendly.md` | `architecture/state-machines.md`, `architecture/erd.md` | One snapshotted Calendly or LinkedIn route; no scheduling expiry or provider tracking. |
+| Conversation capture | `features/pulse-survey.md`, `features/calendly.md` | `architecture/system-architecture.md` | Private self-reported signals and feedback; no verified completion claim. |
+| Privacy and authorization | all feature docs | `architecture/system-architecture.md` | Community Admin cannot access email, private feedback, notes, timing, or coordination routes. |

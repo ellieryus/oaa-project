@@ -1,121 +1,69 @@
 # System Architecture
 
-Last updated: 2026-09-24
+Last updated: 2026-10-03
 
-**Primary readers:** Backend, Frontend, PM  
-**Priority:** Highest  
-**Read this when:** You need the target production system design and component boundaries.
+**Primary readers:** Backend, Frontend, PM
+**Priority:** Highest
 
-## Purpose
+## Target Architecture
 
-This document defines the target production architecture for One Ask Away MVP 1.
+One Ask Away is a Next.js web app with route UI, server actions, service/repository layers, Prisma-backed PostgreSQL, transactional email, URL-only Calendly embed, and background jobs for expiry, reminders, and follow-up prompts.
 
-## Architecture Summary
+## Service Boundaries
 
-The target application is a Next.js web app with:
+### Identity, Community, And Authorization
 
-- route-based UI
-- server actions for write entry points
-- service and repository backend layers
-- Prisma-backed PostgreSQL persistence
-- external integrations for email and Calendly
-- background jobs for deadlines, retries, and lifecycle completion
+- verifies email ownership and manages multiple `UserEmail` identities
+- backend provisioning creates the MMA community and assigns Community Admins from OAA-approved instructions
+- enforces Community Admin community scope; a platform-admin workflow is post-MVP
+- manages `CommunityMembership`, roles, exact-email existing-account add, and unique email-bound member invitations
+- exposes only approved exact-lookup and directory fields to Community Admins
+- never authorizes based solely on frontend role selection; every action checks `communityId`, membership status, and role
 
-## Primary Components
+### Onboarding And Profile
 
-### Web application
+- stores core, Mentor, and Mentee profile drafts
+- records profile confirmation, offerings/non-offerings, current priorities, and request-acceptance status
+- keeps user-owned profile editing separate from Community Admin permissions
 
-- renders public and authenticated flows
-- displays status, deadlines, and next actions
-- launches request, scheduling, and post-call flows
+### Matching And Ask
 
-### Auth and eligibility service
+- generates up to three active community-scoped Mentee-to-Mentor matches
+- applies membership, role, topic, scope, pair-exclusion, and quality rules before ranking
+- creates Asks, snapshots Mentee context, enforces 48-hour Mentor response windows, and triggers slot replacement
 
-- verifies email ownership
-- maintains role-independent user identity with multiple verified email addresses and non-exclusive program memberships
-- records alumni self-service access requests and consent
-- validates a program-supplied cohort-code picklist and requires manual review against the minimum name-and-cohort program roster before alumni email verification
-- supports backend-tooling review by the backend developer for beta and MVP 1; a role-based review UI is post-beta scope
-- assigns role and cohort
-- preserves student history when a former student later gains verified alumni membership; an active role context is a future session/UI concern, not a destructive account conversion
-- establishes authenticated sessions
+### Coordination And Conversation Follow-Up
 
-### Onboarding service
+- snapshots one Mentor-selected Calendly or LinkedIn route at acceptance
+- renders Calendly embeds without OAuth, API tokens, webhooks, or provider-event tracking
+- records CTA telemetry and private Mentee-reported timing
+- schedules private pulse prompts from reported expected date
 
-- stores role-specific profile drafts
-- enforces required fields
-- records profile confirmation
-- marks users eligible for later lifecycle stages
+### Notifications And Post-Conversation
 
-### Matching service
+- sends verification, invitation, membership, Ask, reminder, and status notifications
+- applies low-frequency Mentor re-engagement suppression
+- stores private pulse, Mentee reflection, Mentor notes, and appreciation actions
+- routes private participant reports to backend/OAA operations handling; Community Admins cannot access report content by default
 
-- generates three active matches
-- applies exclusions
-- manages slot replacement and weekly renewal rules
+## Background Jobs
 
-### Request service
-
-- creates asks
-- tracks 48-hour response windows
-- applies accept, decline, and expiry transitions
-
-### Coordination and conversation-follow-up service
-
-- snapshots one alumnus-selected Calendly or LinkedIn coordination route when an acceptance is finalized
-- renders Calendly embed links without OAuth, API tokens, webhooks, or provider-event tracking
-- records limited CTA telemetry and private self-reported conversation status
-- schedules private follow-up prompts from a reported expected conversation date
-
-### Notification service
-
-- creates inbox items
-- sends transactional emails
-- tracks delivery state
-- applies request-reminder and non-urgent re-engagement suppression rules
-
-### Post-call service
-
-- creates pulse prompts from student-reported status or expected dates
-- stores reflections and private notes
-- stores student appreciation actions and derives alumni impact signals
-
-### Recognition service (Post-MVP)
-
-- is deferred until provider-verified completion evidence is available
-- will evaluate verified completed-conversation milestones idempotently
-- will issue and verify community credentials and provide public credential records
-
-### Background jobs
-
-- request expiry
+- invitation expiry
+- Ask expiry and one pending-Ask reminder
 - self-reported scheduling follow-up and pulse invitation jobs
 - notification retry
-- match replacement processing
-
-## Layering
-
-- `src/app`: routes and handlers only
-- `src/features`: UI and presentation logic
-- `src/server/actions`: validated command entry points
-- `src/server/modules/*/service.ts`: lifecycle orchestration
-- `src/server/modules/*/repository.ts`: database access
-- `src/server/db/prisma.ts`: ORM client
-
-## Key Boundaries
-
-- production UI paths must not import mock data directly
-- repository layer must own persistence
-- service layer must own lifecycle transitions and permissions
-- jobs must re-check current state before applying changes
+- match replacement
 
 ## Cross-Cutting Requirements
 
-- server-enforced authorization
-- idempotent webhook and job handling
-- audit history for status changes
-- structured logs and error reporting
-- privacy separation for role-private content
+- community-scoped server authorization
+- idempotent invitation, membership, Ask, notification, and job processing
+- auditable lifecycle transitions
+- privacy-limited data projections for Community Admin
+- production paths must not import mock data directly
 
-## Current Gap
+## Post-MVP Boundaries
 
-The repo currently has the right rough structure, but production persistence, auth, integrations, and job handling are not yet implemented.
+- cross-community Mentor discovery and scouting
+- Community Admin metrics and analytics
+- Calendly OAuth/API/webhooks and verified booking/completion

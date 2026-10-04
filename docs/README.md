@@ -1,6 +1,6 @@
 # Documentation Map
 
-Last updated: 2026-09-11
+Last updated: 2026-10-03
 
 **Primary readers:** All  
 **Priority:** High  
@@ -38,6 +38,8 @@ That material is now normalized into:
 - `features/calendly.md`
 - `features/pulse-survey.md`
 - `features/alumni-retention.md`
+- `features/multi_community_mvp_requirements.md`
+- `features/user-flows.md`
 
 The repo-local Markdown files should now be treated as the maintained working version.
 
@@ -47,9 +49,15 @@ The repo-local Markdown files should now be treated as the maintained working ve
 - `START-HERE.md`: first-stop guide for anyone cloning the repo docs
 - `for-ellie-backend.md`: backend reading path and focus guide
 - `for-trang-frontend.md`: frontend reading path and focus guide
+- `for-rachelle-and-backend.md`: PM/backend decisions awaiting technical alignment
+- `wireframes/mentee-wireframe.html`: interactive Mentee journey review wireframe
+- `wireframes/mentor-wireframe.html`: interactive Mentor journey review wireframe
+- `wireframes/community-admin-wireframe.html`: interactive Community Admin journey review wireframe
 - `product/`: business scope, roadmap, and product decisions
 - `requirements/`: PRD and traceability
 - `features/`: feature-by-feature functional requirements with frontend and backend expectations
+  - `multi_community_mvp_requirements.md`: Community, membership, and admin authorization rules
+  - `user-flows.md`: target Mentee, Mentor, and Community Admin journeys
 - `architecture/`: system design, ERD notes, lifecycle state machines
 - `delivery/`: team operating model and documentation cadence
   - includes frontend-specific implementation guidance for UX and UI interpretation

@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>One Ask Away | Role Interaction Wireframes</title>
+  <style>
+    :root { --ink:#172018; --muted:#647066; --paper:#f7f3eb; --card:#fffdf8; --line:#d8d2c5; --forest:#234b39; --lime:#d8ef9a; --coral:#e77d5d; --sky:#d7e9ee; --radius:18px; }
+    * { box-sizing:border-box; } body { margin:0; color:var(--ink); background:radial-gradient(circle at 85% 0,#dcebc8 0,transparent 34%),var(--paper); font:15px/1.45 Georgia, "Times New Roman", serif; }
+    button { font:inherit; cursor:pointer; } .shell { max-width:1280px; min-height:100vh; margin:auto; display:grid; grid-template-columns:260px 1fr; }
+    aside { padding:30px 20px; border-right:1px solid var(--line); background:rgba(255,253,248,.55); position:sticky; top:0; height:100vh; }
+    .brand { font-family:Impact, Haettenschweiler, sans-serif; font-size:26px; letter-spacing:.4px; line-height:.95; } .brand span { display:block; color:var(--forest); font-family:Georgia,serif; font-size:12px; letter-spacing:1.4px; margin-top:10px; text-transform:uppercase; }
+    nav { margin-top:48px; display:grid; gap:8px; } .role { width:100%; text-align:left; border:1px solid transparent; background:none; padding:13px 14px; border-radius:12px; color:var(--muted); } .role.active { color:var(--ink); border-color:var(--ink); background:var(--lime); font-weight:bold; } .note { margin-top:36px; padding:14px; border-left:3px solid var(--coral); color:var(--muted); font-size:13px; }
+    main { padding:36px clamp(20px,4vw,64px) 70px; } .eyebrow { color:var(--forest); font:700 11px/1 Arial,sans-serif; letter-spacing:1.4px; text-transform:uppercase; } h1 { font-size:clamp(34px,5vw,62px); line-height:.98; letter-spacing:-2px; max-width:760px; margin:12px 0 18px; } .lede { color:var(--muted); font-size:18px; max-width:700px; }
+    .legend { display:flex; gap:10px; flex-wrap:wrap; margin:28px 0; } .chip { border:1px solid var(--line); border-radius:99px; padding:6px 10px; background:#fffaf0; font:11px Arial,sans-serif; } .chip.draft { background:#ffe3d9; border-color:#e77d5d; }
+    .panel { display:none; } .panel.active { display:block; } .steps { display:grid; gap:16px; max-width:900px; } .step { display:grid; grid-template-columns:46px 1fr; gap:14px; align-items:start; } .num { width:34px; height:34px; border-radius:50%; display:grid; place-items:center; background:var(--forest); color:white; font:700 13px Arial,sans-serif; } .wire { background:var(--card); border:1px solid var(--line); border-radius:var(--radius); padding:22px; box-shadow:0 9px 0 rgba(35,75,57,.04); } .wire h2 { font-size:24px; margin:0 0 4px; } .wire p { margin:4px 0 16px; color:var(--muted); } .frame { border:1px solid var(--line); background:#fbf8f1; padding:16px; border-radius:12px; } .row { display:flex; gap:10px; flex-wrap:wrap; align-items:center; } .tag { background:var(--sky); border-radius:6px; padding:5px 8px; font:12px Arial,sans-serif; } .tag.warn { background:#ffe1d6; } .tag.ok { background:var(--lime); } .action { border:0; padding:10px 14px; border-radius:8px; background:var(--forest); color:white; font-weight:bold; } .action.secondary { border:1px solid var(--ink); background:transparent; color:var(--ink); } .split { display:grid; grid-template-columns:1fr 1fr; gap:12px; } .empty { border:1px dashed #aaa294; padding:14px; border-radius:10px; color:var(--muted); } .quote { border-left:3px solid var(--coral); padding-left:12px; font-style:italic; color:#4c564d; }
+    dialog { width:min(540px,calc(100% - 28px)); border:0; border-radius:18px; padding:0; box-shadow:0 24px 80px rgba(0,0,0,.26); } dialog::backdrop { background:rgba(20,32,24,.45); } .dialog { padding:28px; background:var(--card); } .dialog h3 { font-size:28px; margin:0 0 8px; } .dialog p { color:var(--muted); } .dialog .row { justify-content:flex-end; margin-top:24px; }
+    @media (max-width:760px) { .shell { display:block; } aside { position:static; height:auto; border-right:0; border-bottom:1px solid var(--line); } nav { margin-top:22px; grid-template-columns:repeat(2,1fr); } .note { display:none; } main { padding:28px 18px 48px; } .split { grid-template-columns:1fr; } }
+  </style>
+</head>
+<body>
+  <div class="shell">
+    <aside>
+      <div class="brand">ONE ASK<br>AWAY<span>Interaction wireframes</span></div>
+      <nav aria-label="Role views">
+        <button class="role active" data-role="mentee">01 · Mentee</button>
+        <button class="role" data-role="mentor">02 · Mentor</button>
+        <button class="role" data-role="admin">03 · Community Admin</button>
+        <button class="role" data-role="ops">04 · Backend / OAA Ops</button>
+      </nav>
+      <p class="note">Orange labels are deliberate copy decisions still open for review. Click dark buttons to inspect confirmations.</p>
+    </aside>
+    <main>
+      <div class="eyebrow">Draft artifact · 2026-10-04</div>
+      <h1>What each person sees, decides, and confirms.</h1>
+      <p class="lede">A role-by-role wireframe for the community-curated MVP. This is not production UI. It is a review tool for PM, UX, and backend.</p>
+      <div class="legend"><span class="chip">System message</span><span class="chip">Primary decision</span><span class="chip draft">Copy / policy to confirm</span></div>
+
+      <section class="panel active" id="mentee">
+        <div class="steps">
+          <article class="step"><div class="num">1</div><div class="wire"><h2>Community access, profile required</h2><p>Community Admin has added you to MMA. Complete your profile before finding Mentors.</p><div class="frame"><div class="row"><span class="tag ok">MMA · Mentee</span><span class="tag warn">Profile incomplete</span></div><h3>Start with less typing</h3><p>Optional: upload a LinkedIn profile PDF or resume to prefill your draft. You will review every field.</p><div class="row"><button class="action secondary">Fill manually</button><button class="action" data-dialog="pdf">Upload PDF</button></div></div></div></article>
+          <article class="step"><div class="num">2</div><div class="wire"><h2>Current priorities</h2><p>Pick and rank 1–3 topics. These are used for your current match batch, not a permanent profile.</p><div class="frame"><div class="row"><span class="tag">1 · CV / resume review</span><span class="tag">2 · Company insights</span><span class="tag">3 · Career direction</span></div><button class="action" style="margin-top:14px">Find Mentors</button></div></div></article>
+          <article class="step"><div class="num">3</div><div class="wire"><h2>Three relevant Mentors</h2><p>Each card shows one reason, offerings, and non-offerings before an Ask is sent.</p><div class="frame"><strong>Amira Khan · Finance Manager</strong><p class="quote">Offers CV review and works in finance.</p><div class="row"><span class="tag">CV / resume review</span><span class="tag">Company insights</span><span class="tag warn">Does not offer referrals</span></div><button class="action" style="margin-top:14px">Write an Ask</button></div><p><button class="action secondary" data-dialog="update">Update current priorities</button> <span class="chip draft">Low-supply / regenerate placement: team decision pending</span></p></div></article>
+          <article class="step"><div class="num">4</div><div class="wire"><h2>Ask status</h2><p><strong>Sent to Amira.</strong> You will receive an answer or a replacement match within 48 hours. We do not show whether she has viewed it.</p><div class="frame"><div class="row"><span class="tag">Response due tomorrow, 3:14 PM</span><span class="tag">Ask history</span></div><p>At expiry: <em>We are adding another Mentor match. Amira may still review and respond to your earlier Ask through OAA.</em></p></div></div></article>
+          <article class="step"><div class="num">5</div><div class="wire"><h2>Accepted Ask</h2><p>Here is how to connect with Amira. OAA shows one coordination route only.</p><div class="frame"><button class="action">Choose a time with Amira</button><p class="quote">One day later: “When did or will your conversation happen?”</p><div class="row"><span class="tag">It already happened</span><span class="tag">It is scheduled</span><span class="tag">Not scheduled yet</span></div></div></div></article>
+        </div>
+      </section>
+
+      <section class="panel" id="mentor"><div class="steps">
+        <article class="step"><div class="num">1</div><div class="wire"><h2>Email-bound invitation</h2><p>You have been invited to join MMA as a Mentor. This link confirms ownership of this email; no second code is required.</p><div class="frame"><button class="action">Accept invitation</button><p class="chip">MMA · Mentor</p></div></div></article>
+        <article class="step"><div class="num">2</div><div class="wire"><h2>Build a useful profile</h2><p>Optional PDF prefill reduces manual entry. You still choose what you offer and do not offer.</p><div class="split"><div class="frame"><strong>Offer 1–5 topics</strong><p>CV review · Networking · Company insights</p></div><div class="frame"><strong>Non-offerings 0–3</strong><p>Job referrals</p></div></div><p><span class="tag warn">Draft: default Calendly / LinkedIn setup may be skipped until first acceptance.</span></p><button class="action">Confirm profile</button></div></article>
+        <article class="step"><div class="num">3</div><div class="wire"><h2>One clear Ask, not a feed</h2><p>Inbox preview: one-sentence Mentee summary, selected topic, and the opening Ask. Expand for all priorities and context.</p><div class="frame"><span class="tag">CV / resume review</span><h3>Maya is targeting finance analyst roles and wants feedback before applications.</h3><p>“Could you help me identify the two biggest issues in my resume for finance roles?”</p><div class="row"><button class="action secondary" data-dialog="decline">Decline</button><button class="action" data-dialog="accept">Accept</button></div></div></div></article>
+        <article class="step"><div class="num">4</div><div class="wire"><h2>Expired Asks remain reviewable</h2><p><strong>This Ask expired for the Mentee.</strong> Their replacement match remains available, but you may still respond.</p><div class="frame"><div class="row"><button class="action secondary" data-dialog="decline">Late decline</button><button class="action" data-dialog="accept">Late accept</button></div></div></div></article>
+      </div></section>
+
+      <section class="panel" id="admin"><div class="steps">
+        <article class="step"><div class="num">1</div><div class="wire"><h2>Add an existing member</h2><p>Use a known exact email. This is not a platform-wide people browser.</p><div class="frame"><div class="empty">name@example.com</div><p>Result returns minimum identity only. It never reveals other community memberships.</p><button class="action" data-dialog="add">Add to MMA</button></div></div></article>
+        <article class="step"><div class="num">2</div><div class="wire"><h2>Invite a new member</h2><p>Invite a Mentor or Mentee who does not have an OAA account yet.</p><div class="frame"><div class="row"><span class="tag">Mentor</span><span class="tag">Mentee</span></div><div class="empty" style="margin-top:12px">invitee@email.com</div><button class="action" data-dialog="invite" style="margin-top:12px">Send invitation</button></div></div></article>
+        <article class="step"><div class="num">3</div><div class="wire"><h2>Directory only</h2><p>Member directory exposes name, role, status, offerings, and non-offerings. No email, private feedback, coordination URL, or other-community data.</p><div class="frame"><div class="row"><strong>Amira Khan</strong><span class="tag">Mentor</span><span class="tag ok">Active</span></div><p>Offerings: CV review, Company insights</p><button class="action secondary">Pause or remove membership</button></div></div></article>
+      </div></section>
+
+      <section class="panel" id="ops"><div class="steps">
+        <article class="step"><div class="num">1</div><div class="wire"><h2>Bootstrap only</h2><p>Backend manually provisions MMA and assigns the Program Director a <code>COMMUNITY_ADMIN</code> membership from an OAA-approved instruction.</p><div class="frame"><span class="tag">Audit: actor · timestamp · community · reason</span></div></div></article>
+        <article class="step"><div class="num">2</div><div class="wire"><h2>Private report queue</h2><p>Reports from a Mentor or Mentee go to backend/OAA operations, not automatically to the Community Admin.</p><div class="frame"><div class="row"><span class="tag">Reporter</span><span class="tag">Counterpart / Ask</span><span class="tag">Category</span><span class="tag">Optional detail</span></div><p class="quote">Access is limited to operations handling. Community Admins do not see report content by default.</p></div></div></article>
+      </div></section>
+    </main>
+  </div>
+  <dialog id="pdf"><div class="dialog"><h3>Import a profile draft</h3><p>Upload a LinkedIn profile PDF or resume PDF. You will review every extracted field before confirmation.</p><p class="chip draft">Pending: agreement copy, temporary file retention, parser/provider decision.</p><div class="row"><button class="action secondary" data-close>Cancel</button><button class="action" data-close>Choose PDF</button></div></div></dialog>
+  <dialog id="update"><div class="dialog"><h3>Replace uncontacted matches?</h3><p>Updating your current priorities will replace all cards you have not contacted. Sent, accepted, and historical Asks will not change.</p><div class="row"><button class="action secondary" data-close>Keep matches</button><button class="action" data-close>Update matches</button></div></div></dialog>
+  <dialog id="decline"><div class="dialog"><h3>Why are you declining?</h3><p>This helps set clearer expectations and improve matching.</p><div class="row"><span class="tag">Timing unavailable</span><span class="tag">Outside expertise</span><span class="tag">Not an offering</span><span class="tag">At capacity</span></div><div class="row"><button class="action secondary" data-close>Cancel</button><button class="action" data-close>Send decline</button></div></div></dialog>
+  <dialog id="accept"><div class="dialog"><h3>Confirm and share a route</h3><p>Select one route. Personal email is never shown.</p><div class="row"><button class="action secondary">Connect on LinkedIn</button><button class="action">Review Calendly availability</button></div><div class="row"><button class="action secondary" data-close>Cancel</button><button class="action" data-close>Confirm acceptance</button></div></div></dialog>
+  <dialog id="add"><div class="dialog"><h3>Add Amira Khan to MMA?</h3><p>Choose the membership role. The account's other communities will remain private.</p><div class="row"><span class="tag">Mentor</span><span class="tag">Mentee</span><span class="tag">Both</span></div><div class="row"><button class="action secondary" data-close>Cancel</button><button class="action" data-close>Add member</button></div></div></dialog>
+  <dialog id="invite"><div class="dialog"><h3>Send MMA invitation?</h3><p>The recipient must open this unique link using the invited email. They will complete their profile before matching access.</p><div class="row"><button class="action secondary" data-close>Cancel</button><button class="action" data-close>Send invitation</button></div></div></dialog>
+  <script>
+    document.querySelectorAll('[data-role]').forEach(button => button.addEventListener('click', () => { document.querySelectorAll('[data-role], .panel').forEach(el => el.classList.remove('active')); button.classList.add('active'); document.getElementById(button.dataset.role).classList.add('active'); }));
+    document.querySelectorAll('[data-dialog]').forEach(button => button.addEventListener('click', () => document.getElementById(button.dataset.dialog).showModal()));
+    document.querySelectorAll('[data-close]').forEach(button => button.addEventListener('click', () => button.closest('dialog').close()));
+  </script>
+</body>
+</html>
