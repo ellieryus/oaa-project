@@ -1,33 +1,98 @@
 # For Trang: Frontend
 
-Last updated: 2026-10-03
+Last updated: 2026-10-14
 
 **Primary readers:** Frontend, UX
 **Priority:** Highest
 
 ## Read First
 
-1. `docs/product/product-brief.md`
+1. `docs/product/decision-log.md`
 2. `docs/features/multi_community_mvp_requirements.md`
-3. `docs/features/email-verification.md`
-4. `docs/features/matching.md`
-5. `docs/features/request-lifecycle.md`
-6. `docs/features/calendly.md`
+3. `docs/features/user-flows.md`
+4. `docs/features/mentee-page-spec.md`
+5. `docs/features/matching.md`
+6. `docs/features/request-lifecycle.md`
+7. `docs/features/calendly.md`
 
-## Core UX Rules
+## Global IA
 
-- use `Mentor` and `Mentee`; describe a short career conversation, not a promised long-term mentorship relationship
-- always make the current community visible in authenticated community flows
-- users see a community only after Community Admin add or valid invitation acceptance; do not render community discovery for non-members
-- invite acceptance must clearly show the invited community and granted role without exposing the invited email to the Community Admin
-- Community Admin needs exact-email member add plus a simple directory; it sees only minimum lookup identity plus name, role, status, offerings, and non-offerings
-- Community Admin never sees stored member personal email, private feedback, notes, schedule status, or coordination route. After entering an invitee email, UI shows only invitation status
-- Mentee match cards show one clear reason, Mentor offerings/non-offerings, and exactly three qualified results when available
-- Mentor acceptance must end with one Calendly or LinkedIn route. Do not show both routes to the Mentee or a booking deadline after acceptance
+Home:
 
-## Do Not Build In MVP
+- Your Communities
+- Pending Requests
+- Discover Communities
 
-- Community Admin metrics/dashboard
-- cross-community mentor discovery/scouting
-- native chat, rescheduling, or calendar sync
-- surfaces that imply global directory access or institutional verification
+Global:
+
+- Home
+- Notifications
+- Profile
+- active-community shortcuts
+
+Inside Mentee Community:
+
+- Matches
+- Asks
+
+Do not create a duplicate global Ask-history experience.
+
+## Entry And Discovery
+
+- free entry is supported for Mentor and Mentee
+- after email verification, user selects Organization
+- do not label Organization as verified unless a real verification step occurred
+- normal Discovery is Organization-scoped
+- pre-join preview: name, organization, description, eligibility, organizer
+- do not expose Mentor/member counts, names, or activity pre-join
+- discoverable communities require join request + Admin approval
+- invite-only communities do not appear in Discovery
+
+## Matching UX
+
+- current Community must be obvious
+- show no more than three uncontacted recommendations
+- fewer than three is valid
+- relevance copy should be human-readable
+- show offerings/non-offerings
+- Send Ask removes Mentor from Matches; no top-up
+- Not a Fit removes the card; no immediate top-up while other current recommendations remain
+- after all current cards are handled, show `See next recommendations` when supply exists
+- decline/expiry replacement uses explicit `See your replacement` or equivalent reveal UX
+- low-supply state says more Mentors may be added and makes priority review optional
+
+## Coordination
+
+LinkedIn:
+
+- open in new tab
+- on return ask `Did you reach out?`
+- Yes clears immediate action; Not yet preserves it
+
+Calendly:
+
+- inline embed + new-tab fallback
+- `Go back to Ask` may mark lightweight Scheduled UX state
+- do not present this as server-verified booking
+
+## Admin UX
+
+Admin needs:
+
+- Join Requests
+- Members
+- Mentor Pool
+- Invites
+- Settings
+
+Admin never sees private mentoring activity.
+
+## Do Not Build
+
+- public auto-join
+- cross-community Mentor cards inside a Community
+- global people directory
+- Mentee directory
+- free-form Regenerate/Refresh
+- guaranteed 3-result copy
+- hard-coded small-community readiness warning/threshold

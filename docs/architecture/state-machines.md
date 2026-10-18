@@ -1,46 +1,74 @@
 # State Machines
 
-Last updated: 2026-10-03
+Last updated: 2026-10-14
 
 **Primary readers:** Backend, Frontend
 **Priority:** Highest
-**Read this when:** You are implementing or validating account, invitation, membership, Ask, or conversation-follow-up transitions.
 
-## Account State Machine
+## Account State
 
 ```text
 PENDING_VERIFICATION
   -> ONBOARDING
-
-ONBOARDING
   -> ACTIVE
   -> PAUSED
   -> BANNED
 ```
 
-- email verification moves an account to `ONBOARDING`
-- `ACTIVE` at account level does not grant access to a community; authorization also requires the appropriate active membership
+Account activity does not grant community access.
 
-## Community Membership State Machine
+## Organization Selection State
+
+Organization selection is discovery context, not membership.
+
+```text
+UNSELECTED
+  -> SELECTED
+```
+
+A future verification state may be added for Admin creator verification, but ordinary community discovery does not require organization-level approval.
+
+## Community Join Request
+
+```text
+REQUESTED
+  -> APPROVED
+  -> DECLINED
+  -> WITHDRAWN (optional implementation)
+```
+
+- `REQUESTED` grants no community access
+- approval creates/activates the requested community role membership
+- decline behavior/copy may be refined without changing membership semantics
+
+## Invitation State
+
+```text
+INVITED
+  -> ACCEPTED
+  -> EXPIRED
+  -> REVOKED
+```
+
+Accepted invitation creates/activates the granted community role membership after required profile review.
+
+## Community Membership State
 
 ```text
 ACTIVE
   -> PAUSED
   -> REMOVED
-
-INVITED
-  -> ACTIVE
-  -> EXPIRED
-  -> REVOKED
 ```
 
-- `ACTIVE` is created by a Community Admin adding an existing verified account or an invitee accepting a valid email-bound invitation after required onboarding
-- there is no public join application or Community Admin review queue in MVP
-- `INVITED` is created by a unique email-bound Mentor or Mentee invitation and becomes active only after that email owner accepts and completes the required role onboarding
-- only an `ACTIVE` membership permits matching, Ask actions, or Community Admin actions in that community
-- removal or pause blocks future actions but preserves historical Asks and audit history
+Membership source may be:
 
-## Ask State Machine
+- join request approval
+- direct invitation
+- exact-email Admin add
+
+Only `ACTIVE` membership permits community mentoring actions for the granted role.
+
+## Ask State
 
 ```text
 PENDING_MENTOR_RESPONSE
@@ -51,56 +79,59 @@ PENDING_MENTOR_RESPONSE
 EXPIRED_AWAITING_LATE_RESPONSE
   -> LATE_ACCEPTED
   -> LATE_DECLINED
-
-ACCEPTED
-  -> remains accepted while coordination and conversation occur off-platform
 ```
 
-- decline is final
-- no-response expiry releases the Mentee's match slot but preserves the Ask in the Mentor's `Expired Asks` list for late accept or decline
-- a late accept requires the same coordination-route snapshot as an on-time accept; the replacement match remains intact
-- acceptance requires one snapshotted coordination route before it is shown to the Mentee
-- accepted Asks do not expire because scheduling is incomplete
-- scheduling and conversation signals are stored separately from Ask response state
+Accepted Ask coordination state is tracked separately.
 
-## Match Slot State Model
+## Mentee Recommendation State
+
+A candidate may move through product states such as:
 
 ```text
-ACTIVE
+UNSEEN
+  -> VISIBLE
   -> CONTACTED
-  -> INACTIVE_REPLACED
-  -> DECLINED
-  -> EXPIRED_NO_RESPONSE
-  -> ACCEPTED
+  -> NOT_FIT
+  -> REPLACEMENT_READY
+  -> HISTORICAL
 ```
 
-- each community batch starts with up to three qualified active Mentor slots
-- qualifying expiry replaces only the affected slot automatically; decline exposes a one-slot replacement action to the Mentee
-- declined or expired Mentee-Mentor pairs are excluded from future automated matching in the same community
+The exact persistence schema may differ.
 
-## Self-Reported Conversation Follow-Up State
+Rules:
+
+- no more than three `VISIBLE` uncontacted recommendations per community
+- `CONTACTED` moves the Mentor into Asks and does not trigger top-up
+- `NOT_FIT` removes the Mentor without immediate top-up
+- when no current `VISIBLE` recommendation remains and unseen qualified supply exists, next-set CTA may appear
+- decline/expiry may produce exactly one `REPLACEMENT_READY` candidate if visible supply is below three
+- revealing the replacement returns it to `VISIBLE` with a New state
+
+## Coordination State
+
+LinkedIn example:
 
 ```text
-UNKNOWN
-  -> SCHEDULED_SELF_REPORTED
-  -> NOT_SCHEDULED
-  -> HAPPENED_SELF_REPORTED
-
-NOT_SCHEDULED
-  -> SCHEDULED_SELF_REPORTED
-  -> HAPPENED_SELF_REPORTED
-  -> DID_NOT_HAPPEN
+NEEDS_OUTREACH
+  -> LINKEDIN_OPENED
+  -> CONNECTED_WAITING_TO_COORDINATE
 ```
 
-- this is private participant reporting, not a verified meeting record
-- one day after a Mentee-reported expected date, invite both participants to complete their private pulse
-- provider-verified meeting states require post-MVP OAuth and signed Calendly webhooks
-
-## Notification Read Model
+Calendly example:
 
 ```text
-UNREAD
-  -> READ
+NEEDS_SCHEDULING
+  -> SCHEDULED_UI_STATE
 ```
 
-Inbox read state, Ask view state, response state, and lifecycle state remain separate.
+`SCHEDULED_UI_STATE` is not provider-verified booking evidence.
+
+## Self-Reported Conversation Follow-Up
+
+Existing private follow-up states remain separate from Ask and coordination state.
+
+## Community Creation
+
+User-facing Admin/community creation is intended, but the creator verification/authority mechanism remains open.
+
+Do not invent a Mentor-count activation state. No numeric community-readiness gate is currently approved.

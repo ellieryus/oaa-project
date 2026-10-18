@@ -1,13 +1,13 @@
 # Mentee Schema Proposal
 
-Last updated: 2026-10-03
+Last updated: 2026-10-14
 
 **Primary readers:** Product Owner, Backend, Frontend
 **Priority:** High
 
 ## Purpose
 
-This proposal defines the minimum Mentee persistence model for community-scoped matching. The legacy filename remains temporarily for repository continuity; `MenteeProfile` is the documented target entity.
+Define the minimum Mentee persistence shape while preserving community-scoped authorization and the open decision around global vs community-specific matching preferences.
 
 ## Minimum Domain Shape
 
@@ -20,9 +20,11 @@ User
   -> CommunityMembership[]
 ```
 
-### MenteeProfile
+Organization/discovery context and community join requests are modeled outside `MenteeProfile`.
 
-Required fields:
+## MenteeProfile
+
+Required/core fields may include:
 
 - `id`
 - `userId`
@@ -31,16 +33,15 @@ Required fields:
 - `createdAt`
 - `updatedAt`
 
-Optional profile fields may include target city, experience level, portfolio URL, program, or cohort. None creates community access by itself.
+Optional profile fields may include target role/industry, experience, portfolio, program/cohort, bio, or other approved context.
 
-### MenteeAspiration
+None creates community access by itself.
 
-- `id`
-- `menteeProfileId`
-- `role`
-- `rank`
+## CurrentPriority
 
-### CurrentPriority
+Current MVP requires one to three ranked active priorities.
+
+Baseline shape:
 
 - `id`
 - `menteeProfileId`
@@ -49,32 +50,53 @@ Optional profile fields may include target city, experience level, portfolio URL
 - `createdAt`
 - `retiredAt`
 
-One to three priorities may be active at once. `topicId` is shared with Mentor offerings and non-offerings.
+`topicId` is shared with Mentor offerings/non-offerings.
 
-### MenteeBackground And MenteeSkill
+## Open Preference Scope Decision
 
-Persist relevant background and skills as child records. They support ranking but do not replace structured current priorities.
+Do not treat global priority ownership as permanently locked.
 
-## Eligibility Rule
+Two valid architecture directions remain:
 
-A Mentee can start matching only when:
+### Global
 
-1. their account email is verified;
-2. `MenteeProfile.profileConfirmedAt` exists;
-3. their `CommunityMembership` is `ACTIVE` with role `MENTEE` for the selected community; and
-4. they are not paused from matching.
+```text
+MenteeProfile -> CurrentPriority[]
+```
+
+### Community override
+
+```text
+MenteeProfile
+CommunityMembership -> CommunityMenteePreference -> PriorityOverride[]
+```
+
+User research and Backend complexity should determine the final MVP choice.
+
+The product requirement is that matching in each community uses the intended current Mentee needs without creating contradictory hidden behavior.
+
+## Eligibility
+
+A Mentee may match in a selected community only when:
+
+1. email ownership is verified;
+2. required Mentee profile is confirmed;
+3. `CommunityMembership` is `ACTIVE` with `MENTEE`;
+4. matching is not paused;
+5. current matching inputs required by the final preference-scope design exist.
 
 ## Migration Rules
 
 - replace legacy `StudentProfile` references with `MenteeProfile`
-- replace `ProgramMembership` as authorization source with `CommunityMembership` and `CommunityMembershipRole`
-- preserve a user-owned MentorProfile and MenteeProfile as non-exclusive capabilities
-- every Match and Ask must reference `communityId`, Mentee membership, and Mentor membership
-- do not infer role or community authorization from a single email domain
+- do not authorize from email domain or selected Organization alone
+- use `CommunityMembership` + role for community access
+- every Match and Ask references `communityId`, Mentee membership, and Mentor membership
+- preserve non-exclusive Mentor/Mentee capabilities
+- do not implement cross-community matching
 
 ## Acceptance Criteria
 
-- a Mentee can complete onboarding, be approved into a community, and refresh without data loss
-- a Mentee can maintain one to three ranked current priorities
-- matching never returns a Mentor outside the selected active community
-- Prisma queries can evaluate eligibility without mock-only fields
+- free-entry Mentee can create account, select Organization, request Community access, become approved, and retain state after refresh
+- invited/add-by-email Mentee paths also work
+- one to three priorities can be stored under the final chosen preference scope
+- selected community never returns a Mentor outside that community

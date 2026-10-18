@@ -1,6 +1,6 @@
 # Product Brief
 
-Last updated: 2026-10-03
+Last updated: 2026-10-14
 
 **Primary readers:** PM, Backend, Frontend, Product Designer
 **Priority:** Highest
@@ -8,92 +8,160 @@ Last updated: 2026-10-03
 
 ## Product Summary
 
-One Ask Away helps members of approved career communities find a relevant Mentor and send a clear, scoped Ask for a short career conversation. MMA is the first launch community; the platform is not restricted to MMA identity or McGill email addresses.
+One Ask Away helps members of trusted career communities find a relevant Mentor and send a clear, scoped Ask for a short career conversation.
+
+MMA is the first pilot community. The platform model is generic and must not hard-code MMA, McGill, or a specific cohort.
 
 The product promise is:
 
-1. Community Admins build a safe, relevant community member pool.
-2. Mentees receive a small, curated set of relevant Mentors from their own community.
-3. Mentors receive clear asks within their declared scope.
-4. Both participants receive one clear off-platform coordination path after acceptance.
+1. Users can choose and request the communities relevant to them.
+2. Community Admins remain the access gatekeepers and maintain community quality/supply.
+3. Mentees receive a small curated set of relevant Mentors from the community they are currently using.
+4. Mentors receive scoped Asks from communities they intentionally support.
+5. Accepted Asks move to one clear external coordination route.
 
-## Release Goal
+## Pilot Context
 
-Launch a community-enabled private beta that proves a Mentee can move from verified email and active community membership to a high-quality accepted Ask. Self-reported conversation occurrence is a secondary outcome.
+Working MMA rollout assumption:
 
-MMA is the first community. The data model must support future approved communities without rebuilding accounts, memberships, profiles, matching, or authorization.
+- approximately 50–60 participating alumni
+- approximately 90 students/Mentees
+
+These are planning assumptions, not product thresholds or hard-coded limits.
+
+A current student may later participate as a Mentor. Mentor and Mentee are non-exclusive capabilities, not permanent identities.
 
 ## Roles
 
-- `Community Admin`: adds known members or sends email-bound invitations, and sees only allowed lookup/directory fields for their community.
-- `Mentor`: declares offerings/non-offerings, receives and accepts/declines scoped Asks.
-- `Mentee`: maintains current priorities, receives curated matches, and sends scoped Asks.
+- `Community Admin`: reviews access, invites/adds members, manages membership and Mentor supply, and controls allowed community settings.
+- `Mentor`: declares scope, receives Asks, and accepts/declines.
+- `Mentee`: maintains current needs, receives curated community-scoped recommendations, and sends scoped Asks.
 
-One user may hold Mentor and Mentee capabilities. Roles are community-scoped and non-exclusive.
+One user may hold multiple roles across time and communities.
+
+## Core Information Architecture
+
+Global Home:
+
+- `Your Communities`
+- `Pending Requests`
+- `Discover Communities`
+
+Community workspace for Mentees:
+
+- `Matches`
+- `Asks`
+
+Global Notifications deep-link into the canonical community context.
 
 ## MVP Scope
 
 ### In scope
 
-- generic `Community`, membership, role, and invitation model; MMA configured as the first community
-- backend provisioning of the MMA community and Community Admin assignment from OAA-approved instructions
-- exact-email add for known existing Mentor and Mentee accounts
-- Community Admin privacy-limited member lookup and directory views
-- unique email-bound Mentor and Mentee invitations
-- email ownership verification and role-specific onboarding
-- community-scoped Mentor/Mentee matching with exactly three qualified matches when available
-- structured Ask lifecycle, 48-hour Mentor response window, and scope-aware decline reasons
-- late Mentor response from `Expired Asks`, while preserving the Mentee's replacement match slot
-- one Mentors-selected Calendly or LinkedIn coordination route at acceptance
-- self-reported conversation follow-up, private pulse, Mentee reflection, Mentor notes, and Mentee appreciation
-- essential transactional notifications and low-frequency Mentor retention notifications
-- private participant report to backend/OAA operations queue
+- generic Organization + Community + membership + role model
+- open signup for Mentor and Mentee users
+- organization selection for normal discovery
+- discoverable communities requiring Admin approval
+- invite-only communities
+- community preview with name, organization, description, eligibility, and organizer
+- join requests with optional note
+- Community Admin join-request review
+- exact-email existing-account add
+- unique email-bound Mentor/Mentee invitations
+- cross-program access subject to Admin approval
+- explicit Admin invite/add across organization boundaries
+- non-exclusive Mentor/Mentee roles
+- community-scoped Mentee-to-Mentor matching
+- maximum three visible qualified uncontacted recommendations
+- bounded `Not a fit`, next-set, decline/expiry replacement behavior
+- structured Ask lifecycle with 48-hour Mentor response window
+- late Mentor response after expiry
+- one accepted coordination route: Calendly or LinkedIn
+- community-scoped Asks
+- transactional notifications and existing private post-conversation capture
+- user-facing Community Admin/community creation as intended direction, with creator-verification mechanism still open
 
-### Explicitly post-MVP
+### Explicitly not in MVP
 
-- community metrics, dashboards, supply/demand analytics, and individual activity analytics for Community Admins
-- a platform-admin role, UI, self-service community creation, and Community Admin assignment workflow
-- self-service membership applications and public community discovery
-- cross-community Mentor discovery, scouting, and opt-in discoverability
-- automatic membership in another community
+- silent cross-community matching
+- OAA-wide Mentor pool fallback
+- public open/auto-join communities
+- participant-facing Mentee directory
+- free-form regenerate / infinite swipe
+- guaranteed three Mentor recommendations
+- hard-coded minimum Mentor-pool activation threshold
+- native messaging
+- native calendar sync/rescheduling
+- Calendly OAuth/webhook dependency
+- verified booking/completion claims
 - Mentor-to-Mentor or Mentee-to-Mentee matching
-- bulk invitations, roster/CRM integrations, institutional SSO, and profile synchronization
-- native messaging, rescheduling, calendar sync, Calendly OAuth/API/webhooks, booking verification, and verified completion
-- public leaderboard, credential, or badge issuance
+
+## Community Access Principle
+
+Normal discovery is organization-scoped.
+
+Program mismatch is not a hard block. A user may request another community in the same organization and the Community Admin decides.
+
+Explicit Admin invitation/add may cross organization boundaries for both Mentors and Mentees.
+
+Community membership, not organization selection, determines mentoring access.
+
+## Matching Principle
+
+```text
+same-community eligibility
+-> relevance first
+-> up to 3 qualified recommendations
+-> diversification only among sufficiently relevant options
+```
+
+Three is a maximum visible window, not a guaranteed count.
+
+Send Ask moves the Mentor from Matches to Asks without immediate top-up.
+
+`Not a fit` does not immediately top up while other current recommendations remain.
+
+When the current visible set is fully handled, the Mentee may request the next curated set if qualified unseen supply exists.
+
+Decline/expiry may prepare exactly one qualified replacement when visible supply is below three.
 
 ## Success Metrics
 
-- high-quality accepted-Ask rate is the north-star metric
+- high-quality accepted-Ask rate
 - Mentee Ask submission rate
 - Mentor response rate within 48 elapsed hours
-- Mentor acceptance rate and `NOT_AN_OFFERING` decline rate
-- self-reported conversation occurrence is a secondary effectiveness metric
-- active Mentor supply is an operational beta signal, not a Community Admin dashboard requirement
+- Mentor acceptance rate
+- `NOT_AN_OFFERING` decline rate
+- recommendation coverage: % of eligible Mentees receiving 3 / 2 / 1 / 0 qualified recommendations
+- `Not a fit` rate
+- replacement availability after involuntary loss
+- self-reported conversation occurrence as a secondary effectiveness signal
 
-## Core Journey Acceptance Criteria
+Mentor-pool minimum/readiness is a research question, not a release gate.
+
+## Release Acceptance
 
 ### Community access
 
-- an existing verified account sees a community only after a Community Admin adds it
-- a new user sees a community only after accepting its email-bound invitation and completing required profile fields
-- an email-bound invite cannot activate a different email address and does not require a second OTP
-- Community Admin sees only allowed exact-lookup and directory fields for their own community
+- free-entry user can verify email, select organization, discover eligible communities, and submit a join request
+- pending request grants no community access
+- Admin can approve/decline
+- invited/add-by-email paths still work
+- explicit cross-organization Admin invite/add is supported
+- normal discovery remains organization-scoped
 
-### Mentee matching and Ask
+### Matching
 
-- a Mentee with active membership and confirmed profile receives up to three qualified Mentors from the same community
-- matches show one human-readable reason, offerings, and non-offerings
-- Ask topic is an active Mentee priority and a Mentor offering
-- Mentor can inspect immutable Mentee context before deciding
+- current community is always explicit
+- no Mentor from another community appears in the selected community's Matches
+- up to three qualified recommendations are shown
+- weak filler is never used to reach three
+- Send Ask does not auto-top-up
+- current-set resolution controls next-set access
+- decline/expiry replacement creates at most one qualified replacement
 
-### Mentor decision and handoff
+### Privacy
 
-- Mentor accept/decline is persisted and auditable within 48 hours
-- acceptance is exposed only after one Calendly or LinkedIn route is snapshotted
-- accepted Asks do not expire because coordination is incomplete
-
-### Privacy boundaries
-
-- Community Admin never sees stored member personal email, private feedback, reflection, note, scheduling answer, or coordination URL. A direct member invitation form may accept an invitee email, but post-submit UI exposes only invitation status
-- participants never see the other participant's private pulse answers
-- no surface claims institutional verification unless an approved institutional verification flow exists
+- Admin sees only membership-review/operational data allowed for that community
+- private mentoring activity remains protected
+- self-selected organization is never presented as verified affiliation

@@ -1,43 +1,58 @@
 # Frontend Product Guidance
 
-Last updated: 2026-10-03
+Last updated: 2026-10-14
 
 **Primary readers:** Frontend, Product Designer
 **Priority:** High
 
 ## Product Framing
 
-Use `Mentor` and `Mentee`. One Ask Away facilitates short, scoped career conversations; do not imply guaranteed referral, job placement, or long-term mentorship.
+Use `Mentor` and `Mentee`. OAA facilitates scoped career conversations. Do not imply guaranteed referral, employment, or long-term mentorship.
 
-## Community Context
+## Global Vs Community Context
 
-- show the current community clearly on join, member, matching, and Ask surfaces
-- never expose members from another community
-- a user without an active membership or valid invitation sees no community discovery
-- Community Admin exact-email lookup and directory must show only permitted fields
+Global Home is for membership/discovery:
 
-## Mentee Matching
+- Your Communities
+- Pending Requests
+- Discover Communities
 
-- immediately show why the Mentor is relevant, including one match reason, offerings, and non-offerings
-- guide the Mentee to select a structured topic and write one clear specific Ask
-- show exactly three qualified Mentor cards when available; explain fewer-result and repeat-result states plainly
-- show non-offerings before submission to prevent mis-scoped Asks
+Community workspace is for mentoring activity:
 
-## Mentor Ask Review
+- Matches
+- Asks
 
-Display in order:
+Never mix another community's Mentor supply into the current community.
 
-1. selected Ask topic
-2. short Mentee profile summary
-3. all current priorities, with selected topic highlighted
-4. final opening Ask
-5. supporting Mentee context
+## Discovery
 
-Mentor actions are accept or decline. Decline must show the structured reason selector and optional Mentee-visible message.
+- Organization selection scopes normal discovery
+- do not present self-selected affiliation as verified
+- discoverable communities require Admin approval
+- invite-only communities remain hidden from normal Discovery
+- preview only approved public fields: name, organization, description, eligibility, organizer
 
-## Coordination And Privacy
+## Matching
 
-- after acceptance, show one route only: Calendly or LinkedIn
-- do not create chat, personal-email sharing, rescheduling UI, calendar-sync UI, or booking deadline
-- Community Admin never sees email, private pulse, reflection, note, timing, or coordination route
-- profiles must remain scannable before long content or optional context
+- show why each Mentor is relevant
+- show offerings/non-offerings
+- max three visible uncontacted recommendations
+- fewer is valid
+- no weak filler
+- no free-form regenerate
+- Send Ask removes Mentor and does not top-up
+- Not a Fit does not immediately top-up
+- next set appears after current set is handled
+- decline/expiry replacement uses explicit reveal UX
+- exhausted state does not pressure user to change genuine priorities
+
+## Ask And Coordination
+
+- Ask stays in the current community's Asks surface
+- Accepted LinkedIn uses explicit outreach confirmation
+- Accepted Calendly uses embed/new-tab fallback and lightweight Scheduled UX state
+- do not create native chat/rescheduling/calendar-sync behavior
+
+## Admin Privacy
+
+Community Admin may review membership/application context but never private Match/Ask history, pulse, reflection, Mentor notes, timing, or coordination routes.

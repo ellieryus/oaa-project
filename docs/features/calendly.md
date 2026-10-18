@@ -1,52 +1,94 @@
-# Calendly And Coordination
+# Calendly, LinkedIn, And Coordination
 
-Last updated: 2026-10-03
+Last updated: 2026-10-14
 
 **Primary readers:** Backend, Frontend, Product Designer
 **Priority:** Highest
 
 ## Purpose
 
-This feature gives a Mentee one clear Mentor-selected route to coordinate an accepted Ask. It does not create a native scheduling, chat, rescheduling, or booking-verification product.
+This feature gives a Mentee one clear Mentor-selected route after an Ask is accepted.
 
-## Core Rules
+OAA does not become a native chat, calendar, or rescheduling product.
 
-- a Mentor may save an optional default coordination route during onboarding or Profile: public Calendly event URL or LinkedIn profile URL
-- coordination setup never affects community membership or matching eligibility
-- if a saved LinkedIn default exists, accepting an Ask snapshots it without asking again
-- if a saved Calendly default exists, accepting an Ask does not re-ask for the URL or method, but requires `Review my Calendly availability` and `Confirm. I've reviewed my availability` before snapshotting it
-- if no default exists, the Mentor must select one valid route before acceptance is committed
-- the Mentor may save a newly entered route as the default for future accepted Asks; changing a default later never changes a snapshotted accepted Ask
-- only one route is shown to the Mentee for an accepted Ask; personal email is never shown
+## Mentor Coordination Preference
+
+- coordination setup is optional before a Mentor receives Asks
+- coordination setup never affects matching eligibility
+- a Mentor may save a default Calendly URL or LinkedIn profile URL
+- when accepting an Ask, a saved default may be prefilled
+- the Mentor can edit or switch the method before committing acceptance
+- a newly entered/edited method may optionally be saved as the future default
+- acceptance snapshots the exact method and URL for that Ask
+- future default changes never mutate an already accepted Ask
+
+If no valid route is available, the Mentor must choose one before acceptance is committed.
 
 ## Calendly Route
 
-- show `Create or sign in to Calendly` as an external CTA, then ask the Mentor to return and paste a public event-type booking URL, for example `https://calendly.com/name/coffee-chat`
-- do not accept dashboard, account-settings, or profile-only URLs
-- before saving or confirming a Calendly route, show: `Make sure you indicate or update your availability for the whole semester. Mentees will use this link to book directly with you.`
-- OAA validates public URL format only; it does not verify open times
-- Mentee CTA: `Choose a time with [Mentor]`; render inline embed after action with a new-tab fallback
+Mentor:
+
+- provides a public event-type booking URL
+- OAA validates URL format, not actual open times
+- saved Calendly may be prefilled at acceptance
+- product may remind the Mentor to keep availability current
+
+Mentee:
+
+- sees an inline Calendly embed when the accepted Ask uses Calendly
+- has a new-tab fallback using the same snapshotted URL
+- may have name/account email prefilled where supported
+
+MVP scheduling state:
+
+- if the embedded Calendly client emits a successful scheduled event, OAA may mark the Ask `Scheduled`
+- for MVP, returning through the explicit `Go back to Ask` action after the user finishes scheduling may also mark the Ask `Scheduled`
+- this is an intentional lightweight UX convention, not provider-verified booking infrastructure
+- OAA must not claim server-verified booking based solely on this state
 
 ## LinkedIn Route
 
-- Mentor supplies a valid LinkedIn profile URL
-- Mentee CTA: `Connect with [Mentor] on LinkedIn`; open it in a new tab
-- OAA does not create messages or suggest copy in MVP
+- Mentor supplies or confirms a valid LinkedIn profile URL
+- Mentee CTA: `Connect with [Mentor] on LinkedIn`
+- open LinkedIn in a new tab
+- opening LinkedIn does not prove outreach happened
+
+When the Mentee returns, OAA asks:
+
+`Did you reach out to [Mentor]?`
+
+- `Yes, I sent a message` → clear the immediate action and mark coordination as connected/waiting to coordinate
+- `Not yet` → keep the Ask in Needs Attention
+
+OAA does not create or inspect LinkedIn messages.
+
+## Community-Scoped Placement
+
+Accepted Ask actions live inside the relevant community's `Asks` surface.
+
+Global Notifications may deep-link to the relevant community Ask but must not create a second canonical Ask history.
 
 ## Self-Reported Conversation Follow-Up
 
-- one day after acceptance, send Mentee private prompt: `When did or will your conversation with [Mentor] happen?`
-- options: `It already happened`, `It is scheduled`, `Not scheduled yet`
-- scheduled requires expected date, not time
-- not scheduled may capture: Mentor has not responded, scheduling conflict, no longer meeting, Other, or Prefer not to say
-- after `Not scheduled yet`, send one private Mentee follow-up after three days; send no more scheduling follow-ups
-- if expected date is supplied, invite both participants to private pulse one day later; if conversation already happened, invite both immediately
-- participants never see the other person's timing answer, reason, or feedback
-- accepted Asks never expire due to missing booking signal
+Existing private conversation follow-up remains separate from Ask acceptance/coordination state.
+
+Where implemented:
+
+- Mentee may report whether the conversation happened, is scheduled, or is not scheduled
+- private pulse/reflection data remains participant-private
+- an accepted Ask does not expire merely because follow-up is incomplete
+
+This document does not require the current community-flow prototype to include the full pulse/reflection journey.
 
 ## MVP Boundary
 
-- no Calendly OAuth, APIs, webhooks, calendar sync, booking/cancellation/reschedule tracking, or provider-event storage
-- no in-platform messaging or personal-email sharing
-- record selected route, immutable snapshot URL, CTA render/click, Mentee self-report, and private pulse events
-- verified completion and credentialing are post-MVP
+- no Calendly OAuth
+- no server-to-server Calendly API dependency
+- no webhook requirement
+- no native calendar sync
+- no native rescheduling/cancellation product
+- no in-platform messaging
+- no personal-email sharing
+- no provider-verified completion claim
+
+A browser-level Calendly scheduled event or `Go back to Ask` confirmation may update UX state, but must not be represented as verified booking infrastructure.

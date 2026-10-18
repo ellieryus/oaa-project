@@ -1,69 +1,115 @@
 # System Architecture
 
-Last updated: 2026-10-03
+Last updated: 2026-10-14
 
 **Primary readers:** Backend, Frontend, PM
 **Priority:** Highest
 
 ## Target Architecture
 
-One Ask Away is a Next.js web app with route UI, server actions, service/repository layers, Prisma-backed PostgreSQL, transactional email, URL-only Calendly embed, and background jobs for expiry, reminders, and follow-up prompts.
+One Ask Away is a Next.js web app with route UI, server actions, service/repository layers, Prisma-backed PostgreSQL, transactional email, URL-based Calendly/LinkedIn coordination, and background jobs for expiry/reminders/follow-up.
 
 ## Service Boundaries
 
-### Identity, Community, And Authorization
+### Identity And Email Verification
 
-- verifies email ownership and manages multiple `UserEmail` identities
-- backend provisioning creates the MMA community and assigns Community Admins from OAA-approved instructions
-- enforces Community Admin community scope; a platform-admin workflow is post-MVP
-- manages `CommunityMembership`, roles, exact-email existing-account add, and unique email-bound member invitations
-- exposes only approved exact-lookup and directory fields to Community Admins
-- never authorizes based solely on frontend role selection; every action checks `communityId`, membership status, and role
+- verifies email ownership
+- manages multiple `UserEmail` identities
+- rate-limits verification
+- does not infer community access from email domain
+
+### Organization And Community Discovery
+
+- stores/selects Organization discovery context
+- lists discoverable communities in the selected Organization
+- exposes only allowed pre-join preview fields
+- does not treat Organization selection as institutional verification
+
+### Membership And Community Admin
+
+- creates/reviews join requests
+- manages `CommunityMembership` and roles
+- supports exact-email Admin add
+- supports email-bound invitations
+- permits explicit cross-organization Admin invite/add
+- enforces Admin scope to the current community
+- exposes privacy-limited applicant/member projections
+
+### Community Creation
+
+- supports the intended user-facing Admin/community creation direction
+- creator identity/affiliation/authority verification mechanism is open
+- must not hard-code a Mentor-count activation gate
 
 ### Onboarding And Profile
 
-- stores core, Mentor, and Mentee profile drafts
-- records profile confirmation, offerings/non-offerings, current priorities, and request-acceptance status
-- keeps user-owned profile editing separate from Community Admin permissions
+- stores shared core profile
+- stores Mentor and Mentee role profiles
+- records profile confirmation
+- supports structured priorities and Mentor scope
+- leaves global-vs-community-specific preference ownership open until resolved
 
-### Matching And Ask
+### Matching
 
-- generates up to three active community-scoped Mentee-to-Mentor matches
-- applies membership, role, topic, scope, pair-exclusion, and quality rules before ranking
-- creates Asks, snapshots Mentee context, enforces 48-hour Mentor response windows, and triggers slot replacement
+- candidate generation begins from eligible Mentors in the selected active community only
+- returns up to three qualified uncontacted recommendations
+- relevance is prioritized over quantity and diversification
+- no cross-community fallback
+- persists visible/unseen/contacted/not-fit/replacement state or equivalent
+- supports next-set behavior only after current visible set is handled
+- supports one qualified decline/expiry replacement
 
-### Coordination And Conversation Follow-Up
+### Ask
 
-- snapshots one Mentor-selected Calendly or LinkedIn route at acceptance
-- renders Calendly embeds without OAuth, API tokens, webhooks, or provider-event tracking
-- records CTA telemetry and private Mentee-reported timing
-- schedules private pulse prompts from reported expected date
+- creates community-scoped Asks
+- snapshots Mentee context
+- enforces 48-hour Mentor response window
+- supports decline/expiry/late response
+- does not top up Matches merely because an Ask was sent
+
+### Coordination
+
+- snapshots one Calendly or LinkedIn route at acceptance
+- renders Calendly embed
+- supports lightweight `Scheduled` UX state without claiming provider verification
+- supports LinkedIn opened → explicit Mentee outreach confirmation
+- no OAuth/webhook dependency required
 
 ### Notifications And Post-Conversation
 
-- sends verification, invitation, membership, Ask, reminder, and status notifications
-- applies low-frequency Mentor re-engagement suppression
-- stores private pulse, Mentee reflection, Mentor notes, and appreciation actions
-- routes private participant reports to backend/OAA operations handling; Community Admins cannot access report content by default
+- global Notifications deep-link to canonical community action
+- stores existing private pulse/reflection/notes/appreciation
+- Community Admin cannot access private participant feedback by default
 
 ## Background Jobs
 
 - invitation expiry
-- Ask expiry and one pending-Ask reminder
-- self-reported scheduling follow-up and pulse invitation jobs
+- Ask expiry
+- one pending-Ask reminder
 - notification retry
-- match replacement
+- post-conversation follow-up
+- replacement preparation where required
+
+Join-request approval is an explicit Admin action, not a background automatic enrollment.
 
 ## Cross-Cutting Requirements
 
 - community-scoped server authorization
-- idempotent invitation, membership, Ask, notification, and job processing
-- auditable lifecycle transitions
-- privacy-limited data projections for Community Admin
+- Organization selection separated from membership authorization
+- auditable join-request, invitation, membership, Ask, and role transitions
+- idempotent mutation/job processing
+- field-limited Community Admin data projections
 - production paths must not import mock data directly
+- no numeric Mentor-pool threshold without a later approved product decision
 
-## Post-MVP Boundaries
+## Technical Decisions Owned By Backend/Data
 
-- cross-community Mentor discovery and scouting
-- Community Admin metrics and analytics
-- Calendly OAuth/API/webhooks and verified booking/completion
+Backend/Data owns the implementation choice for:
+
+- domain classification
+- STS or other retrieval
+- Cross-Encoder or other reranking
+- MMR or other diversification
+- quality thresholds
+
+These choices must preserve the product invariants: same-community eligibility, relevance first, maximum three visible results, and no weak filler.
